@@ -1,7 +1,7 @@
-use xmake_code_analysis::SemanticModel;
 use emmylua_parser::{LuaAst, LuaAstNode, LuaAstToken, LuaSyntaxKind};
 use lsp_types::{InlineValue, InlineValueVariableLookup, Position};
 use rowan::TokenAtOffset;
+use xmake_code_analysis::SemanticModel;
 
 pub fn build_inline_values(
     semantic_model: &SemanticModel,

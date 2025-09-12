@@ -1,13 +1,13 @@
 use std::collections::HashSet;
 
+use emmylua_parser::{LuaAssignStat, LuaAstNode, LuaExpr, LuaSyntaxToken};
+use lsp_types::{Hover, HoverContents, MarkedString, MarkupContent};
+use rowan::TextRange;
 use xmake_code_analysis::humanize_type;
 use xmake_code_analysis::{
     DbIndex, LuaCompilation, LuaDeclId, LuaDocument, LuaMemberId, LuaMemberKey, LuaSemanticDeclId,
     LuaSignatureId, LuaType, LuaTypeDeclId, RenderLevel, SemanticInfo, SemanticModel,
 };
-use emmylua_parser::{LuaAssignStat, LuaAstNode, LuaExpr, LuaSyntaxToken};
-use lsp_types::{Hover, HoverContents, MarkedString, MarkupContent};
-use rowan::TextRange;
 
 use crate::handlers::hover::{
     find_origin::replace_semantic_type,

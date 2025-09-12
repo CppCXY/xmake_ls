@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use xmake_code_analysis::{LuaTypeDeclId, SemanticModel};
 use lsp_types::Uri;
+use xmake_code_analysis::{LuaTypeDeclId, SemanticModel};
 
 pub fn rename_type_references(
     semantic_model: &SemanticModel,

@@ -1,9 +1,9 @@
-use xmake_code_analysis::{
-    LuaDeclId, LuaDocument, LuaSemanticDeclId, SemanticDeclLevel, SemanticModel,
-};
 use emmylua_parser::{LuaAstNode, LuaSyntaxKind, LuaSyntaxNode, LuaSyntaxToken, LuaTokenKind};
 use lsp_types::{DocumentHighlight, DocumentHighlightKind};
 use rowan::NodeOrToken;
+use xmake_code_analysis::{
+    LuaDeclId, LuaDocument, LuaSemanticDeclId, SemanticDeclLevel, SemanticModel,
+};
 
 pub fn highlight_tokens(
     semantic_model: &SemanticModel,

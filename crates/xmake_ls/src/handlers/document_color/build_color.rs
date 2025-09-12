@@ -1,7 +1,7 @@
-use xmake_code_analysis::LuaDocument;
 use emmylua_parser::{LuaSyntaxNode, LuaSyntaxToken, LuaTokenKind};
 use lsp_types::{Color, ColorInformation};
 use rowan::{TextRange, TextSize};
+use xmake_code_analysis::LuaDocument;
 
 pub fn build_colors(root: LuaSyntaxNode, document: &LuaDocument) -> Vec<ColorInformation> {
     let mut result = vec![];

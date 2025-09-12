@@ -1,12 +1,12 @@
-use xmake_code_analysis::{
-    LuaCompilation, LuaDeclId, LuaFunctionType, LuaSemanticDeclId, LuaSignature, LuaSignatureId,
-    LuaType, SemanticDeclLevel, SemanticModel, instantiate_func_generic,
-};
 use emmylua_parser::{
     LuaAstNode, LuaCallExpr, LuaExpr, LuaLiteralToken, LuaSyntaxToken, LuaTokenKind,
 };
 use rowan::{NodeOrToken, TokenAtOffset};
 use std::sync::Arc;
+use xmake_code_analysis::{
+    LuaCompilation, LuaDeclId, LuaFunctionType, LuaSemanticDeclId, LuaSignature, LuaSignatureId,
+    LuaType, SemanticDeclLevel, SemanticModel, instantiate_func_generic,
+};
 
 pub fn find_matching_function_definitions(
     semantic_model: &SemanticModel,

@@ -4,10 +4,6 @@ use std::{
     str::FromStr,
 };
 
-use xmake_code_analysis::{
-    FileId, LuaCompilation, LuaModuleIndex, LuaType, SemanticModel, WorkspaceId, file_path_to_uri,
-    read_file_with_encoding, uri_to_file_path,
-};
 use emmylua_parser::{LuaAstNode, LuaCallExpr};
 use lsp_types::{
     ApplyWorkspaceEditParams, FileRename, MessageActionItem, MessageType, RenameFilesParams,
@@ -15,6 +11,10 @@ use lsp_types::{
 };
 use tokio_util::sync::CancellationToken;
 use walkdir::WalkDir;
+use xmake_code_analysis::{
+    FileId, LuaCompilation, LuaModuleIndex, LuaType, SemanticModel, WorkspaceId, file_path_to_uri,
+    read_file_with_encoding, uri_to_file_path,
+};
 
 use crate::{context::ServerContextSnapshot, handlers::ClientConfig};
 

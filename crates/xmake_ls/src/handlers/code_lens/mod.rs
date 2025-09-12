@@ -2,13 +2,13 @@ mod build_code_lens;
 mod resolve_code_lens;
 
 use build_code_lens::build_code_lens;
-use xmake_code_analysis::{LuaDeclId, LuaMemberId};
 use lsp_types::{
     ClientCapabilities, CodeLens, CodeLensOptions, CodeLensParams, ServerCapabilities,
 };
 use resolve_code_lens::resolve_code_lens;
 use serde::{Deserialize, Serialize};
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{LuaDeclId, LuaMemberId};
 
 use crate::context::ServerContextSnapshot;
 

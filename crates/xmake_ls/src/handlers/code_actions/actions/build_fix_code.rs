@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 
 use crate::handlers::command::make_auto_doc_tag_command;
-use xmake_code_analysis::SemanticModel;
 use emmylua_parser::{LuaAstNode, LuaExpr};
 use lsp_types::{CodeAction, CodeActionKind, CodeActionOrCommand, Range, TextEdit, WorkspaceEdit};
 use rowan::{NodeOrToken, TokenAtOffset};
+use xmake_code_analysis::SemanticModel;
 
 pub fn build_need_check_nil(
     semantic_model: &SemanticModel,

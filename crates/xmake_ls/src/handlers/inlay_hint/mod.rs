@@ -2,12 +2,12 @@ mod build_function_hint;
 mod build_inlay_hint;
 
 use build_inlay_hint::build_inlay_hints;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use lsp_types::{
     ClientCapabilities, InlayHint, InlayHintOptions, InlayHintParams, InlayHintServerCapabilities,
     OneOf, ServerCapabilities,
 };
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 use crate::context::ServerContextSnapshot;
 

@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
-use xmake_code_analysis::{
-    DbIndex, FileId, LuaDecl, LuaDeclId, LuaDeclarationTree, LuaDocument, LuaType, LuaTypeOwner,
-};
 use emmylua_parser::{LuaAstNode, LuaChunk, LuaSyntaxId, LuaSyntaxNode, LuaSyntaxToken};
 use lsp_types::{DocumentSymbol, SymbolKind};
 use rowan::TextRange;
+use xmake_code_analysis::{
+    DbIndex, FileId, LuaDecl, LuaDeclId, LuaDeclarationTree, LuaDocument, LuaType, LuaTypeOwner,
+};
 
 pub struct DocumentSymbolBuilder<'a> {
     db: &'a DbIndex,

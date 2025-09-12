@@ -1,5 +1,5 @@
-use xmake_code_analysis::{DbIndex, LuaDeclId, LuaSemanticDeclId, LuaType};
 use lsp_types::CompletionItem;
+use xmake_code_analysis::{DbIndex, LuaDeclId, LuaSemanticDeclId, LuaType};
 
 use crate::handlers::completion::{
     completion_builder::CompletionBuilder, completion_data::CompletionData,

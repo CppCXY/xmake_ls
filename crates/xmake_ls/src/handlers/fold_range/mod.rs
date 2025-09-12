@@ -6,7 +6,6 @@ mod stats;
 
 use builder::FoldingRangeBuilder;
 use comment::build_comment_fold_range;
-use xmake_code_analysis::Emmyrc;
 use emmylua_parser::{LuaAst, LuaAstNode};
 use expr::{build_closure_expr_fold_range, build_string_fold_range, build_table_expr_fold_range};
 use imports::build_imports_fold_range;
@@ -19,6 +18,7 @@ use stats::{
     build_if_stat_fold_range, build_repeat_stat_fold_range, build_while_stat_fold_range,
 };
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::Emmyrc;
 
 use crate::context::ServerContextSnapshot;
 

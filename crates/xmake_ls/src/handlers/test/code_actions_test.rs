@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
     use crate::handlers::test_lib::{ProviderVirtualWorkspace, VirtualCodeAction, check};
-    use xmake_code_analysis::{DiagnosticCode, Emmyrc};
     use googletest::prelude::*;
+    use xmake_code_analysis::{DiagnosticCode, Emmyrc};
 
     #[gtest]
     fn test_1() -> Result<()> {

@@ -1,7 +1,7 @@
-use xmake_code_analysis::{InferGuard, LuaType};
 use emmylua_parser::{
     BinaryOperator, LuaAstNode, LuaBinaryExpr, LuaBlock, LuaLiteralExpr, LuaSyntaxKind,
 };
+use xmake_code_analysis::{InferGuard, LuaType};
 
 use crate::handlers::completion::{
     completion_builder::CompletionBuilder, providers::function_provider::dispatch_type,

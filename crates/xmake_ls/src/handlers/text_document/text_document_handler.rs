@@ -1,9 +1,9 @@
-use xmake_code_analysis::uri_to_file_path;
 use lsp_types::{
     DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams,
     DidSaveTextDocumentParams,
 };
 use std::time::Duration;
+use xmake_code_analysis::uri_to_file_path;
 
 use crate::context::ServerContextSnapshot;
 

@@ -3,7 +3,6 @@ mod semantic_token_builder;
 
 use crate::context::{ClientId, ServerContextSnapshot};
 use build_semantic_tokens::build_semantic_tokens;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use lsp_types::{
     ClientCapabilities, SemanticTokens, SemanticTokensFullOptions, SemanticTokensLegend,
     SemanticTokensOptions, SemanticTokensParams, SemanticTokensResult,
@@ -11,6 +10,7 @@ use lsp_types::{
 };
 pub use semantic_token_builder::{SEMANTIC_TOKEN_MODIFIERS, SEMANTIC_TOKEN_TYPES};
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 use super::RegisterCapabilities;
 

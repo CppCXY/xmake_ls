@@ -4,7 +4,6 @@ mod rename_type;
 
 use std::collections::HashMap;
 
-use xmake_code_analysis::{LuaCompilation, LuaSemanticDeclId, SemanticDeclLevel, SemanticModel};
 use emmylua_parser::{
     LuaAst, LuaAstNode, LuaComment, LuaDocTagParam, LuaLiteralExpr, LuaSyntaxKind, LuaSyntaxNode,
     LuaSyntaxToken, LuaTokenKind,
@@ -18,6 +17,7 @@ use rename_member::rename_member_references;
 use rename_type::rename_type_references;
 use rowan::TokenAtOffset;
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{LuaCompilation, LuaSemanticDeclId, SemanticDeclLevel, SemanticModel};
 
 use crate::context::ServerContextSnapshot;
 

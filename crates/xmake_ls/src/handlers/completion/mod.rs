@@ -8,7 +8,6 @@ mod resolve_completion;
 pub use add_completions::extract_index_member_alias;
 use completion_builder::CompletionBuilder;
 use completion_data::CompletionData;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use emmylua_parser::LuaAstNode;
 use log::error;
 use lsp_types::{
@@ -19,6 +18,7 @@ use providers::add_completions;
 use resolve_completion::resolve_completion;
 use rowan::TokenAtOffset;
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 use crate::context::{ClientId, ServerContextSnapshot};
 

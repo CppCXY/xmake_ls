@@ -1,11 +1,11 @@
 use std::collections::HashSet;
 
-use xmake_code_analysis::{DiagnosticCode, LuaTypeAttribute};
 use emmylua_parser::{
     LuaAst, LuaAstNode, LuaClosureExpr, LuaComment, LuaDocAttribute, LuaDocTag, LuaSyntaxKind,
     LuaSyntaxToken, LuaTokenKind,
 };
 use lsp_types::CompletionItem;
+use xmake_code_analysis::{DiagnosticCode, LuaTypeAttribute};
 
 use crate::handlers::completion::completion_builder::CompletionBuilder;
 

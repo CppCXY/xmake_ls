@@ -1,4 +1,3 @@
-use xmake_code_analysis::file_path_to_uri;
 use log::{info, warn};
 use lsp_types::{
     ClientCapabilities, DidChangeWatchedFilesParams, DidChangeWatchedFilesRegistrationOptions,
@@ -6,6 +5,7 @@ use lsp_types::{
 };
 use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 use std::{sync::mpsc::channel, time::Duration};
+use xmake_code_analysis::file_path_to_uri;
 
 use crate::{
     context::{ClientProxy, ServerContextSnapshot},
@@ -39,12 +39,10 @@ fn is_lsp_client_can_watch_files(client_capabilities: &ClientCapabilities) -> bo
 
 fn register_files_watch_use_lsp_client(client: &ClientProxy) {
     let options = DidChangeWatchedFilesRegistrationOptions {
-        watchers: vec![
-            FileSystemWatcher {
-                glob_pattern: GlobPattern::String("**/xmake.lua".into()),
-                kind: Some(WatchKind::Create | WatchKind::Change | WatchKind::Delete),
-            }
-        ],
+        watchers: vec![FileSystemWatcher {
+            glob_pattern: GlobPattern::String("**/xmake.lua".into()),
+            kind: Some(WatchKind::Create | WatchKind::Change | WatchKind::Delete),
+        }],
     };
 
     let registration = Registration {

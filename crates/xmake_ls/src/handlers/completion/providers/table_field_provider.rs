@@ -1,9 +1,9 @@
 use std::collections::HashSet;
 
-use xmake_code_analysis::{InferGuard, LuaMemberInfo, LuaMemberKey, LuaType, get_real_type};
 use emmylua_parser::{LuaAst, LuaAstNode, LuaKind, LuaTableExpr, LuaTableField, LuaTokenKind};
 use lsp_types::{CompletionItem, InsertTextFormat, InsertTextMode};
 use rowan::NodeOrToken;
+use xmake_code_analysis::{InferGuard, LuaMemberInfo, LuaMemberKey, LuaType, get_real_type};
 
 use crate::handlers::completion::{
     add_completions::{check_visibility, is_deprecated},

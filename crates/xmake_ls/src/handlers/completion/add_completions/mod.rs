@@ -6,8 +6,8 @@ pub use add_decl_completion::add_decl_completion;
 pub use add_member_completion::extract_index_member_alias;
 pub use add_member_completion::{CompletionTriggerStatus, add_member_completion};
 pub use check_match_word::check_match_word;
-use xmake_code_analysis::{LuaSemanticDeclId, LuaType, RenderLevel};
 use lsp_types::CompletionItemKind;
+use xmake_code_analysis::{LuaSemanticDeclId, LuaType, RenderLevel};
 
 use xmake_code_analysis::humanize_type;
 

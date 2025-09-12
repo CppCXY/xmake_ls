@@ -1,9 +1,9 @@
 use std::{collections::HashMap, time::Duration};
 
-use xmake_code_analysis::FileId;
 use emmylua_parser::{LuaAstNode, LuaExpr, LuaStat};
 use lsp_types::{ApplyWorkspaceEditParams, Command, Position, TextEdit, WorkspaceEdit};
 use serde_json::Value;
+use xmake_code_analysis::FileId;
 
 use crate::{
     context::ServerContextSnapshot,

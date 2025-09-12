@@ -1,14 +1,14 @@
 use std::collections::{HashMap, HashSet};
 
-use xmake_code_analysis::{
-    DeclReferenceCell, LuaCompilation, LuaDeclId, LuaMemberId, LuaMemberKey, LuaSemanticDeclId,
-    LuaTypeDeclId, SemanticDeclLevel, SemanticModel,
-};
 use emmylua_parser::{
     LuaAssignStat, LuaAst, LuaAstNode, LuaAstToken, LuaNameToken, LuaStringToken, LuaSyntaxNode,
     LuaSyntaxToken, LuaTableField,
 };
 use lsp_types::Location;
+use xmake_code_analysis::{
+    DeclReferenceCell, LuaCompilation, LuaDeclId, LuaMemberId, LuaMemberKey, LuaSemanticDeclId,
+    LuaTypeDeclId, SemanticDeclLevel, SemanticModel,
+};
 
 pub fn search_references(
     semantic_model: &SemanticModel,

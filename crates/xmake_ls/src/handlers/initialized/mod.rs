@@ -18,9 +18,9 @@ use crate::{
 };
 pub use client_config::{ClientConfig, get_client_config};
 use collect_files::collect_files;
-use xmake_code_analysis::{uri_to_file_path, Emmyrc, EmmyrcLuaVersion, XmakeAnalysis};
 use lsp_types::InitializeParams;
 use tokio::sync::RwLock;
+use xmake_code_analysis::{Emmyrc, EmmyrcLuaVersion, XmakeAnalysis, uri_to_file_path};
 
 pub async fn initialized_handler(
     context: ServerContextSnapshot,

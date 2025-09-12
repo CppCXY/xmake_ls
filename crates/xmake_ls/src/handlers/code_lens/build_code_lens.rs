@@ -1,6 +1,6 @@
-use xmake_code_analysis::{LuaDeclId, LuaMemberId, SemanticModel};
 use emmylua_parser::{LuaAst, LuaAstNode, LuaAstToken, LuaFuncStat, LuaLocalFuncStat, LuaVarExpr};
 use lsp_types::CodeLens;
+use xmake_code_analysis::{LuaDeclId, LuaMemberId, SemanticModel};
 
 use super::CodeLensData;
 

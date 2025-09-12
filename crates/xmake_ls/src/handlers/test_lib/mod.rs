@@ -1,4 +1,3 @@
-use xmake_code_analysis::{XmakeAnalysis, Emmyrc, FileId, VirtualUrlGenerator};
 use googletest::prelude::*;
 use itertools::Itertools;
 use lsp_types::{
@@ -11,6 +10,7 @@ use lsp_types::{
 use std::collections::HashSet;
 use std::{ops::Deref, sync::Arc};
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{Emmyrc, FileId, VirtualUrlGenerator, XmakeAnalysis};
 
 use crate::{
     context::ClientId,

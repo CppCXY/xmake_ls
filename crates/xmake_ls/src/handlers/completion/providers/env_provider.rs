@@ -1,10 +1,10 @@
 use std::collections::HashSet;
 
-use xmake_code_analysis::{LuaSignatureId, LuaType};
 use emmylua_parser::{
     LuaAst, LuaAstNode, LuaCallArgList, LuaClosureExpr, LuaParamList, LuaTokenKind,
 };
 use lsp_types::{CompletionItem, CompletionItemKind, CompletionTriggerKind};
+use xmake_code_analysis::{LuaSignatureId, LuaType};
 
 use crate::handlers::completion::{
     add_completions::{add_decl_completion, check_match_word},

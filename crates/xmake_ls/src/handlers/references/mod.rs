@@ -1,7 +1,6 @@
 mod reference_seacher;
 
 use crate::context::ServerContextSnapshot;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use emmylua_parser::{LuaAstNode, LuaTokenKind};
 use lsp_types::{
     ClientCapabilities, Location, OneOf, Position, ReferenceParams, ServerCapabilities,
@@ -10,6 +9,7 @@ use reference_seacher::search_references;
 pub use reference_seacher::{search_decl_references, search_member_references};
 use rowan::TokenAtOffset;
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 use super::RegisterCapabilities;
 

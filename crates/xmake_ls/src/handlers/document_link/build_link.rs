@@ -1,11 +1,11 @@
 use std::path::PathBuf;
 
-use xmake_code_analysis::{DbIndex, Emmyrc, LuaDocument, file_path_to_uri};
 use emmylua_parser::{
     LuaAstNode, LuaAstToken, LuaCallArgList, LuaCallExpr, LuaLiteralExpr, LuaStringToken,
     LuaSyntaxNode,
 };
 use lsp_types::DocumentLink;
+use xmake_code_analysis::{DbIndex, Emmyrc, LuaDocument, file_path_to_uri};
 
 pub fn build_links(
     db: &DbIndex,

@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use xmake_code_analysis::{DocSyntax, Emmyrc, EmmyrcFilenameConvention};
     use googletest::prelude::*;
     use lsp_types::{CompletionItemKind, CompletionTriggerKind};
+    use xmake_code_analysis::{DocSyntax, Emmyrc, EmmyrcFilenameConvention};
 
     use crate::handlers::test_lib::{ProviderVirtualWorkspace, VirtualCompletionItem, check};
 

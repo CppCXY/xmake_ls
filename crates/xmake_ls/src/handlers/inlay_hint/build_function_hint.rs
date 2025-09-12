@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 
+use emmylua_parser::{LuaAstNode, LuaClosureExpr};
+use itertools::Itertools;
+use lsp_types::{InlayHint, InlayHintKind, InlayHintLabel, InlayHintLabelPart, Location};
 use xmake_code_analysis::{
     LuaSignatureId, LuaType, LuaUnionType, RenderLevel, SemanticModel, format_union_type,
     humanize_type,
 };
-use emmylua_parser::{LuaAstNode, LuaClosureExpr};
-use itertools::Itertools;
-use lsp_types::{InlayHint, InlayHintKind, InlayHintLabel, InlayHintLabelPart, Location};
 
 pub fn build_closure_hint(
     semantic_model: &SemanticModel,

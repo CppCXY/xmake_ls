@@ -1,11 +1,6 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 
-use xmake_code_analysis::{
-    AsyncState, FileId, InferGuard, LuaFunctionType, LuaMember, LuaMemberId, LuaMemberKey,
-    LuaMemberOwner, LuaOperatorId, LuaOperatorMetaMethod, LuaSemanticDeclId, LuaType, LuaTypeDecl,
-    SemanticModel,
-};
 use emmylua_parser::{
     LuaAst, LuaAstNode, LuaCallExpr, LuaExpr, LuaFuncStat, LuaIndexExpr, LuaIndexKey,
     LuaLiteralToken, LuaLocalFuncStat, LuaLocalName, LuaLocalStat, LuaStat, LuaSyntaxId,
@@ -14,6 +9,11 @@ use emmylua_parser::{
 use emmylua_parser::{LuaAstToken, LuaTokenKind};
 use lsp_types::{InlayHint, InlayHintKind, InlayHintLabel, InlayHintLabelPart, Location};
 use rowan::NodeOrToken;
+use xmake_code_analysis::{
+    AsyncState, FileId, InferGuard, LuaFunctionType, LuaMember, LuaMemberId, LuaMemberKey,
+    LuaMemberOwner, LuaOperatorId, LuaOperatorMetaMethod, LuaSemanticDeclId, LuaType, LuaTypeDecl,
+    SemanticModel,
+};
 
 use rowan::TokenAtOffset;
 

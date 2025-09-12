@@ -10,9 +10,7 @@ pub fn get_best_log_dir() -> PathBuf {
     if cfg!(target_os = "windows") {
         // On Windows, try LOCALAPPDATA first
         if let Ok(local_app_data) = std::env::var("LOCALAPPDATA") {
-            PathBuf::from(local_app_data)
-                .join("xmake_ls")
-                .join("logs")
+            PathBuf::from(local_app_data).join("xmake_ls").join("logs")
         } else {
             // Fall back to the directory next to the executable
             let exe_path = std::env::current_exe().unwrap();

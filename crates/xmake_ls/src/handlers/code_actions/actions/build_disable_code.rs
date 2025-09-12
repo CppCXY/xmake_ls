@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 
-use xmake_code_analysis::{DiagnosticCode, Emmyrc, LuaDocument, SemanticModel};
 use emmylua_parser::{
     LuaAst, LuaAstNode, LuaComment, LuaCommentOwner, LuaDocTag, LuaDocTagDiagnostic, LuaExpr,
     LuaKind, LuaStat, LuaSyntaxNode, LuaTokenKind,
 };
 use lsp_types::{Position, Range, TextEdit, Uri};
 use rowan::{TextSize, TokenAtOffset};
+use xmake_code_analysis::{DiagnosticCode, Emmyrc, LuaDocument, SemanticModel};
 
 use crate::handlers::command::DisableAction;
 

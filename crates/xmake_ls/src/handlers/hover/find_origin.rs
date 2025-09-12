@@ -1,10 +1,10 @@
 use std::collections::HashSet;
 
+use emmylua_parser::{LuaAssignStat, LuaAstNode, LuaSyntaxKind, LuaTableExpr, LuaTableField};
 use xmake_code_analysis::{
     LuaCompilation, LuaDeclId, LuaMemberId, LuaSemanticDeclId, LuaType, SemanticDeclLevel,
     SemanticModel,
 };
-use emmylua_parser::{LuaAssignStat, LuaAstNode, LuaSyntaxKind, LuaTableExpr, LuaTableField};
 
 #[derive(Debug, Clone)]
 pub enum DeclOriginResult {

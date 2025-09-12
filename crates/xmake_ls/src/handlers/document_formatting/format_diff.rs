@@ -1,5 +1,5 @@
-use xmake_code_analysis::LuaDocument;
 use lsp_types::{Position, Range, TextEdit};
+use xmake_code_analysis::LuaDocument;
 
 /// Represents the type of line difference
 #[derive(Debug, Clone)]

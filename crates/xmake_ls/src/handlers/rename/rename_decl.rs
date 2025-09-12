@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
-use xmake_code_analysis::{LuaCompilation, LuaDeclId, SemanticModel};
 use emmylua_parser::{
     LuaAst, LuaAstNode, LuaAstToken, LuaClosureExpr, LuaCommentOwner, LuaDocTagParam, LuaStat,
     LuaTableField,
 };
 use lsp_types::Uri;
+use xmake_code_analysis::{LuaCompilation, LuaDeclId, SemanticModel};
 
 pub fn rename_decl_references(
     semantic_model: &SemanticModel,

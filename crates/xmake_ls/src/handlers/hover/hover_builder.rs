@@ -1,9 +1,9 @@
+use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaSyntaxToken};
+use lsp_types::{Hover, HoverContents, MarkedString, MarkupContent};
 use xmake_code_analysis::{
     LuaCompilation, LuaFunctionType, LuaMember, LuaMemberOwner, LuaSemanticDeclId, LuaType,
     RenderLevel, SemanticModel,
 };
-use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaSyntaxToken};
-use lsp_types::{Hover, HoverContents, MarkedString, MarkupContent};
 
 use crate::handlers::hover::hover_humanize::{
     DescriptionInfo, extract_description_from_property_owner,

@@ -2,12 +2,12 @@ mod actions;
 mod build_actions;
 
 use build_actions::build_actions;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use lsp_types::{
     ClientCapabilities, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
     Diagnostic, ServerCapabilities,
 };
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 use crate::context::ServerContextSnapshot;
 

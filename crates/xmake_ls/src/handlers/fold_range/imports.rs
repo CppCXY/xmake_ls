@@ -1,7 +1,7 @@
-use xmake_code_analysis::Emmyrc;
 use emmylua_parser::{LuaAstNode, LuaChunk, LuaExpr, LuaStat};
 use lsp_types::{FoldingRange, FoldingRangeKind};
 use rowan::TextSize;
+use xmake_code_analysis::Emmyrc;
 
 use super::builder::FoldingRangeBuilder;
 

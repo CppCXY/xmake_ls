@@ -1,14 +1,14 @@
-use xmake_code_analysis::{
-    DbIndex, InFiled, LuaCompilation, LuaFunctionType, LuaGenericType, LuaInstanceType,
-    LuaOperatorMetaMethod, LuaOperatorOwner, LuaSignatureId, LuaType, LuaTypeDeclId, RenderLevel,
-    SemanticModel, TypeSubstitutor,
-};
 use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaSyntaxToken, LuaTokenKind};
 use lsp_types::{
     Documentation, MarkupContent, ParameterInformation, ParameterLabel, SignatureHelp,
     SignatureInformation,
 };
 use rowan::{NodeOrToken, TextRange};
+use xmake_code_analysis::{
+    DbIndex, InFiled, LuaCompilation, LuaFunctionType, LuaGenericType, LuaInstanceType,
+    LuaOperatorMetaMethod, LuaOperatorOwner, LuaSignatureId, LuaType, LuaTypeDeclId, RenderLevel,
+    SemanticModel, TypeSubstitutor,
+};
 
 use xmake_code_analysis::humanize_type;
 

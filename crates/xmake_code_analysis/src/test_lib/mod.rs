@@ -5,8 +5,8 @@ use lsp_types::NumberOrString;
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    DbIndex, DiagnosticCode, XmakeAnalysis, Emmyrc, FileId, LuaType, RenderLevel,
-    VirtualUrlGenerator, check_type_compact, humanize_type,
+    DbIndex, DiagnosticCode, Emmyrc, FileId, LuaType, RenderLevel, VirtualUrlGenerator,
+    XmakeAnalysis, check_type_compact, humanize_type,
 };
 
 /// A virtual workspace for testing.

@@ -1,10 +1,10 @@
 use std::{fs::OpenOptions, io::Write};
 
-use xmake_code_analysis::{DiagnosticCode, FileId, load_configs_raw};
 use lsp_types::{Command, Range};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use tokio::sync::RwLock;
+use xmake_code_analysis::{DiagnosticCode, FileId, load_configs_raw};
 
 use crate::context::{ServerContextSnapshot, WorkspaceManager};
 

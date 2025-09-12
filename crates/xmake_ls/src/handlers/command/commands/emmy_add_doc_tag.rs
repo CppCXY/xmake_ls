@@ -1,9 +1,9 @@
 use std::{fs::OpenOptions, io::Write};
 
-use xmake_code_analysis::load_configs_raw;
 use lsp_types::Command;
 use serde_json::Value;
 use tokio::sync::RwLock;
+use xmake_code_analysis::load_configs_raw;
 
 use crate::context::{ServerContextSnapshot, WorkspaceManager};
 

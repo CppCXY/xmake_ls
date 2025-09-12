@@ -1,6 +1,6 @@
-use xmake_code_analysis::{DbIndex, LuaCompilation, LuaSemanticDeclId, LuaType};
 use lsp_types::{OneOf, SymbolKind, SymbolTag, WorkspaceSymbol, WorkspaceSymbolResponse};
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{DbIndex, LuaCompilation, LuaSemanticDeclId, LuaType};
 
 pub fn build_workspace_symbols(
     compilation: &LuaCompilation,

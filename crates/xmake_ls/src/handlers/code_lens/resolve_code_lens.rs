@@ -1,5 +1,5 @@
-use xmake_code_analysis::LuaCompilation;
 use lsp_types::{CodeLens, Command, Location, Range, Uri};
+use xmake_code_analysis::LuaCompilation;
 
 use crate::{
     context::ClientId,

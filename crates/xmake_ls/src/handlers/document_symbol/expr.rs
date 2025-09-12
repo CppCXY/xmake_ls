@@ -1,6 +1,6 @@
-use xmake_code_analysis::LuaDeclId;
 use emmylua_parser::{LuaAstNode, LuaClosureExpr, LuaIndexKey, LuaSyntaxKind, LuaTableExpr};
 use lsp_types::SymbolKind;
+use xmake_code_analysis::LuaDeclId;
 
 use super::builder::{DocumentSymbolBuilder, LuaSymbol};
 

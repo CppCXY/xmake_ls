@@ -1,6 +1,6 @@
-use xmake_code_analysis::SemanticModel;
 use emmylua_parser::LuaStringToken;
 use lsp_types::{GotoDefinitionResponse, Location};
+use xmake_code_analysis::SemanticModel;
 
 use crate::handlers::document_link::is_require_path;
 

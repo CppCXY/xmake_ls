@@ -3,7 +3,6 @@ mod expr;
 mod stats;
 
 use builder::{DocumentSymbolBuilder, LuaSymbol};
-use xmake_code_analysis::SemanticModel;
 use emmylua_parser::{LuaAst, LuaAstNode, LuaChunk};
 use expr::{build_closure_expr_symbol, build_table_symbol};
 use lsp_types::{
@@ -16,6 +15,7 @@ use stats::{
     build_local_stat_symbol,
 };
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::SemanticModel;
 
 use crate::context::ServerContextSnapshot;
 

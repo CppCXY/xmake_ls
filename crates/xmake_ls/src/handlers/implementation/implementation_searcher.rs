@@ -1,14 +1,14 @@
 use std::collections::HashMap;
 
-use xmake_code_analysis::{
-    LuaCompilation, LuaDeclId, LuaMemberId, LuaSemanticDeclId, LuaType, LuaTypeDeclId,
-    SemanticDeclLevel, SemanticModel,
-};
 use emmylua_parser::{
     LuaAstNode, LuaDocTagField, LuaExpr, LuaIndexExpr, LuaStat, LuaSyntaxNode, LuaSyntaxToken,
     LuaTableField,
 };
 use lsp_types::Location;
+use xmake_code_analysis::{
+    LuaCompilation, LuaDeclId, LuaMemberId, LuaSemanticDeclId, LuaType, LuaTypeDeclId,
+    SemanticDeclLevel, SemanticModel,
+};
 
 use crate::handlers::hover::find_member_origin_owner;
 

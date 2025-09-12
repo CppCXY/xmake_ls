@@ -1,7 +1,7 @@
-use xmake_code_analysis::LuaDocument;
 use emmylua_parser::{LuaAstNode, LuaBlock, LuaChunk, LuaTokenKind};
 use lsp_types::{FoldingRange, FoldingRangeKind};
 use rowan::TextRange;
+use xmake_code_analysis::LuaDocument;
 
 use crate::context::ClientId;
 

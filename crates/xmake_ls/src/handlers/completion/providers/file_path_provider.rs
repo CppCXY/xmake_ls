@@ -1,6 +1,11 @@
-use std::{path::{Path, PathBuf}, vec};
+use std::{
+    path::{Path, PathBuf},
+    vec,
+};
 
-use emmylua_parser::{LuaAstNode, LuaAstToken, LuaCallArgList, LuaCallExpr, LuaExpr, LuaStringToken};
+use emmylua_parser::{
+    LuaAstNode, LuaAstToken, LuaCallArgList, LuaCallExpr, LuaExpr, LuaStringToken,
+};
 use lsp_types::{CompletionItem, TextEdit};
 use xmake_code_analysis::file_path_to_uri;
 
@@ -69,7 +74,7 @@ fn check_is_special_function(string_token: &LuaStringToken) -> Option<()> {
 
     let name = name_expr.get_name_text()?;
     match name.as_str() {
-        "add_files" | "includes" => {},
+        "add_files" | "includes" => {}
         _ => return None,
     }
 

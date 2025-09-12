@@ -4,7 +4,6 @@ mod signature_helper_builder;
 use crate::context::ServerContextSnapshot;
 use build_signature_helper::build_signature_helper;
 pub use build_signature_helper::get_current_param_index;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaSyntaxKind, LuaTokenKind};
 use lsp_types::Position;
 use lsp_types::{
@@ -13,6 +12,7 @@ use lsp_types::{
 };
 use rowan::TokenAtOffset;
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 use super::RegisterCapabilities;
 

@@ -1,10 +1,10 @@
 use std::str::FromStr;
 
-use xmake_code_analysis::{DiagnosticCode, FileId, SemanticModel};
 use lsp_types::{
     CodeAction, CodeActionKind, CodeActionOrCommand, CodeActionResponse, Diagnostic,
     NumberOrString, Range, WorkspaceEdit,
 };
+use xmake_code_analysis::{DiagnosticCode, FileId, SemanticModel};
 
 use super::actions::{
     build_add_doc_tag, build_disable_file_changes, build_disable_next_line_changes,

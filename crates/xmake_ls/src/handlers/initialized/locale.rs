@@ -1,6 +1,6 @@
-use xmake_code_analysis::get_locale_code;
 use log::info;
 use lsp_types::InitializeParams;
+use xmake_code_analysis::get_locale_code;
 
 pub fn set_ls_locale(params: &InitializeParams) -> Option<()> {
     let mut locale: String = params.locale.clone()?;

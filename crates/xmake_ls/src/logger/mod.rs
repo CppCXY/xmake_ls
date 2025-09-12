@@ -4,9 +4,9 @@ use std::{env, fs, path::PathBuf};
 
 use best_log_path::get_best_log_dir;
 use chrono::Local;
-use xmake_code_analysis::file_path_to_uri;
 use fern::Dispatch;
 use log::{LevelFilter, info};
+use xmake_code_analysis::file_path_to_uri;
 
 use crate::cmd_args::{CmdArgs, LogLevel};
 

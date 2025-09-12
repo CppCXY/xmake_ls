@@ -1,7 +1,7 @@
-use xmake_code_analysis::LuaTypeDeclId;
 use emmylua_parser::{LuaAstNode, LuaDocNameType, LuaSyntaxKind, LuaTokenKind};
 use lsp_types::CompletionItem;
 use std::collections::HashSet;
+use xmake_code_analysis::LuaTypeDeclId;
 
 use crate::handlers::completion::{
     completion_builder::CompletionBuilder, completion_data::CompletionData,

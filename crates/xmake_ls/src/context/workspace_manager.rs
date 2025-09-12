@@ -12,7 +12,7 @@ use tokio::sync::{Mutex, RwLock};
 use tokio_util::sync::CancellationToken;
 use wax::Pattern;
 use xmake_code_analysis::uri_to_file_path;
-use xmake_code_analysis::{XmakeAnalysis, Emmyrc, load_configs};
+use xmake_code_analysis::{Emmyrc, XmakeAnalysis, load_configs};
 
 pub struct WorkspaceManager {
     analysis: Arc<RwLock<XmakeAnalysis>>,

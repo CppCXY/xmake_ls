@@ -1,7 +1,7 @@
-use xmake_code_analysis::Emmyrc;
 use emmylua_parser::{LuaAstNode, LuaSyntaxToken, LuaTokenKind};
 use lsp_types::{CompletionItem, Range};
 use rowan::{TextRange, TextSize, TokenAtOffset};
+use xmake_code_analysis::Emmyrc;
 
 use crate::handlers::completion::completion_builder::CompletionBuilder;
 

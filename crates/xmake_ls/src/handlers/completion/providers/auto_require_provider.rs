@@ -1,8 +1,6 @@
-use xmake_code_analysis::{
-    EmmyrcFilenameConvention, LuaType, ModuleInfo, check_export_visibility,
-};
 use emmylua_parser::{LuaAstNode, LuaNameExpr};
 use lsp_types::{CompletionItem, Position};
+use xmake_code_analysis::{EmmyrcFilenameConvention, LuaType, ModuleInfo, check_export_visibility};
 
 use crate::{
     handlers::{

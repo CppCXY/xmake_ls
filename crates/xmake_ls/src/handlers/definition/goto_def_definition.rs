@@ -1,15 +1,15 @@
 use std::str::FromStr;
 
-use xmake_code_analysis::{
-    LuaCompilation, LuaDeclId, LuaMemberId, LuaMemberInfo, LuaMemberKey, LuaSemanticDeclId,
-    LuaType, LuaTypeDeclId, SemanticDeclLevel, SemanticModel,
-};
 use emmylua_parser::{
     LuaAstNode, LuaAstToken, LuaCallExpr, LuaExpr, LuaIndexExpr, LuaReturnStat, LuaStringToken,
     LuaSyntaxToken, LuaTableExpr, LuaTableField,
 };
 use itertools::Itertools;
 use lsp_types::{GotoDefinitionResponse, Location, Position, Range, Uri};
+use xmake_code_analysis::{
+    LuaCompilation, LuaDeclId, LuaMemberId, LuaMemberInfo, LuaMemberKey, LuaSemanticDeclId,
+    LuaType, LuaTypeDeclId, SemanticDeclLevel, SemanticModel,
+};
 
 use crate::handlers::{
     definition::goto_function::{find_function_call_origin, find_matching_function_definitions},

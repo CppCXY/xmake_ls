@@ -1,9 +1,9 @@
+use emmylua_parser::{LuaAstNode, LuaAstToken, LuaIndexExpr, LuaStringToken};
+use std::collections::HashMap;
 use xmake_code_analysis::{
     DbIndex, LuaMemberInfo, LuaMemberKey, LuaSemanticDeclId, LuaType, LuaTypeDeclId, SemanticModel,
     enum_variable_is_param, get_tpl_ref_extend_type,
 };
-use emmylua_parser::{LuaAstNode, LuaAstToken, LuaIndexExpr, LuaStringToken};
-use std::collections::HashMap;
 
 use crate::handlers::completion::{
     add_completions::{CompletionTriggerStatus, add_member_completion},

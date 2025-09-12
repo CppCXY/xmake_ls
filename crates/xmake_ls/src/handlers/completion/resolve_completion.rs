@@ -1,5 +1,5 @@
-use xmake_code_analysis::{DbIndex, LuaCompilation, SemanticModel};
 use lsp_types::{CompletionItem, Documentation, MarkedString, MarkupContent};
+use xmake_code_analysis::{DbIndex, LuaCompilation, SemanticModel};
 
 use crate::{
     context::ClientId,

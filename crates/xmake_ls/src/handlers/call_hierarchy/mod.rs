@@ -3,7 +3,6 @@ mod build_call_hierarchy;
 use build_call_hierarchy::{
     CallHierarchyItemData, build_call_hierarchy_item, build_incoming_hierarchy,
 };
-use xmake_code_analysis::SemanticDeclLevel;
 use emmylua_parser::{LuaAstNode, LuaTokenKind};
 use lsp_types::{
     CallHierarchyIncomingCall, CallHierarchyIncomingCallsParams, CallHierarchyItem,
@@ -12,6 +11,7 @@ use lsp_types::{
 };
 use rowan::TokenAtOffset;
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::SemanticDeclLevel;
 
 use crate::context::ServerContextSnapshot;
 

@@ -4,9 +4,9 @@ use xmake_code_analysis::{
     LuaUnionType, RenderLevel, SemanticDeclLevel, SemanticModel, format_union_type,
 };
 
-use xmake_code_analysis::humanize_type;
 use emmylua_parser::{LuaAstNode, LuaExpr, LuaIndexExpr, LuaStat, LuaSyntaxId, LuaSyntaxKind};
 use rowan::TextRange;
+use xmake_code_analysis::humanize_type;
 
 use super::hover_builder::HoverBuilder;
 

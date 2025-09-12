@@ -1,6 +1,6 @@
 use super::ClientConfig;
-use crate::handlers::initialized::client_config::default_config::get_client_config_default;
 use crate::context::ServerContextSnapshot;
+use crate::handlers::initialized::client_config::default_config::get_client_config_default;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

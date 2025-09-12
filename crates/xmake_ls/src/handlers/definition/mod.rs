@@ -13,7 +13,7 @@ use lsp_types::{
 };
 use rowan::TokenAtOffset;
 use tokio_util::sync::CancellationToken;
-use xmake_code_analysis::{XmakeAnalysis, FileId, SemanticDeclLevel};
+use xmake_code_analysis::{FileId, SemanticDeclLevel, XmakeAnalysis};
 
 use super::RegisterCapabilities;
 use crate::context::ServerContextSnapshot;

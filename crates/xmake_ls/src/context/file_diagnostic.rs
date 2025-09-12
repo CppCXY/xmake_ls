@@ -1,9 +1,9 @@
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use xmake_code_analysis::{XmakeAnalysis, FileId, Profile};
 use log::{debug, info};
 use tokio::sync::{Mutex, RwLock};
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, Profile, XmakeAnalysis};
 
 use super::{ClientProxy, ProgressTask, StatusBar};
 

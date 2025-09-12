@@ -1,10 +1,10 @@
+use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaExpr};
+use lsp_types::{Documentation, MarkupContent, MarkupKind, ParameterInformation, ParameterLabel};
+use rowan::NodeOrToken;
 use xmake_code_analysis::{
     FileId, LuaCompilation, LuaMemberOwner, LuaSemanticDeclId, LuaType, SemanticDeclLevel,
     SemanticModel,
 };
-use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaExpr};
-use lsp_types::{Documentation, MarkupContent, MarkupKind, ParameterInformation, ParameterLabel};
-use rowan::NodeOrToken;
 
 use crate::handlers::hover::{
     find_member_origin_owner, hover_std_description, infer_prefix_global_name, is_std,

@@ -1,7 +1,3 @@
-use xmake_code_analysis::{
-    DbIndex, FileId, LuaCompilation, LuaDeclId, LuaMemberId, LuaSemanticDeclId, LuaTypeOwner,
-    SemanticModel,
-};
 use emmylua_parser::{
     LuaAst, LuaAstNode, LuaAstToken, LuaBlock, LuaGeneralToken, LuaStat, LuaTokenKind, LuaVarExpr,
     PathTrait,
@@ -9,6 +5,10 @@ use emmylua_parser::{
 use lsp_types::{CallHierarchyIncomingCall, CallHierarchyItem, Location, SymbolKind};
 use rowan::TokenAtOffset;
 use serde::{Deserialize, Serialize};
+use xmake_code_analysis::{
+    DbIndex, FileId, LuaCompilation, LuaDeclId, LuaMemberId, LuaSemanticDeclId, LuaTypeOwner,
+    SemanticModel,
+};
 
 use crate::handlers::references::{search_decl_references, search_member_references};
 

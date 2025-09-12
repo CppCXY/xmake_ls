@@ -1,0 +1,137 @@
+name: Rust
+
+on:
+  push:
+    branches:
+     - main
+    tags:
+     - "*"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+     - main
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-22.04,   target: x86_64-unknown-linux-gnu,    platform: linux-x64,    cross: general,  crate: xmake_ls }
+          - { os: ubuntu-22.04,   target: x86_64-unknown-linux-gnu,    platform: linux-x64,    cross: zigbuild, crate: xmake_ls, glibc: 2.17 }
+          - { os: ubuntu-22.04,   target: aarch64-unknown-linux-gnu,   platform: linux-arm64,  cross: zigbuild, crate: xmake_ls, glibc: 2.17 }
+          - { os: ubuntu-22.04,   target: riscv64gc-unknown-linux-gnu, platform: linux-riscv64,cross: cross,    crate: xmake_ls }
+          - { os: ubuntu-22.04,   target: x86_64-unknown-linux-musl,   platform: linux-musl,   cross: cross,    crate: xmake_ls }
+          - { os: macos-latest,   target: x86_64-apple-darwin,         platform: darwin-x64,   cross: general-macos-intel, crate: xmake_ls }
+          - { os: macos-latest,   target: aarch64-apple-darwin,        platform: darwin-arm64, cross: general,  crate: xmake_ls }
+          - { os: windows-latest, target: x86_64-pc-windows-msvc,      platform: win32-x64,    cross: general,  crate: xmake_ls }
+          - { os: windows-latest, target: i686-pc-windows-msvc,        platform: win32-ia32,   cross: general,  crate: xmake_ls }
+          - { os: windows-latest, target: aarch64-pc-windows-msvc,     platform: win32-arm64,  cross: general,  crate: xmake_ls }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: edit version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "current ref ${{ github.ref }}"
+          cargo run -p edit_version -- ${{ github.ref }}
+      - name: Build - General
+        if: ${{ matrix.cross == 'general' }}
+        run: |
+          rustup target add ${{ matrix.target }}
+          cargo build --release --target ${{ matrix.target }}  -p ${{ matrix.crate }}
+      - name: Build - cross
+        if: ${{ matrix.cross == 'cross' }}
+        run: |
+          cargo install cross
+          cross build --release --target ${{ matrix.target }} -p ${{ matrix.crate }}
+      - name: Build -zigbuild
+        if: ${{ matrix.cross == 'zigbuild' }}
+        run: |
+          rustup target add ${{ matrix.target }}
+          cargo install --locked cargo-zigbuild
+          pip3 install ziglang
+          cargo zigbuild --release --target ${{ matrix.target }}.${{ matrix.glibc }} -p ${{ matrix.crate }}
+      - name: Build - general macos-intel
+        if: ${{ matrix.cross == 'general-macos-intel' }}
+        run: |
+          rustup target add ${{ matrix.target }}
+          cargo build --release --target ${{ matrix.target }} -p ${{ matrix.crate }}
+      - name: copy-binary
+        if: ${{ matrix.os != 'windows-latest'  }}
+        run: |
+          mkdir -p ${{ github.workspace }}/artifact/
+          cp ${{ github.workspace }}/target/${{ matrix.target }}/release/${{ matrix.crate }} ${{ github.workspace }}/artifact/
+      - name: copy-binary-windows
+        if: ${{ matrix.os == 'windows-latest'  }}
+        run: |
+          mkdir -p ${{ github.workspace }}/artifact/
+          cp ${{ github.workspace }}/target/${{ matrix.target }}/release/${{ matrix.crate }}.exe ${{ github.workspace }}/artifact/
+        shell: pwsh
+      - name: Upload
+        if: ${{ matrix.cross != 'zigbuild'  }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.crate }}-${{ matrix.platform }}
+          path: ${{ github.workspace }}/artifact/
+      - name: Upload zigbuild
+        if: ${{ matrix.cross == 'zigbuild'  }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.crate }}-${{ matrix.platform }}-glibc.${{ matrix.glibc }}
+          path: ${{ github.workspace }}/artifact/
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v4
+      - name: add execute permission and compress
+        run: |
+          chmod +x xmake_ls-linux-x64/xmake_ls
+          chmod +x xmake_ls-linux-x64-glibc.2.17/xmake_ls
+          chmod +x xmake_ls-linux-arm64-glibc.2.17/xmake_ls
+          chmod +x xmake_ls-linux-musl/xmake_ls
+          chmod +x xmake_ls-linux-riscv64/xmake_ls
+          chmod +x xmake_ls-darwin-x64/xmake_ls
+          chmod +x xmake_ls-darwin-arm64/xmake_ls
+
+          tar -zcvf xmake_ls-linux-x64.tar.gz -C xmake_ls-linux-x64 xmake_ls
+          tar -zcvf xmake_ls-linux-x64-glibc.2.17.tar.gz -C xmake_ls-linux-x64-glibc.2.17 xmake_ls
+          tar -zcvf xmake_ls-linux-aarch64-glibc.2.17.tar.gz -C xmake_ls-linux-arm64-glibc.2.17 xmake_ls
+          tar -zcvf xmake_ls-linux-musl.tar.gz -C xmake_ls-linux-musl xmake_ls
+          tar -zcvf xmake_ls-linux-riscv64.tar.gz -C xmake_ls-linux-riscv64 xmake_ls
+          tar -zcvf xmake_ls-darwin-x64.tar.gz -C xmake_ls-darwin-x64 xmake_ls
+          tar -zcvf xmake_ls-darwin-arm64.tar.gz -C xmake_ls-darwin-arm64 xmake_ls
+      - name: windows compress
+        run: |
+          cd xmake_ls-win32-x64
+          7z a xmake_ls-win32-x64.zip xmake_ls.exe
+          cd ../xmake_ls-win32-ia32
+          7z a xmake_ls-win32-ia32.zip xmake_ls.exe
+          cd ../xmake_ls-win32-arm64
+          7z a xmake_ls-win32-arm64.zip xmake_ls.exe
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: xmake_ls
+          draft: false
+          generate_release_notes: true
+          files: |
+            xmake_ls-win32-x64/xmake_ls-win32-x64.zip
+            xmake_ls-win32-ia32/xmake_ls-win32-ia32.zip
+            xmake_ls-win32-arm64/xmake_ls-win32-arm64.zip
+            xmake_ls-linux-x64.tar.gz
+            xmake_ls-linux-x64-glibc.2.17.tar.gz
+            xmake_ls-linux-aarch64-glibc.2.17.tar.gz
+            xmake_ls-linux-musl.tar.gz
+            xmake_ls-linux-riscv64.tar.gz
+            xmake_ls-darwin-x64.tar.gz
+            xmake_ls-darwin-arm64.tar.gz
+
+          token: ${{ secrets.RELEASE }}

@@ -1,6 +1,6 @@
-use xmake_code_analysis::{FileId, LuaSemanticDeclId};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use xmake_code_analysis::{FileId, LuaSemanticDeclId};
 
 use super::completion_builder::CompletionBuilder;
 

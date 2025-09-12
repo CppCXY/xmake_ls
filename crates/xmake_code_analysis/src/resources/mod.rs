@@ -10,9 +10,7 @@ use crate::{LuaFileInfo, load_workspace_files};
 static RESOURCE_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/resources");
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-pub fn load_resource_std(
-    create_resources_dir: Option<String>,
-) -> (PathBuf, Vec<LuaFileInfo>) {
+pub fn load_resource_std(create_resources_dir: Option<String>) -> (PathBuf, Vec<LuaFileInfo>) {
     if let Some(create_resources_dir) = create_resources_dir {
         let resource_path = if create_resources_dir.is_empty() {
             get_best_resources_dir()

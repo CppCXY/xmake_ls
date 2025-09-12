@@ -1,12 +1,12 @@
-use xmake_code_analysis::{
-    DbIndex, LuaMemberInfo, LuaMemberKey, LuaSemanticDeclId, LuaType, SemanticModel,
-    try_extract_signature_id_from_field,
-};
 use emmylua_parser::{
     LuaAssignStat, LuaAstNode, LuaAstToken, LuaFuncStat, LuaGeneralToken, LuaIndexExpr,
     LuaParenExpr, LuaTokenKind,
 };
 use lsp_types::CompletionItem;
+use xmake_code_analysis::{
+    DbIndex, LuaMemberInfo, LuaMemberKey, LuaSemanticDeclId, LuaType, SemanticModel,
+    try_extract_signature_id_from_field,
+};
 
 use crate::handlers::completion::{
     completion_builder::CompletionBuilder, completion_data::CompletionData,

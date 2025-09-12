@@ -1,7 +1,6 @@
 mod implementation_searcher;
 
 use crate::context::ServerContextSnapshot;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use emmylua_parser::LuaAstNode;
 use implementation_searcher::search_implementations;
 use lsp_types::{
@@ -10,6 +9,7 @@ use lsp_types::{
 };
 use rowan::TokenAtOffset;
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 use super::RegisterCapabilities;
 

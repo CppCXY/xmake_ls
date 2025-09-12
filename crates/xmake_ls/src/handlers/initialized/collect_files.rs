@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
-use xmake_code_analysis::{Emmyrc, LuaFileInfo, load_workspace_files};
 use log::{debug, info};
+use xmake_code_analysis::{Emmyrc, LuaFileInfo, load_workspace_files};
 
 pub fn collect_files(workspaces: &Vec<PathBuf>, emmyrc: &Emmyrc) -> Vec<LuaFileInfo> {
     let mut files = Vec::new();

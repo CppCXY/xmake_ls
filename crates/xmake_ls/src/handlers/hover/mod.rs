@@ -10,7 +10,6 @@ use super::RegisterCapabilities;
 use crate::context::ServerContextSnapshot;
 pub use build_hover::build_hover_content_for_completion;
 use build_hover::build_semantic_info_hover;
-use xmake_code_analysis::{XmakeAnalysis, FileId};
 use emmylua_parser::{LuaAstNode, LuaTokenKind};
 pub use find_origin::{find_all_same_named_members, find_member_origin_owner};
 pub use hover_builder::HoverBuilder;
@@ -23,6 +22,7 @@ use lsp_types::{
 use rowan::TokenAtOffset;
 pub use std_hover::{hover_std_description, is_std};
 use tokio_util::sync::CancellationToken;
+use xmake_code_analysis::{FileId, XmakeAnalysis};
 
 pub async fn on_hover(
     context: ServerContextSnapshot,

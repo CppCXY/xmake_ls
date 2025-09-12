@@ -1,9 +1,3 @@
-use xmake_code_analysis::{
-    DbIndex, GenericTplId, InferGuard, LuaAliasCallKind, LuaAliasCallType, LuaDeclLocation,
-    LuaFunctionType, LuaMember, LuaMemberKey, LuaMemberOwner, LuaMultiLineUnion, LuaSemanticDeclId,
-    LuaStringTplType, LuaType, LuaTypeCache, LuaTypeDeclId, LuaUnionType, RenderLevel,
-    SemanticDeclLevel, get_real_type,
-};
 use emmylua_parser::{
     LuaAssignStat, LuaAst, LuaAstNode, LuaAstToken, LuaCallArgList, LuaCallExpr, LuaClosureExpr,
     LuaComment, LuaDocTagParam, LuaLiteralExpr, LuaLiteralToken, LuaNameToken, LuaParamList,
@@ -11,6 +5,12 @@ use emmylua_parser::{
 };
 use itertools::Itertools;
 use lsp_types::{CompletionItem, Documentation};
+use xmake_code_analysis::{
+    DbIndex, GenericTplId, InferGuard, LuaAliasCallKind, LuaAliasCallType, LuaDeclLocation,
+    LuaFunctionType, LuaMember, LuaMemberKey, LuaMemberOwner, LuaMultiLineUnion, LuaSemanticDeclId,
+    LuaStringTplType, LuaType, LuaTypeCache, LuaTypeDeclId, LuaUnionType, RenderLevel,
+    SemanticDeclLevel, get_real_type,
+};
 
 use crate::handlers::{
     completion::{

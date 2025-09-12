@@ -1,7 +1,7 @@
 use clap::Parser;
-use xmake_ls::cmd_args::CmdArgs;
 use mimalloc::MiMalloc;
 use std::error::Error;
+use xmake_ls::cmd_args::CmdArgs;
 
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
