@@ -90,7 +90,7 @@ function Package:targetos() end
 function Package:targetarch() end
 
 ---
----Wether the current platform is one of the given platforms
+---Whether the current platform is one of the given platforms
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_plat)
 ---
@@ -100,7 +100,7 @@ function Package:targetarch() end
 function Package:is_plat(platform, ...) end
 
 ---
----Wether the current platform is one of the given platforms
+---Whether the current platform is one of the given platforms
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_arch)
 ---
@@ -110,7 +110,7 @@ function Package:is_plat(platform, ...) end
 function Package:is_arch(arch, ...) end
 
 ---
----Wether the currently targeted OS is one of the given OS
+---Whether the currently targeted OS is one of the given OS
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_targetos)
 ---
@@ -120,7 +120,7 @@ function Package:is_arch(arch, ...) end
 function Package:is_targetos(platform, ...) end
 
 ---
----Wether the currently targeted architecture is one of the given architectures
+---Whether the currently targeted architecture is one of the given architectures
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_targetarch)
 ---
@@ -179,7 +179,7 @@ function Package:sourcehash() end
 function Package:kind() end
 
 ---
----Wether the package is of kind binary
+---Whether the package is of kind binary
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_binary)
 ---
@@ -187,7 +187,7 @@ function Package:kind() end
 function Package:is_binary() end
 
 ---
----Wether the package is of kind toolchain
+---Whether the package is of kind toolchain
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_toolchain)
 ---
@@ -195,7 +195,7 @@ function Package:is_binary() end
 function Package:is_toolchain() end
 
 ---
----Wether the package is of kind library
+---Whether the package is of kind library
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_library)
 ---
@@ -203,7 +203,7 @@ function Package:is_toolchain() end
 function Package:is_library() end
 
 ---
----Wether the package is directly required by the user (e.g. xmake.lua)
+---Whether the package is directly required by the user (e.g. xmake.lua)
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_toplevel)
 ---
@@ -211,7 +211,7 @@ function Package:is_library() end
 function Package:is_toplevel() end
 
 ---
----Wether the package is provided by a thirdparty package manager (e.g. brew, conan, vcpkg)
+---Whether the package is provided by a thirdparty package manager (e.g. brew, conan, vcpkg)
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_thirdparty)
 ---
@@ -219,7 +219,7 @@ function Package:is_toplevel() end
 function Package:is_thirdparty() end
 
 ---
----Wether the package is build with debug mode (Same as `package:config("debug")`)
+---Whether the package is build with debug mode (Same as `package:config("debug")`)
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_debug)
 ---
@@ -227,7 +227,7 @@ function Package:is_thirdparty() end
 function Package:is_debug() end
 
 ---
----Wether the package is supported by the current platform and architecture
+---Whether the package is supported by the current platform and architecture
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_supported)
 ---
@@ -235,7 +235,7 @@ function Package:is_debug() end
 function Package:is_supported() end
 
 ---@deprecated
----Wether the the package gets built with debug mode (deprecated: use [`package:is_debug`](#packageis_debug) instead)
+---Whether the the package gets built with debug mode (deprecated: use [`package:is_debug`](#packageis_debug) instead)
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagedebug)
 ---
@@ -243,7 +243,7 @@ function Package:is_supported() end
 function Package:debug() end
 
 ---
----Wether the package is getting cross-compiled
+---Whether the package is getting cross-compiled
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packageis_cross)
 ---
@@ -382,7 +382,7 @@ function Package:buildhash() end
 function Package:patches() end
 
 ---
----Wether the package has the given C functions
+---Whether the package has the given C functions
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cfuncs)
 ---
@@ -392,7 +392,7 @@ function Package:patches() end
 function Package:has_cfuncs(name, ...) end
 
 ---
----Wether the package has the given C functions
+---Whether the package has the given C functions
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cfuncs)
 ---
@@ -402,7 +402,7 @@ function Package:has_cfuncs(name, ...) end
 function Package:has_cfuncs(name, option) end
 
 ---
----Wether the package has the given C++ functions
+---Whether the package has the given C++ functions
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cxxfuncs)
 ---
@@ -412,7 +412,7 @@ function Package:has_cfuncs(name, option) end
 function Package:has_cxxfuncs(name, ...) end
 
 ---
----Wether the package has the given C++ functions
+---Whether the package has the given C++ functions
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cxxfuncs)
 ---
@@ -422,7 +422,7 @@ function Package:has_cxxfuncs(name, ...) end
 function Package:has_cxxfuncs(name, option) end
 
 ---
----Wether the package has the given C types
+---Whether the package has the given C types
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_ctypes)
 ---
@@ -432,7 +432,7 @@ function Package:has_cxxfuncs(name, option) end
 function Package:has_ctypes(type, ...) end
 
 ---
----Wether the package has the given C types
+---Whether the package has the given C types
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_ctypes)
 ---
@@ -442,7 +442,7 @@ function Package:has_ctypes(type, ...) end
 function Package:has_ctypes(type, option) end
 
 ---
----Wether the package has the given C++ types
+---Whether the package has the given C++ types
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cxxtypes)
 ---
@@ -452,7 +452,7 @@ function Package:has_ctypes(type, option) end
 function Package:has_cxxtypes(type, ...) end
 
 ---
----Wether the package has the given C++ types
+---Whether the package has the given C++ types
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cxxtypes)
 ---
@@ -462,7 +462,7 @@ function Package:has_cxxtypes(type, ...) end
 function Package:has_cxxtypes(type, option) end
 
 ---
----Wether the package has the given C header files
+---Whether the package has the given C header files
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cincludes)
 ---
@@ -472,7 +472,7 @@ function Package:has_cxxtypes(type, option) end
 function Package:has_cincludes(file, ...) end
 
 ---
----Wether the package has the given C++ header files
+---Whether the package has the given C++ header files
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagehas_cxxincludes)
 ---
@@ -482,7 +482,7 @@ function Package:has_cincludes(file, ...) end
 function Package:has_cxxincludes(file, ...) end
 
 ---
----Wether the given C snippet can be compiled and linked
+---Whether the given C snippet can be compiled and linked
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagecheck_csnippets)
 ---
@@ -492,7 +492,7 @@ function Package:has_cxxincludes(file, ...) end
 function Package:check_csnippets(snippet, ...) end
 
 ---
----Wether the given C snippet can be compiled and linked
+---Whether the given C snippet can be compiled and linked
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagecheck_csnippets)
 ---
@@ -502,7 +502,7 @@ function Package:check_csnippets(snippet, ...) end
 function Package:check_csnippets(snippet, option) end
 
 ---
----Wether the given C++ snippet can be compiled and linked
+---Whether the given C++ snippet can be compiled and linked
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagecheck_cxxsnippets)
 ---
@@ -512,7 +512,7 @@ function Package:check_csnippets(snippet, option) end
 function Package:check_cxxsnippets(snippet, ...) end
 
 ---
----Wether the given C++ snippet can be compiled and linked
+---Whether the given C++ snippet can be compiled and linked
 ---
 ---[Open in browser](https://xmake.io/#/manual/package_instance?id=packagecheck_cxxsnippets)
 ---

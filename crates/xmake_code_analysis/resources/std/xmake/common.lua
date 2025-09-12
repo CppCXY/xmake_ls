@@ -50,7 +50,7 @@
 ---@class AccessSpecifier
 ---@field public public boolean
 ---@field public private boolean
----@field public inteface boolean
+---@field public interface boolean
 ---@field public inherit boolean
 
 ---Supported compilation option

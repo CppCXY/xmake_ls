@@ -621,7 +621,7 @@ function set_pcxxheader(name) end
 ---@return nil
 function add_deps(name, ...) end
 
----TOOD: add_deps(name1, name2, access)
+---TODO: add_deps(name1, name2, access)
 ---
 ---**Scoped: target**
 ---
