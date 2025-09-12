@@ -1,0 +1,53 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/*",
+]
+
+[workspace.dependencies]
+# local
+xmake_code_analysis = { path = "crates/xmake_code_analysis", version = "0.1.0" }
+xmake_ls = { path = "crates/xmake_ls", version = "0.1.0" }
+
+# external
+emmylua_parser = "0.15"
+emmylua_diagnostic_macro = "0.5.0"
+lsp-server = "0.7.7"
+tokio = { version = "1.46", features = ["full"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.141"
+rowan = { version = "0.16.1" }
+notify = { version = "8.1.0", features = ["serde"] }
+lsp-types = { version = "0.97.0", features = ["proposed"]}
+schemars = "1.0.2"
+regex = "1"
+internment = { version = "0.8.6", features = ["arc"] }
+rust-i18n = "3"
+log = "0.4.27"
+fern = "0.7.1"
+chrono = "0.4.41"
+tokio-util = "0.7.15"
+walkdir = "2.5.0"
+serde_yml = "0.0.12"
+dirs = "6"
+wax = "0.6.0"
+percent-encoding = "2.3"
+flagset = "0.4.6"
+encoding_rs = "0.8"
+url = "2.5.2"
+smol_str = "0.3.2"
+tera = "1.20.0"
+serde_with = "3.12.0"
+proc-macro2 = "1.0"
+syn = "2.0"
+quote = "1.0"
+glob = "0.3"
+include_dir = "0.7.4"
+toml_edit = "0.22.23"
+itertools = "0.14.0"
+clap = { version = "4.5.41", features = ["derive", "wrap_help"] }
+ansi_term = "0.12.1"
+num-traits = { version = "0.2", features = ["std"] }
+mimalloc = "0.1.47"
+googletest = "0.14.2"
+unicode-general-category = "1.0.0"

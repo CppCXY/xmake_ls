@@ -1,0 +1,275 @@
+_version: 2
+Type '%{name}' already defined:
+  en: Type '%{name}' already defined
+  zh_CN: 类型 '%{name}' 已经定义
+  zh_HK: 類型 '%{name}' 已經定義
+Type '%{name}' not found:
+  en: Type '%{name}' not found
+  zh_CN: 类型 '%{name}' 未找到
+  zh_HK: 類型 '%{name}' 未找到
+'%{name} is never used, if this is intentional, prefix it with an underscore: _%{name}':
+  en: '%{name} is never used, if this is intentional, prefix it with an underscore: _%{name}'
+  zh_CN: '%{name} 从未被使用，如果这是有意的，请在前面加下划线: _%{name}'
+  zh_HK: '%{name} 從未被使用，如果這是有意的，請在前面加下劃線: _%{name}'
+The current Lua version %{version} is not accessible; expected %{conds}.:
+  en: 'The current Lua version %{version} is not accessible; expected %{conds}.'
+  zh_CN: '当前的 Lua 版本 %{version} 无法访问；预期为 %{conds}。'
+  zh_HK: '當前的 Lua 版本 %{version} 無法訪問；預期為 %{conds}。'
+The property is package-private and cannot be accessed outside the package.:
+  en: 'The property is package-private and cannot be accessed outside the package.'
+  zh_CN: '该属性为包私有，无法在包外访问。'
+  zh_HK: '該屬性為包私有，無法在包外訪問。'
+The property is private and cannot be accessed outside the class.:
+  en: 'The property is private and cannot be accessed outside the class.'
+  zh_CN: '该属性为私有，无法在类外访问。'
+  zh_HK: '該屬性為私有，無法在類外訪問。'
+The property is protected and cannot be accessed outside its subclasses.:
+  en: 'The property is protected and cannot be accessed outside its subclasses.'
+  zh_CN: '该属性受保护，无法在其子类之外访问。'
+  zh_HK: '該屬性受保護，無法在其子類之外訪問。'
+expected %{num} parameters but found %{found_num}:
+  en: 'expected %{num} parameters but found %{found_num}'
+  zh_CN: '期望 %{num} 个参数，但找到 %{found_num} 个'
+  zh_HK: '期望 %{num} 個參數，但找到 %{found_num} 個'
+expected %{num} parameters but found %{found_num}. %{infos}:
+  en: 'expected %{num} parameters but found %{found_num}. %{infos}'
+  zh_CN: '期望 %{num} 个参数，但找到 %{found_num} 个。%{infos}'
+  zh_HK: '期望 %{num} 個參數，但找到 %{found_num} 個。%{infos}'
+'missing parameter: %{name}':
+  en: 'missing parameter: %{name}'
+  zh_CN: '缺少参数: %{name}'
+  zh_HK: '缺少參數: %{name}'
+'undefined global variable: %{name}':
+  en: 'undefined global variable: %{name}'
+  zh_CN: '未定义的全局变量: %{name}'
+  zh_HK: '未定義的全局變量: %{name}'
+'%{name} may be nil':
+  en: '%{name} may be nil'
+  zh_CN: '%{name} 可能为 nil'
+  zh_HK: '%{name} 可能為 nil'
+'%{name} value may be nil':
+  en: '%{name} value may be nil'
+  zh_CN: '%{name} 的值可能是 nil'
+  zh_HK: '%{name} 的值可能為 nil'
+Cannot reassign to a constant variable:
+  en: Cannot reassign to a constant variable
+  zh_CN: '无法重新赋值给常量变量'
+  zh_HK: '不可重新指定常量變數'
+Invalid hex escape sequence '\x%{hex}':
+  en: Invalid hex escape sequence '\x%{hex}'
+  zh_CN: '无效的十六进制转义序列 "\x%{hex}"'
+  zh_HK: '無效的十六進制轉義序列 "\x%{hex}"'
+Invalid unicode escape sequence '\u{{%{unicode_hex}}}':
+  en: Invalid unicode escape sequence '\u{{%{unicode_hex}}}'
+  zh_CN: '无效的 Unicode 转义序列 "\u{{%{unicode_hex}}}"'
+  zh_HK: '無效的 Unicode 轉義序列 "\u{{%{unicode_hex}}}"'
+Should not reassign to iter variable:
+  en: Should not reassign to iter variable
+  zh_CN: '不应重新赋值给迭代变量'
+  zh_HK: '不應重新指定迭代變數'
+
+expected `%{source}` but found `%{found}`. %{reason}:
+  en: expected `%{source}` but found `%{found}`. %{reason}
+  zh_CN: '预期 `%{source}`，但得到 `%{found}`。 %{reason}'
+  zh_HK: '期望 `%{source}`，但得到 `%{found}`。 %{reason}'
+function %{name} may be nil:
+  en: function %{name} may be nil
+  zh_CN: '函数 %{name} 可能为 nil'
+  zh_HK: '函式 %{name} 可能為 nil'
+member %{key} not match, expect %{typ}, but got %{got}:
+  en: member %{key} not match, expect %{typ}, but got %{got}
+  zh_CN: '成员 %{key} 不匹配，期望 %{typ}，但得到 %{got}'
+  zh_HK: '成員 %{key} 不匹配，期望 %{typ}，但得到 %{got}'
+member %{name} type not match, expect %{expect}, got %{got}:
+  en: member %{name} type not match, expect %{expect}, got %{got}
+  zh_CN: '成员 %{name} 的类型不匹配，期望 %{expect}，但得到 %{got}'
+  zh_HK: '成員 %{name} 的類型不匹配，期望 %{expect}，但得到 %{got}'
+missing member %{key}:
+  en: missing member %{key}
+  zh_CN: '缺少成员 %{key}'
+  zh_HK: '缺少成員 %{key}'
+missing member %{name}, in table:
+  en: missing member %{name}, in table
+  zh_CN: '在表中缺少成员 %{name}'
+  zh_HK: '在表中缺少成員 %{name}'
+missing tuple member %{idx}:
+  en: missing tuple member %{idx}
+  zh_CN: '缺少元组成员 %{idx}'
+  zh_HK: '缺少元組成員 %{idx}'
+tuple member %{idx} not match, expect %{typ}, but got %{got}:
+  en: tuple member %{idx} not match, expect %{typ}, but got %{got}
+  zh_CN: '元组成员 %{idx} 不匹配，期望 %{typ}，但得到 %{got}'
+  zh_HK: '元組成員 %{idx} 不匹配，期望 %{typ}，但得到 %{got}'
+
+Annotations specify that return value %{index} has a type of `%{source}`, returning value of type `%{found}` here instead. %{reason}:
+  en: Annotations specify that return value %{index} has a type of `%{source}`, returning value of type `%{found}` here instead. %{reason}
+  zh_CN: '第 %{index} 个返回值的类型为 `%{source}`，但实际返回类型为 `%{found}`。 %{reason}'
+  zh_HK: '第 %{index} 個回傳值的類型為 `%{source}` ，但實際回傳的是 `%{found}`。 %{reason}'
+Annotations specify that at most %{max} return value(s) are required, found %{rmax} returned here instead.:
+  en: 'Annotations specify that at most %{max} return value(s) are required, found %{rmax} returned here instead.'
+  zh_CN: '最多只有 %{max} 个返回值，但此处返回了 %{rmax} 个'
+  zh_HK: '最多只有 %{max} 個回傳值，但此處返回 %{rmax} 個'
+Annotations specify that at least %{min} return value(s) are required, found %{rmin} returned here instead.:
+  en: 'Annotations specify that at least %{min} return value(s) are required, found %{rmin} returned here instead.'
+  zh_CN: '至少需要 %{min} 个返回值，但此处只返回了 %{rmin} 个'
+  zh_HK: '至少需要 %{min} 個回傳值，但此處只返回 %{rmin} 個'
+Cannot use `...` outside a vararg function.:
+  en: Cannot use `...` outside a vararg function.
+  zh_CN: '不能在非可变参数函数中使用 `...`'
+  zh_HK: '不能在非可變參數函數中使用 `...`'
+'Undefined doc param: `%{name}`':
+  en: 'Undefined doc param: `%{name}`'
+  zh_CN: '指向了未定义的参数 `%{name}`'
+  zh_HK: '指向了未定義的參數 `%{name}`'
+'Undefined field: `%{name}`':
+  en: 'Undefined field: `%{name}`'
+  zh_CN: '未定义字段 `%{name}`'
+  zh_HK: '未定義字段 `%{name}`'
+'Redefined local variable `%{name}`':
+  en: 'Redefined local variable `%{name}`'
+  zh_CN: '重定义局部变量 `%{name}`'
+  zh_HK: '重定義局部變量 `%{name}`'
+'Missing required fields in type `%{typ}`: %{fields}':
+  en: 'Missing required fields in type `%{typ}`: %{fields}'
+  zh_CN: '缺少类型 `%{typ}` 的必要字段：%{fields}'
+  zh_HK: '缺少類型 `%{typ}` 的必要字段：%{fields}'
+'Fields cannot be injected into the reference of `%{class}` for `%{field}`. ':
+  en: 'Fields cannot be injected into the reference of `%{class}` for `%{field}`. '
+  zh_CN: '不能在 `%{class}` 的引用中注入字段 `%{field}` 。'
+  zh_HK: '不能在 `%{class}` 的引用中注入字段 `%{field}` 。'
+'Undefined field `%{field}`. ':
+  en: 'Undefined field `%{field}`. '
+  zh_CN: '未定义的属性/字段 `%{field}`。'
+  zh_HK: '未定義的屬性/字段 `%{field}`。'
+'Circularly inherited classes.':
+  en: 'Circularly inherited classes.'
+  zh_CN: '循环继承的类'
+  zh_HK: '循環繼承的類'
+'Missing comment for global function `%{name}`.':
+  en: 'Missing comment for global function `%{name}`.'
+  zh_CN: '全局函数 `%{name}` 缺少注释'
+  zh_HK: '全局函數 `%{name}` 缺少註釋'
+'Missing @param annotation for parameter `%{name}` in global function `%{function_name}`.':
+  en: 'Missing @param annotation for parameter `%{name}` in global function `%{function_name}`.'
+  zh_CN: '全局函数 `%{function_name}` 的参数 `%{name}` 缺少 @param 注解。'
+  zh_HK: '全局函數 `%{function_name}` 的參數 `%{name}` 缺少 @param 註釋。'
+'Missing @return annotation at index `%{index}` in global function `%{function_name}`.':
+  en: 'Missing @return annotation at index `%{index}` in global function `%{function_name}`.'
+  zh_CN: '全局函数 `%{function_name}` 的第 `%{index}` 个返回值缺少 @return 注解。'
+  zh_HK: '全局函數 `%{function_name}` 的第 `%{index}` 個回傳值缺少 @return 註釋。'
+'Incomplete signature. Missing @param annotation for parameter `%{name}`.':
+  en: 'Incomplete signature. Missing @param annotation for parameter `%{name}`.'
+  zh_CN: '不完整的签名。参数 `%{name}` 缺少 @param 注解。'
+  zh_HK: '不完整的簽名。參數 `%{name}` 缺少 @param 註釋。'
+'Incomplete signature. Missing @return annotation at index `%{index}`.':
+  en: 'Incomplete signature. Missing @return annotation at index `%{index}`.'
+  zh_CN: '不完整的签名。第 `%{index}` 个返回值缺少 @return 注解。'
+  zh_HK: '不完整的簽名。第 `%{index}` 個回傳值缺少 @return 註釋。'
+'Cannot assign `%{value}` to `%{source}`. %{reason}':
+  en: 'Cannot assign `%{value}` to `%{source}`. %{reason}'
+  zh_CN: '不能将 `%{value}` 赋值给 `%{source}`。%{reason}'
+  zh_HK: '不能將 `%{value}` 賦值給 `%{source}`。%{reason}'
+'The same file is required multiple times.':
+  en: 'The same file is required multiple times.'
+  zh_CN: '同一个文件被重复 require。'
+  zh_HK: '同一個文件被重複 require。'
+'Annotations specify that a return value is required here.':
+  en: 'Annotations specify that a return value is required here.'
+  zh_CN: '此处需要返回值。'
+  zh_HK: '此處需要回傳值。'
+"Duplicate class '%{name}', if this is intentional, please add the 'partial' attribute for every class define":
+  en: "Duplicate class '%{name}', if this is intentional, please add the 'partial' attribute for every class define"
+  zh_CN: '重复的类 "%{name}"，如果这是有意的，请为每个类定义添加 (partial) 属性'
+  zh_HK: '重複的類 "%{name}"，如果這是有意的，請為每個類定義添加 (partial) 屬性'
+"Duplicate class '%{name}'. The class %{name} is defined as both partial and non-partial.":
+  en: "Duplicate class '%{name}'. The class %{name} is defined as both partial and non-partial."
+  zh_CN: '重复的类 "%{name}"。类 "%{name}" 被定义为部分类和非部分类。'
+  zh_HK: '重複的類 "%{name}"。類 "%{name}" 被定義為部分類和非部分類。'
+"Duplicate enum '%{name}', if this is intentional, please add the 'partial' attribute for every enum define":
+  en: "Duplicate enum '%{name}', if this is intentional, please add the 'partial' attribute for every enum define"
+  zh_CN: '重复的枚举 "%{name}"，如果这是有意的，请为每个枚举定义添加 (partial) 属性'
+  zh_HK: '重複的枚舉 "%{name}"，如果這是有意的，請為每個枚舉定義添加 (partial) 屬性'
+"Duplicate enum '%{name}'. The enum %{name} is defined as both partial and non-partial.":
+  en: "Duplicate enum '%{name}'. The enum %{name} is defined as both partial and non-partial."
+  zh_CN: '重复的枚举 "%{name}"。枚举 "%{name}" 被定义为部分枚举和非部分枚举。'
+  zh_HK: '重複的枚舉 "%{name}"。枚舉 "%{name}" 被定義為部分枚舉和非部分枚舉。'
+"Duplicate alias '{name}'. Alias definitions cannot be partial.":
+  en: "Duplicate alias '{name}'. Alias definitions cannot be partial."
+  zh_CN: '重复的别名 "{name}"。别名定义不能是部分定义。'
+  zh_HK: '重複的別名 "{name}"。別名定義不能是部分定義。'
+"The value is assigned as `nil` because the number of values is not enough.":
+  en: "The value is assigned as `nil` because the number of values is not enough."
+  zh_CN: "由于值的数量不够而被赋值为了 `nil` 。"
+  zh_HK: "由于值的数量不够而被赋值为了 `nil` 。"
+"Async function can only be called in async function.":
+  en: "Async function can only be called in async function."
+  zh_CN: "只能在标记为异步的函数中调用异步函数。"
+  zh_HK: "只能在標記為非同步的函式中呼叫非同步函式。"
+'Unnecessary assert: this expression is always truthy':
+  en: 'Unnecessary assert: this expression is always truthy'
+  zh_CN: '不必要的断言: 这个表达式始终为真'
+  zh_HK: '不必要的斷言: 這個表達式始終為真'
+'Impossible assert: this expression is always falsy; prefer `error()`':
+  en: 'Impossible assert: this expression is always falsy; prefer `error()`'
+  zh_CN: '不可能的断言: 该表达式始终为假；建议使用 `error()`'
+  zh_HK: '不可能的斷言: 該表達式始終為假；建議使用 `error()`'
+'Unnecessary `if` statement: this condition is always truthy':
+  en: 'Unnecessary `if` statement: this condition is always truthy'
+  zh_CN: '不必要的 `if` 语句：此条件始终为真'
+  zh_HK: '不必要的 `if` 陳述式：此條件始終為真'
+'Impossible `if` statement: this condition is always falsy':
+  en: 'Impossible `if` statement: this condition is always falsy'
+  zh_CN: '不可能的 `if` 语句：此条件始终为假'
+  zh_HK: '不可能的 `if` 陳述式：此條件始終為假'
+"`...` should be the last arg.":
+  en: "`...` should be the last arg."
+  zh_CN: "`...`必须是最后一个参数。"
+  zh_HK: "`...`必須是最後一個引數。"
+"type `%{name}` not found.":
+  en: "type `%{name}` not found."
+  zh_CN: "类型 `%{name}` 未找到。"
+  zh_HK: "類型 `%{name}` 未找到。"
+"Duplicate class constructor '%{name}'. constructor must have only one.":
+  en: "Duplicate class constructor '%{name}'. constructor must have only one."
+  zh_CN: "类有重复的 (constructor) 定义 '%{name}'。(constructor) 必须只有一个。"
+  zh_HK: "類有重複的 (constructor) 定義 '%{name}'。(constructor) 必須只有一個。"
+"Duplicate field `%{name}`.":
+  en: "Duplicate field `%{name}`."
+  zh_CN: "重复定义的字段 `%{name}`."
+  zh_HK: "重複定義的字段 `%{name}`."
+"Duplicate index `%{name}`.":
+  en: "Duplicate index `%{name}`."
+  zh_CN: "重复定义的索引 `%{name}`."
+  zh_HK: "重複定義的索引 `%{name}`."
+"type `%{found}` does not satisfy the constraint `%{source}`. %{reason}":
+  en: "type `%{found}` does not satisfy the constraint `%{source}`. %{reason}"
+  zh_CN: "泛型约束要求为 `%{source}` 的子类, 但找到了 `%{found}`. %{reason}"
+  zh_HK: "泛型约束要求为 `%{source}` 的子类, 但找到了 `%{found}`. %{reason}"
+"the string template type does not match any type declaration":
+  en: "the string template type does not match any type declaration"
+  zh_CN: "字符串模板类型与任何类型声明不匹配"
+  zh_HK: "字串模板類型與任何類型聲明不匹配"
+"the string template type must be a string constant":
+  en: "the string template type must be a string constant"
+  zh_CN: "字符串模板类型必须是字符串常量"
+  zh_HK: "字串模板類型必須是字串常量"
+"Cannot cast `%{original}` to `%{target}`. %{reason}":
+  en: "Cannot cast `%{original}` to `%{target}`. %{reason}"
+  zh_CN: "不能将 `%{original}` 转换为 `%{target}`。%{reason}"
+  zh_HK: "不能將 `%{original}` 轉換為 `%{target}`。%{reason}"
+"type recursion":
+  en: "type recursion"
+  zh_CN: "类型递归"
+  zh_HK: "類型遞歸"
+"Module '%{module}' is not visible. It has @export restrictions.":
+  en: "Module '%{module}' is not visible. It has @export restrictions."
+  zh_CN: "模块 '%{module}' 不可见。它有 @export 限制。"
+  zh_HK: "模組 '%{module}' 不可見。它有 @export 限制。"
+"Unknown doc tag: `%{name}`":
+  en: "Unknown doc tag: `%{name}`"
+  # TODO: translate
+
+"Value '%{value}' does not match any enum value. Expected one of: %{enum_values}":
+  en: "Value '%{value}' does not match any enum value. Expected one of: %{enum_values}"
+  zh_CN: "值 '%{value}' 与任何枚举值都不匹配。应为以下之一: %{enum_values}"
+  zh_HK: "值 '%{value}' 與任何枚舉值都不匹配。應為以下之一: %{enum_values}"

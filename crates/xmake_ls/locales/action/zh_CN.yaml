@@ -1,0 +1,21 @@
+Disable current line diagnostic (%{name}): |
+  在此行禁用诊断 (%{name})
+
+Disable all diagnostics in current file (%{name}): |
+  在此文件禁用诊断 (%{name})
+
+Disable all diagnostics in current project (%{name}): |
+  在此项目禁用诊断 (%{name})
+
+# TODO: translate
+Add @%{name} to the list of known tags: |
+  Add @%{name} to the list of known tags
+
+use cast to remove nil: |
+  使用 cast 移除 nil
+
+Do you want to modify the require path?: |
+  你想要修改 `require` 的路径吗？
+
+Modify: |
+  修改

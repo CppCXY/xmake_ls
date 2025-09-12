@@ -1,0 +1,1 @@
+Xmake_ls 是emmylua的一个fork，用于支持xmake项目的代码补全和跳转

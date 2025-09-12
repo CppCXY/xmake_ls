@@ -1,0 +1,34 @@
+[package]
+name = "xmake_code_analysis"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+emmylua_parser.workspace = true
+emmylua_diagnostic_macro.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+lsp-types.workspace = true
+schemars.workspace = true
+rowan.workspace = true
+regex.workspace = true
+internment.workspace = true
+log.workspace = true
+tokio-util.workspace = true
+rust-i18n.workspace = true
+walkdir.workspace = true
+dirs.workspace = true
+wax.workspace = true
+percent-encoding.workspace = true
+flagset.workspace = true
+encoding_rs.workspace = true
+url.workspace = true
+smol_str.workspace = true
+serde_with.workspace = true
+include_dir.workspace = true
+itertools.workspace = true
+
+[package.metadata.i18n]
+available-locales = ["en", "zh_CN", "zh_HK"]
+default-locale = "en"

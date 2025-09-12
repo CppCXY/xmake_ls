@@ -1,0 +1,205 @@
+keywords.for: |
+  `for` 关键字用于创建一个循环，可以遍历一个范围、集合或迭代器。
+
+  ### 使用示例
+
+  ```lua
+  -- 遍历一个范围
+  for i = 1, 10 do
+      print(i)
+  end
+
+  -- 遍历一个集合
+  local fruits = {"apple", "banana", "cherry"}
+  for index, fruit in ipairs(fruits) do
+      print(index, fruit)
+  end
+  ```
+
+keywords.if: |
+  `if` 关键字用于条件判断，根据条件的真假执行不同的代码块。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x 大于 5")
+  elseif x == 5 then
+      print("x 等于 5")
+  else
+      print("x 小于 5")
+  end
+  ```
+
+keywords.while: |
+  `while` 关键字用于创建一个循环，只要条件为真就会重复执行代码块。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  while i <= 10 do
+      print(i)
+      i = i + 1
+  end
+  ```
+
+keywords.function: |
+  `function` 关键字用于定义一个函数，可以包含一组指令，并且可以被调用。
+
+  ### 使用示例
+
+  ```lua
+  function greet(name)
+      print("Hello, " .. name)
+  end
+
+  greet("world")
+  ```
+
+keywords.local: |
+  `local` 关键字用于声明局部变量或局部函数，作用范围仅限于所在的代码块。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  local function add(a, b)
+      return a + b
+  end
+
+  print(add(x, 5))
+  ```
+
+keywords.return: |
+  `return` 关键字用于从函数中返回值，并结束函数的执行。
+
+  ### 使用示例
+
+  ```lua
+  function add(a, b)
+      return a + b
+  end
+
+  local sum = add(5, 3)
+  print(sum)  -- 输出 8
+  ```
+
+keywords.break: |
+  `break` 关键字用于退出当前循环。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  while i <= 10 do
+      if i == 5 then
+          break
+      end
+      print(i)
+      i = i + 1
+  end
+  -- 输出 1 到 4
+  ```
+
+keywords.do: |
+  `do` 关键字用于创建一个块，块中的变量是局部的。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  do
+      local x = 5
+      print(x)  -- 输出 5
+  end
+  print(x)  -- 输出 10
+  ```
+
+keywords.end: |
+  `end` 关键字用于结束一个块、函数或控制结构。
+
+  ### 使用示例
+
+  ```lua
+  if true then
+      print("This is true")
+  end
+  ```
+
+keywords.repeat: |
+  `repeat` 关键字用于创建一个循环，直到条件为真时结束。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  repeat
+      print(i)
+      i = i + 1
+  until i > 5
+  -- 输出 1 到 5
+  ```
+
+keywords.until: |
+  `until` 关键字用于在 `repeat` 循环中，表示循环的结束条件。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  repeat
+      print(i)
+      i = i + 1
+  until i > 5
+  -- 输出 1 到 5
+  ```
+
+keywords.then: |
+  `then` 关键字用于 `if` 语句中，表示条件为真时执行的代码块。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x 大于 5")
+  end
+  ```
+
+keywords.elseif: |
+  `elseif` 关键字用于 `if` 语句中，表示另一个条件判断。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x 大于 5")
+  elseif x == 5 then
+      print("x 等于 5")
+  end
+  ```
+
+keywords.in: |
+  `in` 关键字用于泛型 `for` 循环中，表示要遍历的集合或迭代器。
+
+  ### 使用示例
+
+  ```lua
+  local fruits = {"apple", "banana", "cherry"}
+  for index, fruit in ipairs(fruits) do
+      print(index, fruit)
+  end
+  ```
+keywords.goto: |
+  `goto` 关键字用于跳转到代码中的某个标签。
+
+  ### 使用示例
+
+  ```lua
+  ::label::
+  print("Hello")
+  goto label
+  ```

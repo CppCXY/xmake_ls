@@ -1,0 +1,205 @@
+keywords.for: |
+  The `for` keyword is used to create a loop that can iterate over a range, collection, or iterator.
+
+  ### Example Usage
+
+  ```lua
+  -- Iterate over a range
+  for i = 1, 10 do
+      print(i)
+  end
+
+  -- Iterate over a collection
+  local fruits = {"apple", "banana", "cherry"}
+  for index, fruit in ipairs(fruits) do
+      print(index, fruit)
+  end
+  ```
+
+keywords.if: |
+  The `if` keyword is used for conditional statements, executing different code blocks based on the truthiness of the condition.
+
+  ### Example Usage
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x is greater than 5")
+  elseif x == 5 then
+      print("x is equal to 5")
+  else
+      print("x is less than 5")
+  end
+  ```
+
+keywords.while: |
+  The `while` keyword is used to create a loop that repeats as long as the condition is true.
+
+  ### Example Usage
+
+  ```lua
+  local i = 1
+  while i <= 10 do
+      print(i)
+      i = i + 1
+  end
+  ```
+
+keywords.function: |
+  The `function` keyword is used to define a function, which can contain a set of instructions and can be called.
+
+  ### Example Usage
+
+  ```lua
+  function greet(name)
+      print("Hello, " .. name)
+  end
+
+  greet("world")
+  ```
+
+keywords.local: |
+  The `local` keyword is used to declare local variables or functions, which are limited to the scope of the block.
+
+  ### Example Usage
+
+  ```lua
+  local x = 10
+  local function add(a, b)
+      return a + b
+  end
+
+  print(add(x, 5))
+  ```
+
+keywords.return: |
+  The `return` keyword is used to return values from a function and terminate the function's execution.
+
+  ### Example Usage
+
+  ```lua
+  function add(a, b)
+      return a + b
+  end
+
+  local sum = add(5, 3)
+  print(sum)  -- Output 8
+  ```
+
+keywords.break: |
+  The `break` keyword is used to exit the current loop.
+
+  ### Example Usage
+
+  ```lua
+  local i = 1
+  while i <= 10 do
+      if i == 5 then
+          break
+      end
+      print(i)
+      i = i + 1
+  end
+  -- Output 1 to 4
+  ```
+
+keywords.do: |
+  The `do` keyword is used to create a block, where the variables inside the block are local.
+
+  ### Example Usage
+
+  ```lua
+  local x = 10
+  do
+      local x = 5
+      print(x)  -- Output 5
+  end
+  print(x)  -- Output 10
+  ```
+
+keywords.end: |
+  The `end` keyword is used to end a block, function, or control structure.
+
+  ### Example Usage
+
+  ```lua
+  if true then
+      print("This is true")
+  end
+  ```
+
+keywords.repeat: |
+  The `repeat` keyword is used to create a loop that ends when the condition is true.
+
+  ### Example Usage
+
+  ```lua
+  local i = 1
+  repeat
+      print(i)
+      i = i + 1
+  until i > 5
+  -- Output 1 to 5
+  ```
+
+keywords.until: |
+  The `until` keyword is used in a `repeat` loop to indicate the end condition of the loop.
+
+  ### Example Usage
+
+  ```lua
+  local i = 1
+  repeat
+      print(i)
+      i = i + 1
+  until i > 5
+  -- Output 1 to 5
+  ```
+
+keywords.then: |
+  The `then` keyword is used in an `if` statement to indicate the code block to execute when the condition is true.
+
+  ### Example Usage
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x is greater than 5")
+  end
+  ```
+
+keywords.elseif: |
+  The `elseif` keyword is used in an `if` statement to indicate another condition to check.
+
+  ### Example Usage
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x is greater than 5")
+  elseif x == 5 then
+      print("x is equal to 5")
+  end
+  ```
+
+keywords.in: |
+  The `in` keyword is used in a generic `for` loop to indicate the collection or iterator to iterate over.
+
+  ### Example Usage
+
+  ```lua
+  local fruits = {"apple", "banana", "cherry"}
+  for index, fruit in ipairs(fruits) do
+      print(index, fruit)
+  end
+
+keywords.goto: |
+  The `goto` keyword is used to jump to a label in the code.
+
+  ### Example Usage
+
+  ```lua
+  ::label::
+  print("Hello")
+  goto label
+  ```

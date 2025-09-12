@@ -1,0 +1,231 @@
+keywords.for: |
+  `for` 關鍵字用於創建一個循環，可以遍歷一個範圍、集合或迭代器。
+
+  ### 使用示例
+
+  ```lua
+  -- 遍歷一個範圍
+  for i = 1, 10 do
+      print(i)
+  end
+
+  -- 遍歷一個集合
+  local fruits = {"apple", "banana", "cherry"}
+  for index, fruit in ipairs(fruits) do
+      print(index, fruit)
+  end
+  ```
+
+# ...existing code...
+
+keywords.if: |
+  `if` 關鍵字用於條件判斷，根據條件的真假執行不同的代碼塊。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x 大於 5")
+  elseif x == 5 then
+      print("x 等於 5")
+  else
+      print("x 小於 5")
+  end
+  ```
+
+# ...existing code...
+
+keywords.while: |
+  `while` 關鍵字用於創建一個循環，只要條件為真就會重複執行代碼塊。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  while i <= 10 do
+      print(i)
+      i = i + 1
+  end
+  ```
+
+# ...existing code...
+
+keywords.function: |
+  `function` 關鍵字用於定義一個函數，可以包含一組指令，並且可以被調用。
+
+  ### 使用示例
+
+  ```lua
+  function greet(name)
+      print("Hello, " .. name)
+  end
+
+  greet("world")
+  ```
+
+# ...existing code...
+
+keywords.local: |
+  `local` 關鍵字用於聲明局部變量或局部函數，作用範圍僅限於所在的代碼塊。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  local function add(a, b)
+      return a + b
+  end
+
+  print(add(x, 5))
+  ```
+
+# ...existing code...
+
+keywords.return: |
+  `return` 關鍵字用於從函數中返回值，並結束函數的執行。
+
+  ### 使用示例
+
+  ```lua
+  function add(a, b)
+      return a + b
+  end
+
+  local sum = add(5, 3)
+  print(sum)  -- 輸出 8
+  ```
+
+# ...existing code...
+
+keywords.break: |
+  `break` 關鍵字用於退出當前循環。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  while i <= 10 do
+      if i == 5 then
+          break
+      end
+      print(i)
+      i = i + 1
+  end
+  -- 輸出 1 到 4
+  ```
+
+# ...existing code...
+
+keywords.do: |
+  `do` 關鍵字用於創建一個塊，塊中的變量是局部的。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  do
+      local x = 5
+      print(x)  -- 輸出 5
+  end
+  print(x)  -- 輸出 10
+  ```
+
+# ...existing code...
+
+keywords.end: |
+  `end` 關鍵字用於結束一個塊、函數或控制結構。
+
+  ### 使用示例
+
+  ```lua
+  if true then
+      print("This is true")
+  end
+  ```
+
+# ...existing code...
+
+keywords.repeat: |
+  `repeat` 關鍵字用於創建一個循環，直到條件為真時結束。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  repeat
+      print(i)
+      i = i + 1
+  until i > 5
+  -- 輸出 1 到 5
+  ```
+
+# ...existing code...
+
+keywords.until: |
+  `until` 關鍵字用於在 `repeat` 循環中，表示循環的結束條件。
+
+  ### 使用示例
+
+  ```lua
+  local i = 1
+  repeat
+      print(i)
+      i = i + 1
+  until i > 5
+  -- 輸出 1 到 5
+  ```
+
+# ...existing code...
+
+keywords.then: |
+  `then` 關鍵字用於 `if` 語句中，表示條件為真時執行的代碼塊。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x 大於 5")
+  end
+  ```
+
+# ...existing code...
+
+keywords.elseif: |
+  `elseif` 關鍵字用於 `if` 語句中，表示另一個條件判斷。
+
+  ### 使用示例
+
+  ```lua
+  local x = 10
+  if x > 5 then
+      print("x 大於 5")
+  elseif x == 5 then
+      print("x 等於 5")
+  end
+  ```
+
+# ...existing code...
+
+keywords.in: |
+  `in` 關鍵字用於泛型 `for` 循環中，表示要遍歷的集合或迭代器。
+
+  ### 使用示例
+
+  ```lua
+  local fruits = {"apple", "banana", "cherry"}
+  for index, fruit in ipairs(fruits) do
+      print(index, fruit)
+  end
+  ```
+keywords.goto: |
+  `goto` 關鍵字用於跳轉到程式中的某個標籤。
+
+  ### 使用示例
+
+  ```lua
+  ::label::
+  print("Hello")
+  goto label
+  ```

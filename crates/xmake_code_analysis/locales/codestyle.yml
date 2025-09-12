@@ -1,0 +1,45 @@
+_version: 2
+codestyle.NonLiteralExpressionsInAssert:
+  en: |
+    Using an assert call with an expensive (non-literal) message expression may cause serious performance regressions.
+    The assert macro is only allowed if the error message is a fixed string literal.
+    Please refactor your code to separate the condition check and error handling.
+
+    Instead of:
+      local a = assert(foo(), expensive_msg_expression)
+
+    Use one of the following forms:
+      local a = foo()
+      if not a then
+        error(expensive_msg_expression)
+      end
+
+
+  zh_CN: |
+    使用 assert 调用时，如果错误信息参数是个昂贵的计算表达式（非字面量），可能会引起严重的性能回归。
+    assert 宏仅允许错误信息为硬编码的字符串字面量。
+    请重构代码，将条件判断与错误处理分离。
+
+    例如，将：
+      local a = assert(foo(), expensive_msg_expression)
+
+    修改为：
+      local a = foo()
+      if not a then
+        error(expensive_msg_expression)
+      end
+
+  zh_HK: |
+    當使用 assert 調用時，如果錯誤信息參數是一個耗資昂貴的計算表達式（非字面量），可能會引起嚴重的性能回歸。
+    assert 語句僅允許錯誤信息為硬編碼的字串字面量。
+    請重構代碼，將條件檢查與錯誤處理分離。
+
+    例如，將：
+      local a = assert(foo(), expensive_msg_expression)
+
+    修改爲：
+
+      local a = foo()
+      if not a then
+        error(expensive_msg_expression)
+      end

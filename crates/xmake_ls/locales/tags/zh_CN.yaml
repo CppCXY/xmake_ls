@@ -1,0 +1,247 @@
+tags.class: |
+  `class` 标签用于表示一个类或结构体。
+  示例:
+  ```lua
+  ---@class MyClass
+  local MyClass = {}
+  ```
+tags.enum: |
+  `enum` 标签用于表示一个枚举。
+  示例:
+  ```lua
+  ---@enum MyEnum
+  local MyEnum = {
+    Value1 = 1,
+    Value2 = 2
+  }
+  ```
+tags.interface: |
+  `interface` 标签已弃用，请使用 `class`。
+  示例:
+  ```lua
+  ---@interface MyInterface
+  local MyInterface = {}
+  ```
+tags.alias: |
+  `alias` 标签用于表示一个类型别名。
+  示例:
+  ```lua
+  ---@alias MyTypeAlias string|number
+  ```
+tags.field: |
+  `field` 标签用于表示一个类或结构体的字段。
+  示例:
+  ```lua
+  ---@class MyClass
+  ---@field publicField string
+  MyClass = {}
+  ```
+tags.type: |
+  `type` 标签用于表示一个类型。
+  示例:
+  ```lua
+  ---@type string
+  local myString = "Hello"
+  ```
+tags.param: |
+  `param` 标签用于表示一个函数参数。
+  示例:
+  ```lua
+  ---@param paramName string
+  function myFunction(paramName)
+  end
+  ```
+tags.return: |
+  `return` 标签用于表示一个函数的返回值。
+  示例:
+  ```lua
+  ---@return string
+  function myFunction()
+    return "Hello"
+  end
+  ```
+tags.generic: |
+  `generic` 标签用于表示泛型类型。
+  示例:
+  ```lua
+  ---@generic T
+  ---@param param T
+  ---@return T
+  function identity(param)
+    return param
+  end
+  ```
+tags.see: |
+  `see` 标签用于引用另一个文档条目。
+  示例:
+  ```lua
+  ---@see otherFunction
+  function myFunction()
+  end
+  ```
+tags.deprecated: |
+  `deprecated` 标签用于标记一个函数或字段为已弃用。
+  示例:
+  ```lua
+  ---@deprecated
+  function oldFunction()
+  end
+  ```
+tags.cast: |
+  `cast` 标签用于表示一个类型转换。
+  示例:
+  ```lua
+  ---@cast varName string
+  local varName = someValue
+  ```
+tags.overload: |
+  `overload` 标签用于表示一个重载函数。
+  示例:
+  ```lua
+  ---@overload fun(param: string):void
+  function myFunction(param)
+  end
+  ```
+tags.async: |
+  `async` 标签用于表示一个异步函数。
+  示例:
+  ```lua
+  ---@async
+  function asyncFunction()
+  end
+  ```
+tags.public: |
+  `public` 标签用于标记一个字段或函数为公共的。
+  示例:
+  ```lua
+  ---@public
+  MyClass.publicField = ""
+  ```
+tags.protected: |
+  `protected` 标签用于标记一个字段或函数为受保护的。
+  示例:
+  ```lua
+  ---@protected
+  MyClass.protectedField = ""
+  ```
+tags.private: |
+  `private` 标签用于标记一个字段或函数为私有的。
+  示例:
+  ```lua
+  ---@private
+  local privateField = ""
+  ```
+tags.package: |
+  `package` 标签用于表示一个包。
+  示例:
+  ```lua
+  ---@package
+  local myPackage = {}
+  ```
+tags.meta: |
+  `meta` 标签用于表示元信息。
+  示例:
+  ```lua
+  ---@meta
+  local metaInfo = {}
+  ```
+tags.diagnostic: |
+  `diagnostic` 标签用于表示诊断信息。
+  示例:
+  ```lua
+  ---@diagnostic disable-next-line: unused-global
+  local unusedVar = 1
+  ```
+tags.version: |
+  `version` 标签用于表示一个模块或函数的版本。
+  示例:
+  ```lua
+  ---@version 1.0
+  function myFunction()
+  end
+  ```
+tags.as: |
+  `as` 标签用于表示类型断言。
+  示例:
+  ```lua
+  ---@as string
+  local varName = someValue
+  ```
+tags.nodiscard: |
+  `nodiscard` 标签用于指示返回值不应被丢弃。
+  示例:
+  ```lua
+  ---@nodiscard
+  function importantFunction()
+    return "Important"
+  end
+  ```
+tags.operator: |
+  `operator` 标签用于表示运算符重载。
+  示例:
+  ```lua
+  ---@class
+  ---@operator add(MyClass):MyClass
+  ```
+tags.module: |
+  `module` 标签用于表示一个模块。
+  示例:
+  ```lua
+  ---@module MyModule
+  local MyModule = {}
+  ```
+tags.namespace: |
+  `namespace` 标签用于表示一个命名空间。
+  示例:
+  ```lua
+  ---@namespace MyNamespace
+  ```
+tags.using: |
+  `using` 标签用于表示使用声明。
+  示例:
+  ```lua
+  ---@using MyNamespace
+  ```
+tags.source: |
+  `source` 标签用于表示一个函数或模块的来源。
+  示例:
+  ```lua
+  ---@source https://example.com/source
+  function myFunction()
+  end
+  ```
+tags.readonly: |
+  `readonly` 标签用于标记一个字段为只读。
+  但目前不支持
+  示例:
+  ```lua
+  ---@readonly
+  MyClass.readonlyField = "constant"
+  ```
+tags.export: |
+  `export` 标签用于表示一个变量为导出的，用于支持快速导入。
+  接收的参数为 `namespace` 或 `global`，不输入参数默认为 `global`。
+  示例:
+  ```lua
+  ---@export namespace -- 当为`namespace`时仅允许同命名空间引入
+  local export = {}
+
+  export.func = function()
+    -- 在其他文件输入`func`时会提示导入
+  end
+
+  return export
+  ```
+tags.language: |
+  `language` 标签用于为代码块指定语言注入。
+  示例:
+  ```lua
+  ---@language sql
+  local t = [[
+      SELECT * FROM users WHERE id = 1;
+      SELECT name, email FROM users WHERE active = 1;
+      UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = 1;
+      DELETE FROM users WHERE id = 2;
+      INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com');
+  ]]
+  ```
