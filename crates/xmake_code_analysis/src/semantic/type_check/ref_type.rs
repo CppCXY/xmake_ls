@@ -254,7 +254,6 @@ fn check_ref_type_compact_table(
             .unwrap_or(&LuaTypeCache::InferType(LuaType::Any))
             .as_type();
         let key = source_member.get_key();
-
         match table_member_map.get(key) {
             Some(table_member_id) => {
                 let table_member = member_index

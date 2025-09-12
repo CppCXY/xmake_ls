@@ -239,25 +239,21 @@ pub fn analyze_func_stat(analyzer: &mut DeclAnalyzer, stat: LuaFuncStat) -> Opti
     let property_owner_id = match func_name {
         LuaVarExpr::NameExpr(name_expr) => {
             let name_token = name_expr.get_name_token()?;
-            let position = name_token.get_position();
             let name = name_token.get_name_text();
             let range = name_token.get_range();
-            if analyzer.find_decl(&name, position).is_none() {
-                let decl = LuaDecl::new(
-                    name,
-                    file_id,
-                    range,
-                    LuaDeclExtra::Global {
-                        kind: LuaSyntaxKind::NameExpr.into(),
-                    },
-                    None,
-                );
 
-                let decl_id = analyzer.add_decl(decl);
-                LuaSemanticDeclId::LuaDecl(decl_id)
-            } else {
-                return Some(());
-            }
+            let decl = LuaDecl::new(
+                name,
+                file_id,
+                range,
+                LuaDeclExtra::Global {
+                    kind: LuaSyntaxKind::NameExpr.into(),
+                },
+                None,
+            );
+
+            let decl_id = analyzer.add_decl(decl);
+            LuaSemanticDeclId::LuaDecl(decl_id)
         }
         LuaVarExpr::IndexExpr(index_expr) => {
             let index_key = index_expr.get_index_key()?;

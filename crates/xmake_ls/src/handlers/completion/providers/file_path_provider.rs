@@ -1,8 +1,8 @@
-use std::path::{Path, PathBuf};
+use std::{path::{Path, PathBuf}, vec};
 
-use xmake_code_analysis::file_path_to_uri;
-use emmylua_parser::{LuaAstToken, LuaStringToken};
+use emmylua_parser::{LuaAstNode, LuaAstToken, LuaCallArgList, LuaCallExpr, LuaExpr, LuaStringToken};
 use lsp_types::{CompletionItem, TextEdit};
+use xmake_code_analysis::file_path_to_uri;
 
 use crate::handlers::completion::completion_builder::CompletionBuilder;
 
@@ -15,7 +15,10 @@ pub fn add_completion(builder: &mut CompletionBuilder) -> Option<()> {
 
     let string_token = LuaStringToken::cast(builder.trigger_token.clone())?;
     let maybe_file_path = string_token.get_value();
-    if maybe_file_path.find(|c| c == '/' || c == '\\').is_none() {
+
+    if maybe_file_path.find(|c| c == '/' || c == '\\').is_none()
+        && check_is_special_function(&string_token).is_none()
+    {
         return None;
     }
 
@@ -26,7 +29,11 @@ pub fn add_completion(builder: &mut CompletionBuilder) -> Option<()> {
         ""
     };
 
-    let resources = builder.semantic_model.get_emmyrc().resource.paths.clone();
+    let document = builder.semantic_model.get_document();
+    let file_path = document.get_file_path();
+    let file_dir = file_path.parent()?;
+    let mut resources = vec![file_dir.to_string_lossy().to_string()];
+    resources.extend(builder.semantic_model.get_emmyrc().resource.paths.clone());
 
     let suffix = prefix;
     let text_edit_range = get_text_edit_range_in_string(builder, string_token)?;
@@ -47,6 +54,24 @@ pub fn add_completion(builder: &mut CompletionBuilder) -> Option<()> {
     }
 
     builder.stop_here();
+
+    Some(())
+}
+
+fn check_is_special_function(string_token: &LuaStringToken) -> Option<()> {
+    let call_expr = string_token
+        .get_parent::<LuaCallArgList>()?
+        .get_parent::<LuaCallExpr>()?;
+    let prefix_expr = call_expr.get_prefix_expr()?;
+    let LuaExpr::NameExpr(name_expr) = prefix_expr else {
+        return None;
+    };
+
+    let name = name_expr.get_name_text()?;
+    match name.as_str() {
+        "add_files" | "includes" => {},
+        _ => return None,
+    }
 
     Some(())
 }

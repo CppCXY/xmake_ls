@@ -381,11 +381,11 @@ pub fn infer_global_type(db: &DbIndex, name: &str) -> InferResult {
                     continue;
                 }
 
-                if typ.is_def() || typ.is_ref() || typ.is_function() {
+                if typ.is_def() || typ.is_ref() {
                     return Ok(typ.clone());
-                }
-
-                if type_cache.is_table() {
+                } else if typ.is_function() {
+                    valid_type = TypeOps::Union.apply(db, &valid_type, typ);
+                } else if type_cache.is_table() {
                     valid_type = typ.clone();
                 }
             }
