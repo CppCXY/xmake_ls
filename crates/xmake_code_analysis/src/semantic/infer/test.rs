@@ -26,7 +26,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_559() {
+    fn test_emmylua_issue_559() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(

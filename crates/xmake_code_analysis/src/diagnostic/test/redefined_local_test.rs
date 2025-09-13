@@ -2,7 +2,7 @@
 mod tests {
     use crate::{DiagnosticCode, VirtualWorkspace};
     #[test]
-    fn test_issue_226() {
+    fn test_emmylua_issue_226() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::RedefinedLocal,
@@ -108,7 +108,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_481() {
+    fn test_emmylua_issue_481() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::RedefinedLocal,

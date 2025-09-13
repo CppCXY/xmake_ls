@@ -29,7 +29,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_140_1() {
+    fn test_emmylua_issue_140_1() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -52,7 +52,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_140_2() {
+    fn test_emmylua_issue_140_2() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -66,7 +66,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_140_3() {
+    fn test_emmylua_issue_140_3() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -81,7 +81,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_107() {
+    fn test_emmylua_issue_107() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::NeedCheckNil,
@@ -102,7 +102,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_100() {
+    fn test_emmylua_issue_100() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::NeedCheckNil,
@@ -118,7 +118,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_93() {
+    fn test_emmylua_issue_93() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::ParamTypeNotMatch,
@@ -164,7 +164,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_162() {
+    fn test_emmylua_issue_162() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::ParamTypeNotMatch,
@@ -201,7 +201,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_165() {
+    fn test_emmylua_issue_165() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -218,7 +218,7 @@ print(a.h)
     }
 
     #[test]
-    fn test_issue_160() {
+    fn test_emmylua_issue_160() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -236,7 +236,7 @@ print(a.field)
     }
 
     #[test]
-    fn test_issue_210() {
+    fn test_emmylua_issue_210() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -259,7 +259,7 @@ print(a.field)
     }
 
     #[test]
-    fn test_issue_224() {
+    fn test_emmylua_issue_224() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -300,7 +300,7 @@ end
     }
 
     #[test]
-    fn test_issue_266() {
+    fn test_emmylua_issue_266() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -321,7 +321,7 @@ end
     }
 
     #[test]
-    fn test_issue_277() {
+    fn test_emmylua_issue_277() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -361,7 +361,7 @@ end
     }
 
     #[test]
-    fn test_issue_147() {
+    fn test_emmylua_issue_147() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -381,7 +381,7 @@ end
     }
 
     #[test]
-    fn test_issue_325() {
+    fn test_emmylua_issue_325() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -402,7 +402,7 @@ end
     }
 
     #[test]
-    fn test_issue_347() {
+    fn test_emmylua_issue_347() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -422,7 +422,7 @@ end
     }
 
     #[test]
-    fn test_issue_339() {
+    fn test_emmylua_issue_339() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -465,7 +465,7 @@ end
     }
 
     #[test]
-    fn test_issue_367() {
+    fn test_emmylua_issue_367() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -508,7 +508,7 @@ end
     }
 
     #[test]
-    fn test_issue_364() {
+    fn test_emmylua_issue_364() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -531,7 +531,7 @@ end
     }
 
     #[test]
-    fn test_issue_382() {
+    fn test_emmylua_issue_382() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::NeedCheckNil,
@@ -561,7 +561,7 @@ end
     }
 
     #[test]
-    fn test_issue_369() {
+    fn test_emmylua_issue_369() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -590,7 +590,7 @@ end
     }
 
     #[test]
-    fn test_issue_373() {
+    fn test_emmylua_issue_373() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -693,7 +693,7 @@ end
     }
 
     #[test]
-    fn test_issue_423() {
+    fn test_emmylua_issue_423() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -717,7 +717,7 @@ end
     }
 
     #[test]
-    fn test_issue_472() {
+    fn test_emmylua_issue_472() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -744,7 +744,7 @@ end
     }
 
     #[test]
-    fn test_issue_478() {
+    fn test_emmylua_issue_478() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -761,7 +761,7 @@ end
     }
 
     #[test]
-    fn test_issue_491() {
+    fn test_emmylua_issue_491() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -783,7 +783,7 @@ end
     }
 
     #[test]
-    fn test_issue_288() {
+    fn test_emmylua_issue_288() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -803,7 +803,7 @@ end
     }
 
     #[test]
-    fn test_issue_480() {
+    fn test_emmylua_issue_480() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.check_code_for(
@@ -823,7 +823,7 @@ end
     }
 
     #[test]
-    fn test_issue_526() {
+    fn test_emmylua_issue_526() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -851,7 +851,7 @@ end
     }
 
     #[test]
-    fn test_issue_583() {
+    fn test_emmylua_issue_583() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.check_code_for(
@@ -870,7 +870,7 @@ end
     }
 
     #[test]
-    fn test_issue_584() {
+    fn test_emmylua_issue_584() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.check_code_for(
@@ -946,7 +946,7 @@ end
     }
 
     #[test]
-    fn test_issue_598() {
+    fn test_emmylua_issue_598() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         ws.def(
             r#"
@@ -1002,7 +1002,7 @@ end
     }
 
     #[test]
-    fn test_issue_524() {
+    fn test_emmylua_issue_524() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"
@@ -1036,7 +1036,7 @@ end
     }
 
     #[test]
-    fn test_issue_600() {
+    fn test_emmylua_issue_600() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::NeedCheckNil,
@@ -1053,7 +1053,7 @@ end
     }
 
     #[test]
-    fn test_issue_585() {
+    fn test_emmylua_issue_585() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -1068,7 +1068,7 @@ end
     }
 
     #[test]
-    fn test_issue_627() {
+    fn test_emmylua_issue_627() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"
@@ -1105,7 +1105,7 @@ end
     }
 
     #[test]
-    fn test_issue_622() {
+    fn test_emmylua_issue_622() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"
@@ -1195,7 +1195,7 @@ end
     }
 
     #[test]
-    fn test_issue_630() {
+    fn test_emmylua_issue_630() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         ws.def(
             r#"
@@ -1258,7 +1258,7 @@ end
     }
 
     #[test]
-    fn test_issue_641() {
+    fn test_emmylua_issue_641() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -1333,7 +1333,7 @@ end
     }
 
     #[test]
-    fn test_issue_734() {
+    fn test_emmylua_issue_734() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,

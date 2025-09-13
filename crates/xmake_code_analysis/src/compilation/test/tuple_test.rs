@@ -3,7 +3,7 @@ mod tests {
     use crate::{DiagnosticCode, LuaType, LuaUnionType, VirtualWorkspace};
 
     #[test]
-    fn test_issue_231() {
+    fn test_emmylua_issue_231() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -49,7 +49,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_595() {
+    fn test_emmylua_issue_595() {
         let mut ws = VirtualWorkspace::new();
         ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,

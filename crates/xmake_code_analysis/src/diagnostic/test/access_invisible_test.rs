@@ -3,7 +3,7 @@ mod tests {
     use crate::{DiagnosticCode, Emmyrc, EmmyrcLuaVersion, VirtualWorkspace};
 
     #[test]
-    fn test_issue_289() {
+    fn test_emmylua_issue_289() {
         let mut ws = VirtualWorkspace::new();
         let mut config = Emmyrc::default();
         config.runtime.version = EmmyrcLuaVersion::LuaJIT;

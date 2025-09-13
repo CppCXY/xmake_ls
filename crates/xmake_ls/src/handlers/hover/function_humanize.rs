@@ -51,7 +51,7 @@ pub fn hover_function_type(
     };
 
     let call_function = builder.get_call_function();
-    // 已处理过的 semantic_decl_id, 用于解决`test_issue_499_3`
+    // 已处理过的 semantic_decl_id, 用于解决`test_emmylua_issue_499_3`
     let mut handled_semantic_decl_ids = HashSet::new();
     let mut type_descs: Vec<HoverFunctionInfo> = Vec::with_capacity(semantic_decls.len());
     // 记录已处理过的类型, 用于在 Union 中跳过重复类型.

@@ -51,7 +51,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_219() {
+    fn test_emmylua_issue_219() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(

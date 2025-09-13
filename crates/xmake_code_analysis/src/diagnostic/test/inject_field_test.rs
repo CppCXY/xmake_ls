@@ -3,7 +3,7 @@ mod test {
     use crate::{DiagnosticCode, VirtualWorkspace};
 
     #[test]
-    fn test_issue_195() {
+    fn test_emmylua_issue_195() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::InjectField,
@@ -107,7 +107,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_264() {
+    fn test_emmylua_issue_264() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::InjectField,
@@ -210,7 +210,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_660() {
+    fn test_emmylua_issue_660() {
         let mut ws = VirtualWorkspace::new();
         ws.def_file(
             "a.lua",

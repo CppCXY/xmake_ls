@@ -5,7 +5,7 @@ mod test {
     use crate::{DiagnosticCode, VirtualWorkspace};
 
     #[test]
-    fn test_issue_216() {
+    fn test_emmylua_issue_216() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(!ws.check_code_for(
@@ -23,7 +23,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_82() {
+    fn test_emmylua_issue_82() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -42,7 +42,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_75() {
+    fn test_emmylua_issue_75() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(!ws.check_code_for(
@@ -61,7 +61,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_85() {
+    fn test_emmylua_issue_85() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -83,7 +83,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_84() {
+    fn test_emmylua_issue_84() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -111,7 +111,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_83() {
+    fn test_emmylua_issue_83() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -131,7 +131,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_113() {
+    fn test_emmylua_issue_113() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -157,7 +157,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_111() {
+    fn test_emmylua_issue_111() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -211,7 +211,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_102() {
+    fn test_emmylua_issue_102() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -228,7 +228,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_95() {
+    fn test_emmylua_issue_95() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -242,7 +242,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_135() {
+    fn test_emmylua_issue_135() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -294,7 +294,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_148() {
+    fn test_emmylua_issue_148() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -437,7 +437,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_278() {
+    fn test_emmylua_issue_278() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::ParamTypeNotMatch,
@@ -470,7 +470,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_286() {
+    fn test_emmylua_issue_286() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::ParamTypeNotMatch,
@@ -496,7 +496,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_287() {
+    fn test_emmylua_issue_287() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::ParamTypeNotMatch,
@@ -515,7 +515,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_336() {
+    fn test_emmylua_issue_336() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -533,7 +533,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_348() {
+    fn test_emmylua_issue_348() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -991,7 +991,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_487() {
+    fn test_emmylua_issue_487() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::ParamTypeNotMatch,
@@ -1169,7 +1169,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_573() {
+    fn test_emmylua_issue_573() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"
@@ -1190,7 +1190,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_574() {
+    fn test_emmylua_issue_574() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"

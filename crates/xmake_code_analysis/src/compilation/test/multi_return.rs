@@ -61,7 +61,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_237() {
+    fn test_emmylua_issue_237() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -74,7 +74,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_244() {
+    fn test_emmylua_issue_244() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         ws.def(
             r#"
@@ -92,7 +92,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_342() {
+    fn test_emmylua_issue_342() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"

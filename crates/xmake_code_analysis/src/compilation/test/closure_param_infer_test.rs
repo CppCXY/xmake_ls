@@ -189,7 +189,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_350() {
+    fn test_emmylua_issue_350() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"
@@ -309,7 +309,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_416() {
+    fn test_emmylua_issue_416() {
         let mut ws = VirtualWorkspace::new();
         ws.def_files(vec![
             (
@@ -405,7 +405,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_498() {
+    fn test_emmylua_issue_498() {
         let mut ws = VirtualWorkspace::new();
         ws.def_files(vec![
             (

@@ -41,7 +41,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_227() {
+    fn test_emmylua_issue_227() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -59,7 +59,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_321() {
+    fn test_emmylua_issue_321() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -78,7 +78,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_490() {
+    fn test_emmylua_issue_490() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -105,7 +105,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_291() {
+    fn test_emmylua_issue_291() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -126,7 +126,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_291_2() {
+    fn test_emmylua_issue_291_2() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(

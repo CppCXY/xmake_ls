@@ -3,7 +3,7 @@ mod test {
     use crate::VirtualWorkspace;
 
     #[test]
-    fn test_issue_586() {
+    fn test_emmylua_issue_586() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         ws.def(
             r#"
@@ -35,7 +35,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_658() {
+    fn test_emmylua_issue_658() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         ws.def(
             r#"
@@ -98,7 +98,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_646() {
+    fn test_emmylua_issue_646() {
         let mut ws = VirtualWorkspace::new();
         ws.def(
             r#"

@@ -5,7 +5,7 @@ mod test {
     use crate::{LuaType, LuaUnionType, VirtualWorkspace};
 
     #[test]
-    fn test_issue_318() {
+    fn test_emmylua_issue_318() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -37,7 +37,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_314_generic_inheritance() {
+    fn test_emmylua_issue_314_generic_inheritance() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -68,7 +68,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_397() {
+    fn test_emmylua_issue_397() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(

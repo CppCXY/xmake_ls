@@ -400,7 +400,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_236() {
+    fn test_emmylua_issue_236() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for_namespace(
             DiagnosticCode::MissingReturn,
@@ -526,7 +526,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_567() {
+    fn test_emmylua_issue_567() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::RedundantReturnValue,

@@ -28,7 +28,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_265() {
+    fn test_emmylua_issue_265() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -48,7 +48,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_464() {
+    fn test_emmylua_issue_464() {
         let mut ws = VirtualWorkspace::new();
         assert!(!ws.check_code_for_namespace(
             DiagnosticCode::ReturnTypeMismatch,

@@ -146,7 +146,7 @@ mod tests {
     }
 
     #[gtest]
-    fn test_issue_535() -> Result<()> {
+    fn test_emmylua_issue_535() -> Result<()> {
         let mut ws = ProviderVirtualWorkspace::new();
         check!(ws.check_hover(
             r#"

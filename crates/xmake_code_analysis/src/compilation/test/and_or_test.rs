@@ -3,7 +3,7 @@ mod test {
     use crate::{DiagnosticCode, VirtualWorkspace};
 
     #[test]
-    fn test_issue_221() {
+    fn test_emmylua_issue_221() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -27,7 +27,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_222() {
+    fn test_emmylua_issue_222() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -41,7 +41,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_230() {
+    fn test_emmylua_issue_230() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -58,7 +58,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_258() {
+    fn test_emmylua_issue_258() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -75,7 +75,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_470() {
+    fn test_emmylua_issue_470() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -108,7 +108,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_482() {
+    fn test_emmylua_issue_482() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -123,7 +123,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_644() {
+    fn test_emmylua_issue_644() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(

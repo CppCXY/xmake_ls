@@ -3,7 +3,7 @@ mod tests {
     use crate::{DiagnosticCode, VirtualWorkspace};
 
     #[test]
-    fn test_issue_242() {
+    fn test_emmylua_issue_242() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for_namespace(
             DiagnosticCode::ReturnTypeMismatch,
@@ -56,7 +56,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_220() {
+    fn test_emmylua_issue_220() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -147,7 +147,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_146() {
+    fn test_emmylua_issue_146() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -168,7 +168,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_150() {
+    fn test_emmylua_issue_150() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -204,7 +204,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_167() {
+    fn test_emmylua_issue_167() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -326,7 +326,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_341() {
+    fn test_emmylua_issue_341() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -377,7 +377,7 @@ mod tests {
         ));
     }
     #[test]
-    fn test_issue_343() {
+    fn test_emmylua_issue_343() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::ReturnTypeMismatch,
@@ -402,7 +402,7 @@ mod tests {
         ));
     }
     #[test]
-    fn test_issue_474() {
+    fn test_emmylua_issue_474() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::ReturnTypeMismatch,

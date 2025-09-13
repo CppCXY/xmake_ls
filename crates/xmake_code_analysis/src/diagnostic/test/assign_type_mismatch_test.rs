@@ -113,7 +113,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_193() {
+    fn test_emmylua_issue_193() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for_namespace(
             DiagnosticCode::AssignTypeMismatch,
@@ -128,7 +128,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_196() {
+    fn test_emmylua_issue_196() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for_namespace(
             DiagnosticCode::AssignTypeMismatch,
@@ -145,7 +145,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_197() {
+    fn test_emmylua_issue_197() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for_namespace(
             DiagnosticCode::AssignTypeMismatch,
@@ -609,7 +609,7 @@ return t
     }
 
     #[test]
-    fn test_issue_247() {
+    fn test_emmylua_issue_247() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -622,7 +622,7 @@ return t
     }
 
     #[test]
-    fn test_issue_246() {
+    fn test_emmylua_issue_246() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -639,7 +639,7 @@ return t
     }
 
     #[test]
-    fn test_issue_295() {
+    fn test_emmylua_issue_295() {
         let mut ws = VirtualWorkspace::new();
         // TODO: 解决枚举值运算结果的推断问题
         // 暂时没有好的方式去处理这个警告, 在 ts 中, 枚举值运算的结果不是实际值, 但我们目前的结果是实际值, 所以难以处理
@@ -665,7 +665,7 @@ return t
     }
 
     #[test]
-    fn test_issue_285() {
+    fn test_emmylua_issue_285() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -683,7 +683,7 @@ return t
     }
 
     #[test]
-    fn test_issue_338() {
+    fn test_emmylua_issue_338() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -811,7 +811,7 @@ return t
     }
 
     #[test]
-    fn test_issue_330() {
+    fn test_emmylua_issue_330() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -828,7 +828,7 @@ return t
     }
 
     #[test]
-    fn test_issue_393() {
+    fn test_emmylua_issue_393() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -847,7 +847,7 @@ return t
     }
 
     #[test]
-    fn test_issue_374() {
+    fn test_emmylua_issue_374() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,
@@ -911,7 +911,7 @@ return t
     }
 
     #[test]
-    fn test_issue_525() {
+    fn test_emmylua_issue_525() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AssignTypeMismatch,

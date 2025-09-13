@@ -75,7 +75,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_99() {
+    fn test_emmylua_issue_99() {
         let mut ws = crate::VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -95,7 +95,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_101() {
+    fn test_emmylua_issue_101() {
         let mut ws = crate::VirtualWorkspace::new_with_init_std_lib();
 
         ws.def(
@@ -128,7 +128,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_161() {
+    fn test_emmylua_issue_161() {
         let mut ws = crate::VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::AwaitInSync,
@@ -151,7 +151,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_721() {
+    fn test_emmylua_issue_721() {
         let mut ws = crate::VirtualWorkspace::new();
         assert!(!ws.check_code_for(
             DiagnosticCode::AwaitInSync,

@@ -210,7 +210,7 @@ mod tests {
     }
 
     #[gtest]
-    fn test_issue_499() -> Result<()> {
+    fn test_emmylua_issue_499() -> Result<()> {
         let mut ws = ProviderVirtualWorkspace::new();
         check!(ws.check_hover(
             r#"
@@ -230,7 +230,7 @@ mod tests {
     }
 
     #[gtest]
-    fn test_issue_499_2() -> Result<()> {
+    fn test_emmylua_issue_499_2() -> Result<()> {
         let mut ws = ProviderVirtualWorkspace::new();
         check!(ws.check_hover(
             r#"
@@ -251,7 +251,7 @@ mod tests {
     }
 
     #[gtest]
-    fn test_issue_499_3() -> Result<()> {
+    fn test_emmylua_issue_499_3() -> Result<()> {
         let mut ws = ProviderVirtualWorkspace::new();
         check!(ws.check_hover(
             r#"
@@ -274,7 +274,7 @@ mod tests {
     }
 
     #[gtest]
-    fn test_issue_499_4() -> Result<()> {
+    fn test_emmylua_issue_499_4() -> Result<()> {
         let mut ws = ProviderVirtualWorkspace::new();
         check!(ws.check_hover(
             r#"

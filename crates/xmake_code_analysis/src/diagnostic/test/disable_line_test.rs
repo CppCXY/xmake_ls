@@ -3,7 +3,7 @@ mod test {
     use crate::DiagnosticCode;
 
     #[test]
-    fn test_issue_158() {
+    fn test_emmylua_issue_158() {
         let mut ws = crate::VirtualWorkspace::new();
 
         ws.def(

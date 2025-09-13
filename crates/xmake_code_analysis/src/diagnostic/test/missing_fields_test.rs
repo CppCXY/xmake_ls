@@ -134,7 +134,7 @@ mod tests {
     }
 
     #[test]
-    fn test_issue_262() {
+    fn test_emmylua_issue_262() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::MissingFields,
@@ -165,7 +165,7 @@ foo({})
     }
 
     #[test]
-    fn test_issue_296() {
+    fn test_emmylua_issue_296() {
         let mut ws = VirtualWorkspace::new();
         assert!(!ws.check_code_for(
             DiagnosticCode::UndefinedField,
@@ -190,7 +190,7 @@ foo({})
     }
 
     #[test]
-    fn test_issue_302() {
+    fn test_emmylua_issue_302() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::MissingFields,
@@ -216,7 +216,7 @@ foo({})
     }
 
     #[test]
-    fn test_issue_449() {
+    fn test_emmylua_issue_449() {
         let mut ws = VirtualWorkspace::new();
         assert!(!ws.check_code_for(
             DiagnosticCode::MissingFields,

@@ -31,7 +31,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_484() {
+    fn test_emmylua_issue_484() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         assert!(ws.check_code_for(
@@ -44,7 +44,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_594() {
+    fn test_emmylua_issue_594() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         let mut emmyrc = ws.get_emmyrc();
         emmyrc.runtime.version = EmmyrcLuaVersion::Lua51;

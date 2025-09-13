@@ -3,7 +3,7 @@ mod test {
     use crate::{DiagnosticCode, VirtualWorkspace};
 
     #[test]
-    fn test_issue_276() {
+    fn test_emmylua_issue_276() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -22,7 +22,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_249() {
+    fn test_emmylua_issue_249() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -61,7 +61,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_98() {
+    fn test_emmylua_issue_98() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -167,7 +167,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_450() {
+    fn test_emmylua_issue_450() {
         let mut ws = VirtualWorkspace::new();
         assert!(!ws.check_code_for_namespace(
             DiagnosticCode::MissingParameter,
@@ -197,7 +197,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_633() {
+    fn test_emmylua_issue_633() {
         let mut ws = VirtualWorkspace::new();
         ws.def_file(
             "test.lua",

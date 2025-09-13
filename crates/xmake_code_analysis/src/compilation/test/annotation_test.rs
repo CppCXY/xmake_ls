@@ -3,7 +3,7 @@ mod test {
     use crate::{DiagnosticCode, VirtualWorkspace};
 
     #[test]
-    fn test_issue_223() {
+    fn test_emmylua_issue_223() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
         ws.check_code_for(
@@ -20,7 +20,7 @@ mod test {
 
     // // workaround for table
     // #[test]
-    // fn test_issue_234() {
+    // fn test_emmylua_issue_234() {
     //     let mut ws = VirtualWorkspace::new_with_init_std_lib();
 
     //     ws.def(
@@ -43,7 +43,7 @@ mod test {
     // }
 
     #[test]
-    fn test_issue_493() {
+    fn test_emmylua_issue_493() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(
@@ -85,7 +85,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_497() {
+    fn test_emmylua_issue_497() {
         let mut ws = VirtualWorkspace::new();
 
         ws.def(

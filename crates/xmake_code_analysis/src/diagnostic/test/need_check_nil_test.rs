@@ -3,7 +3,7 @@ mod test {
     use crate::{DiagnosticCode, VirtualWorkspace};
 
     #[test]
-    fn test_issue_245() {
+    fn test_emmylua_issue_245() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -15,7 +15,7 @@ mod test {
         ));
     }
     #[test]
-    fn test_issue_402() {
+    fn test_emmylua_issue_402() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::NeedCheckNil,
@@ -34,7 +34,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_474() {
+    fn test_emmylua_issue_474() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::NeedCheckNil,

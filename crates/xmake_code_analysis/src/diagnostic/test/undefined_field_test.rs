@@ -71,7 +71,7 @@ mod test {
         ));
     }
     #[test]
-    fn test_issue_194() {
+    fn test_emmylua_issue_194() {
         let mut ws = VirtualWorkspace::new_with_init_std_lib();
         assert!(ws.check_code_for(
             DiagnosticCode::UndefinedField,
@@ -183,7 +183,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_292() {
+    fn test_emmylua_issue_292() {
         let mut ws = VirtualWorkspace::new();
 
         assert!(ws.check_code_for(
@@ -198,7 +198,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_317() {
+    fn test_emmylua_issue_317() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::UndefinedField,
@@ -214,7 +214,7 @@ mod test {
     }
 
     #[test]
-    fn test_issue_345() {
+    fn test_emmylua_issue_345() {
         let mut ws = VirtualWorkspace::new();
         assert!(ws.check_code_for(
             DiagnosticCode::UndefinedField,
