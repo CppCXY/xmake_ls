@@ -2,7 +2,6 @@
 mod tests {
     use crate::handlers::test_lib::{ProviderVirtualWorkspace, VirtualLocation, check};
     use googletest::prelude::*;
-    use xmake_code_analysis::{DocSyntax, Emmyrc};
 
     type Expected = VirtualLocation;
 

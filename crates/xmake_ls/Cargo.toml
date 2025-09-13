@@ -13,6 +13,7 @@ categories = ["development-tools"]
 [dependencies]
 # local
 xmake_code_analysis.workspace = true
+xmake_wrapper.workspace = true
 
 # external
 emmylua_parser.workspace = true

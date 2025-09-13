@@ -4,13 +4,13 @@ mod doc_tag_provider;
 mod doc_type_provider;
 mod env_provider;
 mod equality_comparison_provider;
-mod file_path_provider;
 mod function_provider;
 mod keywords_provider;
 mod member_provider;
 mod module_path_provider;
 mod postfix_provider;
 mod table_field_provider;
+mod xmake_function_provider;
 
 use super::completion_builder::CompletionBuilder;
 use emmylua_parser::LuaAstToken;
@@ -30,7 +30,7 @@ pub fn add_completions(builder: &mut CompletionBuilder) -> Option<()> {
     member_provider::add_completion(builder);
 
     module_path_provider::add_completion(builder);
-    file_path_provider::add_completion(builder);
+    xmake_function_provider::add_completion(builder);
     auto_require_provider::add_completion(builder);
     doc_tag_provider::add_completion(builder);
     doc_type_provider::add_completion(builder);

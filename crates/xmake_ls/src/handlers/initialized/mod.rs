@@ -1,6 +1,7 @@
 mod client_config;
 mod collect_files;
 mod locale;
+mod xmake_initialize;
 
 use std::{path::PathBuf, str::FromStr, sync::Arc};
 
@@ -20,7 +21,7 @@ pub use client_config::{ClientConfig, get_client_config};
 use collect_files::collect_files;
 use lsp_types::InitializeParams;
 use tokio::sync::RwLock;
-use xmake_code_analysis::{Emmyrc, EmmyrcLuaVersion, XmakeAnalysis, uri_to_file_path};
+use xmake_code_analysis::{Emmyrc, XmakeAnalysis, uri_to_file_path};
 
 pub async fn initialized_handler(
     context: ServerContextSnapshot,
@@ -66,10 +67,7 @@ pub async fn initialized_handler(
     log::info!("initialization_params: {}", params_json);
 
     let mut emmyrc = Emmyrc::default();
-    emmyrc.runtime.extensions = vec!["xmake.lua".to_string()];
-    emmyrc.runtime.require_like_function = vec!["import".to_string()];
-    emmyrc.runtime.version = EmmyrcLuaVersion::Lua54;
-    emmyrc.runtime.require_pattern = vec!["?.xmake.lua".to_string()];
+    xmake_initialize::xmake_initialize(&mut emmyrc, &context).await;
 
     let arc_emmyrc = Arc::new(emmyrc);
 

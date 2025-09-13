@@ -2377,6 +2377,18 @@ dependencies = [
  "walkdir",
  "wax",
  "xmake_code_analysis",
+ "xmake_wrapper",
+]
+
+[[package]]
+name = "xmake_wrapper"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-util",
 ]
 
 [[package]]

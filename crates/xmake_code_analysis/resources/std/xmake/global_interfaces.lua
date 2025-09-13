@@ -185,3 +185,25 @@ function set_allowedarchs(arch, ...) end
 ---@param ... string Allowed modes
 ---@return nil
 function set_allowedmodes(mode, ...) end
+
+-- TODO: Add more global interfaces and documentation
+
+--- xmake
+--- Imports a module.
+--- @param module_name string Module name
+--- @param option? table Import options
+function import(module_name, option) end
+
+---@param block table
+function try(block) end
+
+---@param block table
+function catch(block) end
+
+---@param block table
+function finally(block) end
+
+
+function printf(...) end
+
+function cprint(...) end

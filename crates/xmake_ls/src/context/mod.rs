@@ -19,6 +19,7 @@ use tokio_util::sync::CancellationToken;
 pub use workspace_manager::WorkspaceFileMatcher;
 pub use workspace_manager::WorkspaceManager;
 use xmake_code_analysis::XmakeAnalysis;
+pub use xmake_wrapper::XmakeWrapper;
 
 use crate::context::snapshot::ServerContextInner;
 
@@ -50,6 +51,8 @@ impl ServerContext {
             file_diagnostic.clone(),
         )));
 
+        let xmake = Arc::new(XmakeWrapper::new());
+
         ServerContext {
             conn,
             cancellations: Arc::new(Mutex::new(HashMap::new())),
@@ -60,6 +63,7 @@ impl ServerContext {
                 workspace_manager,
                 status_bar,
                 client_capabilities,
+                xmake,
             }),
         }
     }

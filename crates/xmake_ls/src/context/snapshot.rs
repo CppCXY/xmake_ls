@@ -1,6 +1,7 @@
 use lsp_types::ClientCapabilities;
 use std::sync::Arc;
 use tokio::sync::RwLock;
+use xmake_wrapper::XmakeWrapper;
 
 use xmake_code_analysis::XmakeAnalysis;
 
@@ -42,6 +43,11 @@ impl ServerContextSnapshot {
     pub fn client_capabilities(&self) -> &ClientCapabilities {
         &self.inner.client_capabilities
     }
+
+    #[allow(unused)]
+    pub fn xmake(&self) -> &XmakeWrapper {
+        &self.inner.xmake
+    }
 }
 
 pub struct ServerContextInner {
@@ -51,4 +57,5 @@ pub struct ServerContextInner {
     pub workspace_manager: Arc<RwLock<WorkspaceManager>>,
     pub status_bar: Arc<StatusBar>,
     pub client_capabilities: Arc<ClientCapabilities>,
+    pub xmake: Arc<XmakeWrapper>,
 }
