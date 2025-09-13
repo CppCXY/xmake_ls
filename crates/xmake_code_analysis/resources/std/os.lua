@@ -23,15 +23,15 @@ os = {}
 function os.clock() end
 
 ---@class std.osdate
----@field year integer|string four digits
----@field month integer|string 1-12
----@field day integer|string 1-31
----@field hour integer|string 0-23
----@field min integer|string 0-59
----@field sec integer|string 0-61, due to leap seconds
----@field wday integer|string 1-7, Sunday is 1
----@field yday integer|string 1-366
----@field isdst boolean daylight saving flag, a boolean.
+---@field year integer|string? four digits
+---@field month integer|string? 1-12
+---@field day integer|string? 1-31
+---@field hour integer|string? 0-23
+---@field min integer|string? 0-59
+---@field sec integer|string? 0-61, due to leap seconds
+---@field wday integer|string? 1-7, Sunday is 1
+---@field yday integer|string? 1-366
+---@field isdst boolean? daylight saving flag, a boolean.
 
 ---
 --- Returns a string or a table containing date and time, formatted according
@@ -234,5 +234,302 @@ function os.time(date) end
 --- removes the file when the program ends.
 ---@return string
 function os.tmpname() end
+
+---
+--- **xmake extension**
+--- Check if the file or directory exists
+---@param path string
+---@return boolean
+function os.exists(path) end
+
+---
+--- **xmake extension**
+--- Check if path is a file
+---@param path string
+---@return boolean
+function os.isfile(path) end
+
+---
+--- **xmake extension**
+--- Check if path is a directory
+---@param path string
+---@return boolean
+function os.isdir(path) end
+
+---
+--- **xmake extension**
+--- Check if path is a symbolic link
+---@param path string
+---@return boolean
+function os.islink(path) end
+
+---
+--- **xmake extension**
+--- Create directory
+---@param dir string
+---@return boolean
+function os.mkdir(dir) end
+
+---
+--- **xmake extension**
+--- Remove directory recursively
+---@param dir string
+---@return boolean
+function os.rmdir(dir) end
+
+---
+--- **xmake extension**
+--- Copy file or directory
+---@param src string
+---@param dst string
+---@return boolean
+function os.cp(src, dst) end
+
+---
+--- **xmake extension**
+--- Move/rename file or directory
+---@param src string
+---@param dst string
+---@return boolean
+function os.mv(src, dst) end
+
+---
+--- **xmake extension**
+--- Remove file or directory
+---@param path string
+---@return boolean
+function os.rm(path) end
+
+---
+--- **xmake extension**
+--- Get file size
+---@param path string
+---@return integer|nil
+function os.filesize(path) end
+
+---
+--- **xmake extension**
+--- Get modification time
+---@param path string
+---@return integer|nil
+function os.mtime(path) end
+
+---
+--- **xmake extension**
+--- Get current working directory
+---@return string
+function os.curdir() end
+
+---
+--- **xmake extension**
+--- Get temporary directory
+---@return string
+function os.tmpdir() end
+
+---
+--- **xmake extension**
+--- Get program directory
+---@return string
+function os.programdir() end
+
+---
+--- **xmake extension**
+--- Get program file path
+---@return string
+function os.programfile() end
+
+---
+--- **xmake extension**
+--- Get script directory
+---@return string
+function os.scriptdir() end
+
+---
+--- **xmake extension**
+--- Get xmake global directory
+---@return string
+function os.xmakever() end
+
+---
+--- **xmake extension**
+--- Get host operating system
+---@return string
+function os.host() end
+
+---
+--- **xmake extension**
+--- Get host architecture
+---@return string
+function os.arch() end
+
+---
+--- **xmake extension**
+--- Get sub-host information
+---@return string
+function os.subhost() end
+
+---
+--- **xmake extension**
+--- Get sub-architecture information
+---@return string
+function os.subarch() end
+
+---
+--- **xmake extension**
+--- Change directory
+---@param dir string
+---@return boolean
+function os.cd(dir) end
+
+---
+--- **xmake extension**
+--- Execute command and return output
+---@param cmd string
+---@return string|nil, integer?
+function os.iorun(cmd) end
+
+---
+--- **xmake extension**
+--- Execute command and return output with environment
+---@param cmd string
+---@param env? table
+---@return string|nil, integer?
+function os.iorunv(cmd, env) end
+
+---
+--- **xmake extension**
+--- Run command and return exit code
+---@param cmd string
+---@return integer
+function os.run(cmd) end
+
+---
+--- **xmake extension**
+--- Run command with arguments and return exit code
+---@param program string
+---@param argv table
+---@param outfile? string
+---@param errfile? string
+---@return integer
+function os.runv(program, argv, outfile, errfile) end
+
+---
+--- **xmake extension**
+--- Execute command and return output
+---@param cmd string
+---@return string|nil, integer?
+function os.exec(cmd) end
+
+---
+--- **xmake extension**
+--- Execute command with arguments and return output
+---@param program string
+---@param argv table
+---@param outfile? string
+---@param errfile? string
+---@return string|nil, integer?
+function os.execv(program, argv, outfile, errfile) end
+
+---
+--- **xmake extension**
+--- Find executable program in PATH
+---@param name string
+---@return string|nil
+function os.which(name) end
+
+---
+--- **xmake extension**
+--- List directory contents
+---@param dir string
+---@param recursively? boolean
+---@param pattern? string
+---@return string[]
+function os.dirs(dir, recursively, pattern) end
+
+---
+--- **xmake extension**
+--- List files in directory
+---@param dir string
+---@param recursively? boolean
+---@param pattern? string
+---@return string[]
+function os.files(dir, recursively, pattern) end
+
+---
+--- **xmake extension**
+--- Raise an exception
+---@param message string
+---@param level? integer
+function os.raise(message, level) end
+
+---
+--- **xmake extension**
+--- Try to execute function and catch exception
+---@param func function
+---@return any, string?
+function os.trybool(func) end
+
+---
+--- **xmake extension**
+--- Sleep for specified time
+---@param ms integer milliseconds
+function os.sleep(ms) end
+
+---
+--- **xmake extension**
+--- Get environment variable with default value
+---@param name string
+---@param default? string
+---@return string|nil
+function os.getenvs(name, default) end
+
+---
+--- **xmake extension**
+--- Set environment variable
+---@param name string
+---@param value string
+---@return boolean
+function os.setenv(name, value) end
+
+---
+--- **xmake extension**
+--- Add environment variable to PATH
+---@param value string
+---@return boolean
+function os.addenv(value) end
+
+---
+--- **xmake extension**
+--- Add environment variables to PATH
+---@param name string
+---@param value string
+---@return boolean
+function os.addenvs(name, value) end
+
+---
+--- **xmake extension**
+--- Get all environment variables
+---@return table
+function os.getenvs() end
+
+---
+--- **xmake extension**
+--- Set multiple environment variables
+---@param envs table
+---@return boolean
+function os.setenvs(envs) end
+
+---
+--- **xmake extension**
+--- Generate UUID
+---@return string
+function os.uuid() end
+
+---
+--- **xmake extension**
+--- Generate UUID with specified format
+---@param name string
+---@return string
+function os.uuid4(name) end
 
 return os

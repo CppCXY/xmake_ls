@@ -46,22 +46,22 @@ function debug.getfenv(o) end
 function debug.gethook(thread) end
 
 ---@class debuglib.DebugInfo
----@field name            string
----@field namewhat        string
----@field source          string
----@field short_src       string
----@field linedefined     integer
----@field lastlinedefined integer
----@field what            string
----@field currentline     integer
----@field istailcall      boolean
----@field nups            integer
----@field nparams         integer
----@field isvararg        boolean
----@field func            function
----@field ftransfer       integer
----@field ntransfer       integer
----@field activelines     table
+---@field name            string?
+---@field namewhat        string?
+---@field source          string?
+---@field short_src       string?
+---@field linedefined     integer?
+---@field lastlinedefined integer?
+---@field what            string?
+---@field currentline     integer?
+---@field istailcall      boolean?
+---@field nups            integer?
+---@field nparams         integer?
+---@field isvararg        boolean?
+---@field func            function?
+---@field ftransfer       integer?
+---@field ntransfer       integer?
+---@field activelines     table?
 
 ---@alias debuglib.InfoWhat
 ---|+"n"     # `name` 和 `namewhat`
