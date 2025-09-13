@@ -2,6 +2,18 @@
 name = "xmake_code_analysis"
 version = "0.1.0"
 edition = "2024"
+authors = ["CppCXY"]
+description = "A library for analyzing xmake code."
+license = "MIT"
+repository = "https://github.com/CppCXY/xmake_ls"
+readme = "README.md"
+keywords = ["xmake", "doc", "code_analysis"]
+categories = ["development-tools"]
+include = [
+    "Cargo.toml",
+    "src/**",
+    "resources/**",
+]
 
 [dependencies]
 

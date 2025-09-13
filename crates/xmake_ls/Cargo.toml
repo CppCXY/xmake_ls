@@ -2,13 +2,20 @@
 name = "xmake_ls"
 version = "0.1.0"
 edition = "2024"
+authors = ["CppCXY"]
+description = "A language server for xmake."
+license = "MIT"
+repository = "https://github.com/CppCXY/xmake_ls"
+readme = "README.md"
+keywords = ["xmake", "doc", "lua"]
+categories = ["development-tools"]
 
 [dependencies]
 # local
 xmake_code_analysis.workspace = true
-emmylua_parser.workspace = true
 
 # external
+emmylua_parser.workspace = true
 lsp-server.workspace = true
 tokio.workspace = true
 serde.workspace = true
