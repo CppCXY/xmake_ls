@@ -1,4 +1,4 @@
-use emmylua_parser::{LuaAstNode, LuaExpr, LuaIndexExpr, LuaNameExpr};
+use emmylua_parser::{BinaryOperator, LuaAstNode, LuaExpr, LuaIndexExpr, LuaNameExpr};
 
 use super::{InferFailReason, InferResult};
 use crate::{
@@ -37,6 +37,18 @@ pub fn infer_name_expr(
             VarRefId::VarRef(decl_id),
         )
     } else {
+        // xmake workaround
+        if let Some(LuaExpr::BinaryExpr(binary_expr)) = name_expr.get_parent::<LuaExpr>() {
+            if let Some(op) = binary_expr.get_op_token() {
+                if op.get_op() == BinaryOperator::OpOr {
+                    let left = binary_expr.get_left_expr().ok_or(InferFailReason::None)?;
+                    if left.get_range() == name_expr.get_range() {
+                        return Ok(LuaType::Never);
+                    }
+                }
+            }
+        }
+
         infer_global_type(db, name)
     }
 }
@@ -338,10 +350,10 @@ fn find_param_type_from_union(
 }
 
 pub fn infer_global_type(db: &DbIndex, name: &str) -> InferResult {
-    let decl_ids = db
-        .get_global_index()
-        .get_global_decl_ids(name)
-        .ok_or(InferFailReason::None)?;
+    let decl_ids = match db.get_global_index().get_global_decl_ids(name) {
+        Some(decl_ids) => decl_ids,
+        None => return Err(InferFailReason::None),
+    };
     if decl_ids.len() == 1 {
         let id = decl_ids[0];
         let typ = match db.get_type_index().get_type_cache(&id.into()) {

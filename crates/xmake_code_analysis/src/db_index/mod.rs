@@ -13,6 +13,7 @@ mod semantic_decl;
 mod signature;
 mod traits;
 mod r#type;
+mod xmake;
 
 use std::sync::Arc;
 
@@ -32,6 +33,7 @@ pub use semantic_decl::*;
 pub use signature::*;
 pub use traits::LuaIndex;
 pub use r#type::*;
+pub use xmake::*;
 
 #[derive(Debug)]
 pub struct DbIndex {
@@ -49,6 +51,7 @@ pub struct DbIndex {
     file_dependencies_index: LuaDependencyIndex,
     metatable_index: LuaMetatableIndex,
     global_index: LuaGlobalIndex,
+    xmake_index: LuaXmakeIndex,
     emmyrc: Arc<Emmyrc>,
 }
 
@@ -70,6 +73,7 @@ impl DbIndex {
             file_dependencies_index: LuaDependencyIndex::new(),
             metatable_index: LuaMetatableIndex::new(),
             global_index: LuaGlobalIndex::new(),
+            xmake_index: LuaXmakeIndex::new(),
             emmyrc: Arc::new(Emmyrc::default()),
         }
     }
@@ -192,6 +196,14 @@ impl DbIndex {
         &mut self.global_index
     }
 
+    pub fn get_xmake_index(&self) -> &LuaXmakeIndex {
+        &self.xmake_index
+    }
+
+    pub fn get_xmake_index_mut(&mut self) -> &mut LuaXmakeIndex {
+        &mut self.xmake_index
+    }
+
     pub fn update_config(&mut self, config: Arc<Emmyrc>) {
         self.vfs.update_config(config.clone());
         self.modules_index.update_config(config.clone());
@@ -218,6 +230,7 @@ impl LuaIndex for DbIndex {
         self.file_dependencies_index.remove(file_id);
         self.metatable_index.remove(file_id);
         self.global_index.remove(file_id);
+        self.xmake_index.remove(file_id);
     }
 
     fn clear(&mut self) {
@@ -234,5 +247,6 @@ impl LuaIndex for DbIndex {
         self.file_dependencies_index.clear();
         self.metatable_index.clear();
         self.global_index.clear();
+        self.xmake_index.clear();
     }
 }

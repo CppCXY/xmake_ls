@@ -4,6 +4,7 @@ mod func_body;
 mod metatable;
 mod module;
 mod stats;
+mod xmake_function;
 
 use std::collections::HashMap;
 
@@ -22,8 +23,9 @@ use stats::{
 
 use crate::{
     Emmyrc, FileId, InferFailReason,
-    compilation::analyzer::AnalysisPipeline,
+    compilation::analyzer::{AnalysisPipeline, lua::xmake_function::analyze_xmake_function_call},
     db_index::{DbIndex, LuaType},
+    get_xmake_function,
     profile::Profile,
     semantic::infer_expr,
 };
@@ -80,7 +82,11 @@ fn analyze_node(analyzer: &mut LuaAnalyzer, node: LuaAst) {
         }
         LuaAst::LuaCallExpr(call_expr) => {
             if call_expr.is_setmetatable() {
-                analyze_setmetatable(analyzer, call_expr);
+                analyze_setmetatable(analyzer, call_expr.clone());
+            }
+            let xmake_function = get_xmake_function(&call_expr);
+            if let Some(xmake_function) = xmake_function {
+                analyze_xmake_function_call(analyzer, call_expr, xmake_function);
             }
         }
         _ => {}

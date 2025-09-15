@@ -44,7 +44,7 @@ pub fn add_completion(builder: &mut CompletionBuilder, string_token: LuaStringTo
     Some(())
 }
 
-fn add_file_path_completion(
+pub fn add_file_path_completion(
     builder: &mut CompletionBuilder,
     path: &PathBuf,
     name: &str,

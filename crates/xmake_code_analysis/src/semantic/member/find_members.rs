@@ -3,9 +3,9 @@ use std::collections::HashSet;
 use smol_str::SmolStr;
 
 use crate::{
-    DbIndex, FileId, LuaGenericType, LuaInstanceType, LuaIntersectionType, LuaMemberKey,
-    LuaMemberOwner, LuaObjectType, LuaSemanticDeclId, LuaTupleType, LuaType, LuaTypeDeclId,
-    LuaUnionType,
+    DbIndex, FileId, LuaGenericType, LuaInstanceType, LuaIntersectionType, LuaMemberFeature,
+    LuaMemberKey, LuaMemberOwner, LuaObjectType, LuaSemanticDeclId, LuaTupleType, LuaType,
+    LuaTypeDeclId, LuaUnionType,
     semantic::{
         InferGuard,
         generic::{TypeSubstitutor, instantiate_type_generic},
@@ -64,6 +64,7 @@ fn find_members_guard(
             let member_owner = LuaMemberOwner::Element(id.clone());
             find_normal_members(db, member_owner, filter)
         }
+        LuaType::ModuleRef(file_id) => find_module_env_members(db, *file_id, infer_guard, filter),
         LuaType::TableGeneric(table_type) => find_table_generic_members(table_type, filter),
         LuaType::String
         | LuaType::Io
@@ -164,6 +165,41 @@ fn find_normal_members(
 
             if should_stop_collecting(members.len(), filter) {
                 break;
+            }
+        }
+    }
+
+    Some(members)
+}
+
+fn find_module_env_members(
+    db: &DbIndex,
+    file_id: FileId,
+    _: &mut InferGuard,
+    filter: &FindMemberFilter,
+) -> FindMembersResult {
+    let mut members = Vec::new();
+    let decl_tree = db.get_decl_index().get_decl_tree(&file_id)?;
+    let env_decl = decl_tree.get_export_env_decls();
+    for decl_id in env_decl {
+        if let Some(decl) = decl_tree.get_decl(&decl_id) {
+            let member_key = LuaMemberKey::Name(decl.get_name().to_string().into());
+            if should_include_member(&member_key, filter) {
+                members.push(LuaMemberInfo {
+                    property_owner_id: Some(LuaSemanticDeclId::LuaDecl(decl_id)),
+                    key: member_key,
+                    typ: db
+                        .get_type_index()
+                        .get_type_cache(&decl_id.into())
+                        .map(|t| t.as_type().clone())
+                        .unwrap_or(LuaType::Unknown),
+                    feature: Some(LuaMemberFeature::FileDefine),
+                    overload_index: None,
+                });
+
+                if should_stop_collecting(members.len(), filter) {
+                    break;
+                }
             }
         }
     }

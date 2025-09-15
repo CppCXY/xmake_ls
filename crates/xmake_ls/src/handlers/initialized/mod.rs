@@ -12,7 +12,7 @@ use crate::{
         get_client_id,
     },
     handlers::{
-        initialized::collect_files::calculate_include_and_exclude,
+        initialized::{collect_files::calculate_include_and_exclude, xmake_initialize::init_xmake},
         text_document::register_files_watch,
     },
     logger::init_logger,
@@ -21,7 +21,9 @@ pub use client_config::{ClientConfig, get_client_config};
 use collect_files::collect_files;
 use lsp_types::InitializeParams;
 use tokio::sync::RwLock;
-use xmake_code_analysis::{Emmyrc, XmakeAnalysis, uri_to_file_path};
+use xmake_code_analysis::{
+    DiagnosticCode, Emmyrc, EmmyrcLuaVersion, XmakeAnalysis, uri_to_file_path,
+};
 
 pub async fn initialized_handler(
     context: ServerContextSnapshot,
@@ -67,12 +69,19 @@ pub async fn initialized_handler(
     log::info!("initialization_params: {}", params_json);
 
     let mut emmyrc = Emmyrc::default();
-    xmake_initialize::xmake_initialize(&mut emmyrc, &context).await;
+    emmyrc.runtime.extensions = vec!["xmake.lua".to_string(), ".lua".to_string()];
+    // emmyrc.runtime.require_like_function = vec![];
+    emmyrc.runtime.version = EmmyrcLuaVersion::Lua54;
+    emmyrc.runtime.require_pattern = vec!["?.xmake.lua".to_string(), "?.lua".to_string()];
+    emmyrc.diagnostics.disable = vec![DiagnosticCode::UnnecessaryIf];
 
     let arc_emmyrc = Arc::new(emmyrc);
 
     // init std lib
     init_std_lib(context.analysis(), &cmd_args, arc_emmyrc.clone()).await;
+
+    // init xmake
+    init_xmake(&context).await;
 
     init_analysis(
         context.analysis(),
@@ -204,16 +213,10 @@ pub async fn init_std_lib(
     cmd_args: &CmdArgs,
     emmyrc: Arc<Emmyrc>,
 ) {
-    log::info!(
-        "initializing std lib with resources path: {:?}",
-        cmd_args.resources_path
-    );
+    log::info!("initializing std lib");
     let mut analysis = analysis.write().await;
-    if cmd_args.load_stdlib.0 {
-        // double update config
-        analysis.update_config(emmyrc);
-        analysis.init_std_lib(cmd_args.resources_path.0.clone());
-    }
+    analysis.update_config(emmyrc);
+    analysis.init_std_lib(cmd_args.resources_path.0.clone());
 
     log::info!("initialized std lib complete");
 }

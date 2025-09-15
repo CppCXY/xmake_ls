@@ -22,12 +22,12 @@ pub async fn execute_command_with_timeout(
     timeout_secs: u64,
 ) -> Result<XmakeOutput, XmakeError> {
     let args = cmd.build_args();
-    let command_str = format!("{} {}", wrapper.xmake_path, args.join(" "));
+    let command_str = format!("{} {}", wrapper.xmake_env, args.join(" "));
 
     debug!("Executing xmake command: {}", command_str);
 
     // 构建tokio命令
-    let mut command = Command::new(&wrapper.xmake_path);
+    let mut command = Command::new(&wrapper.xmake_env);
     command
         .args(&args)
         .stdout(Stdio::piped())

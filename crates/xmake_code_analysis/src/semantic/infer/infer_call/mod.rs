@@ -1,3 +1,7 @@
+mod infer_import;
+mod infer_require;
+mod infer_setmetatable;
+
 use std::sync::Arc;
 
 use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaExpr, LuaSyntaxKind};
@@ -11,19 +15,22 @@ use super::{
     },
     InferFailReason, InferResult,
 };
-use crate::semantic::{
-    generic::instantiate_doc_function, infer::narrow::get_type_at_call_expr_inline_cast,
-};
 use crate::{
     CacheEntry, DbIndex, InFiled, LuaFunctionType, LuaGenericType, LuaInstanceType,
     LuaOperatorMetaMethod, LuaOperatorOwner, LuaSignatureId, LuaType, LuaTypeDeclId, LuaUnionType,
 };
+use crate::{
+    XmakeFunction, get_xmake_function,
+    semantic::{
+        generic::instantiate_doc_function,
+        infer::{
+            infer_call::infer_import::infer_import_call, narrow::get_type_at_call_expr_inline_cast,
+        },
+    },
+};
 use crate::{build_self_type, infer_self_type, semantic::infer_expr};
 use infer_require::infer_require_call;
 use infer_setmetatable::infer_setmetatable_call;
-
-mod infer_require;
-mod infer_setmetatable;
 
 pub type InferCallFuncResult = Result<Arc<LuaFunctionType>, InferFailReason>;
 
@@ -622,6 +629,15 @@ pub fn infer_call_expr(
         return infer_require_call(db, cache, call_expr);
     } else if call_expr.is_setmetatable() {
         return infer_setmetatable_call(db, cache, call_expr);
+    }
+
+    if let Some(xmake_function) = get_xmake_function(&call_expr) {
+        match xmake_function {
+            XmakeFunction::Import => {
+                return infer_import_call(db, cache, call_expr);
+            }
+            _ => {}
+        }
     }
 
     check_can_infer(db, cache, &call_expr)?;

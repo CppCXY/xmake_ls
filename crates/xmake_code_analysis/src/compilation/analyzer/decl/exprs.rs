@@ -7,8 +7,11 @@ use emmylua_parser::{
 use crate::{
     FileId, InFiled, InferFailReason, LuaDeclExtra, LuaDeclId, LuaMemberFeature, LuaMemberId,
     LuaSignatureId,
-    compilation::analyzer::unresolve::UnResolveTableField,
+    compilation::analyzer::{
+        decl::xmake_decl::analyze_xmake_function_call, unresolve::UnResolveTableField,
+    },
     db_index::{LuaDecl, LuaMember, LuaMemberKey, LuaMemberOwner},
+    get_xmake_function,
 };
 
 use super::DeclAnalyzer;
@@ -339,6 +342,9 @@ pub fn analyze_call_expr(analyzer: &mut DeclAnalyzer, expr: LuaCallExpr) -> Opti
             }
         }
     }
+
+    let xmake_function = get_xmake_function(&expr)?;
+    analyze_xmake_function_call(analyzer, &expr, xmake_function);
 
     Some(())
 }

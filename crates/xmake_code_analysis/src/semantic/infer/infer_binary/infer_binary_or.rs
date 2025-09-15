@@ -20,6 +20,10 @@ pub fn special_or_rule(
             }
         }
         LuaExpr::TableExpr(table_expr) => {
+            if left_type.is_never() {
+                return Some(right_type.clone());
+            }
+
             if table_expr.is_empty() && check_type_compact(db, &left_type, &LuaType::Table).is_ok()
             {
                 return Some(remove_false_or_nil(left_type.clone()));

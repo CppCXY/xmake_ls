@@ -2,6 +2,7 @@ mod docs;
 mod exprs;
 mod members;
 mod stats;
+mod xmake_decl;
 
 use crate::{
     compilation::analyzer::AnalysisPipeline,
@@ -211,15 +212,28 @@ impl<'a> DeclAnalyzer<'a> {
         let file_id = decl.get_file_id();
         let name = decl.get_name().to_string();
         let syntax_id = decl.get_syntax_id();
+
         let id = self.decl.add_decl(decl);
         self.add_decl_to_current_scope(id);
 
-        if is_global {
-            self.db.get_global_index_mut().add_global_decl(&name, id);
+        // if test
+        if cfg!(test) {
+            if is_global {
+                self.db.get_global_index_mut().add_global_decl(&name, id);
 
-            self.db
-                .get_reference_index_mut()
-                .add_global_reference(&name, file_id, syntax_id);
+                self.db
+                    .get_reference_index_mut()
+                    .add_global_reference(&name, file_id, syntax_id);
+            }
+        } else {
+            // normal script can not define global decl
+            if is_global && self.is_meta {
+                self.db.get_global_index_mut().add_global_decl(&name, id);
+
+                self.db
+                    .get_reference_index_mut()
+                    .add_global_reference(&name, file_id, syntax_id);
+            }
         }
 
         id

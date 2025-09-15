@@ -9,8 +9,8 @@ use rowan::TextRange;
 use smol_str::SmolStr;
 
 use crate::{
-    CacheEntry, GenericTpl, InFiled, LuaArrayLen, LuaArrayType, LuaDeclOrMemberId, LuaInferCache,
-    LuaInstanceType, LuaMemberOwner, LuaOperatorOwner, TypeOps,
+    CacheEntry, FileId, GenericTpl, InFiled, LuaArrayLen, LuaArrayType, LuaDeclOrMemberId,
+    LuaInferCache, LuaInstanceType, LuaMemberOwner, LuaOperatorOwner, TypeOps,
     db_index::{
         DbIndex, LuaGenericType, LuaIntersectionType, LuaMemberKey, LuaObjectType,
         LuaOperatorMetaMethod, LuaTupleType, LuaType, LuaTypeDeclId, LuaUnionType,
@@ -178,6 +178,7 @@ pub fn infer_member_by_member_key(
         LuaType::Namespace(ns) => infer_namespace_member(db, cache, ns, index_expr),
         LuaType::Array(array_type) => infer_array_member(db, cache, array_type, index_expr),
         LuaType::TplRef(tpl) => infer_tpl_ref_member(db, cache, tpl, index_expr, infer_guard),
+        LuaType::ModuleRef(file_id) => infer_module_env_member(db, cache, *file_id, index_expr),
         _ => Err(InferFailReason::FieldNotFound),
     }
 }
@@ -347,6 +348,38 @@ fn infer_table_member(
     };
 
     member_item.resolve_type(db)
+}
+
+fn infer_module_env_member(
+    db: &DbIndex,
+    cache: &mut LuaInferCache,
+    file_id: FileId,
+    index_expr: LuaIndexMemberExpr,
+) -> InferResult {
+    let index_key = index_expr.get_index_key().ok_or(InferFailReason::None)?;
+    let key_string = match LuaMemberKey::from_index_key(db, cache, &index_key)? {
+        LuaMemberKey::Name(s) => s,
+        _ => return Err(InferFailReason::FieldNotFound),
+    };
+
+    let decl_tree = db
+        .get_decl_index()
+        .get_decl_tree(&file_id)
+        .ok_or(InferFailReason::None)?;
+    let env_decl = decl_tree.get_export_env_decls();
+    for decl_id in env_decl {
+        if let Some(decl) = decl_tree.get_decl(&decl_id) {
+            if decl.get_name() == key_string {
+                let type_cache = db
+                    .get_type_index()
+                    .get_type_cache(&decl_id.into())
+                    .ok_or(InferFailReason::None)?;
+                return Ok(type_cache.as_type().clone());
+            }
+        }
+    }
+
+    Err(InferFailReason::FieldNotFound)
 }
 
 fn infer_custom_type_member(

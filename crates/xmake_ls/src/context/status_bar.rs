@@ -14,12 +14,13 @@ pub struct StatusBar {
     client: Arc<ClientProxy>,
 }
 
+#[allow(unused)]
 #[derive(Debug, Clone, Copy)]
 pub enum ProgressTask {
     LoadWorkspace = 0,
     DiagnoseWorkspace = 1,
-    #[allow(dead_code)]
     RefreshIndex = 2,
+    XmakeLoad = 3,
 }
 
 impl ProgressTask {
@@ -32,6 +33,7 @@ impl ProgressTask {
             ProgressTask::LoadWorkspace => "Load workspace",
             ProgressTask::DiagnoseWorkspace => "Diagnose workspace",
             ProgressTask::RefreshIndex => "Refresh index",
+            ProgressTask::XmakeLoad => "Load xmake",
         }
     }
 }

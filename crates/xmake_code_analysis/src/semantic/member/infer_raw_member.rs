@@ -3,7 +3,7 @@ use std::sync::Arc;
 use smol_str::SmolStr;
 
 use crate::{
-    DbIndex, InferFailReason, InferGuard, LuaMemberKey, LuaMemberOwner, LuaObjectType,
+    DbIndex, FileId, InferFailReason, InferGuard, LuaMemberKey, LuaMemberOwner, LuaObjectType,
     LuaTupleType, LuaType, LuaTypeDeclId, TypeOps, check_type_compact,
 };
 
@@ -30,6 +30,7 @@ fn infer_raw_member_type_guard(
             let owner = LuaMemberOwner::Element(id.clone());
             infer_owner_raw_member_type(db, owner, member_key)
         }
+        LuaType::ModuleRef(file_id) => infer_module_raw_member_type(db, *file_id, member_key),
         LuaType::String
         | LuaType::Io
         | LuaType::StringConst(_)
@@ -69,6 +70,36 @@ fn infer_owner_raw_member_type(
         .get_member_item(&member_owner, member_key)
         .ok_or(InferFailReason::FieldNotFound)?;
     member_item.resolve_type(db)
+}
+
+fn infer_module_raw_member_type(
+    db: &DbIndex,
+    file_id: FileId,
+    member_key: &LuaMemberKey,
+) -> RawGetMemberTypeResult {
+    let key_string = match member_key {
+        LuaMemberKey::Name(s) => s,
+        _ => return Err(InferFailReason::FieldNotFound),
+    };
+
+    let decl_tree = db
+        .get_decl_index()
+        .get_decl_tree(&file_id)
+        .ok_or(InferFailReason::None)?;
+    let env_decl = decl_tree.get_export_env_decls();
+    for decl_id in env_decl {
+        if let Some(decl) = decl_tree.get_decl(&decl_id) {
+            if decl.get_name() == key_string {
+                let type_cache = db
+                    .get_type_index()
+                    .get_type_cache(&decl_id.into())
+                    .ok_or(InferFailReason::None)?;
+                return Ok(type_cache.as_type().clone());
+            }
+        }
+    }
+
+    Err(InferFailReason::FieldNotFound)
 }
 
 fn infer_custom_type_raw_member_type(

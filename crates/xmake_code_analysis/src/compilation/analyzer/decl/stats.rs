@@ -242,15 +242,17 @@ pub fn analyze_func_stat(analyzer: &mut DeclAnalyzer, stat: LuaFuncStat) -> Opti
             let name = name_token.get_name_text();
             let range = name_token.get_range();
 
-            let decl = LuaDecl::new(
-                name,
-                file_id,
-                range,
+            let extra = if analyzer.is_meta {
                 LuaDeclExtra::Global {
                     kind: LuaSyntaxKind::NameExpr.into(),
-                },
-                None,
-            );
+                }
+            } else {
+                LuaDeclExtra::Env {
+                    kind: LuaSyntaxKind::NameExpr.into(),
+                }
+            };
+
+            let decl = LuaDecl::new(name, file_id, range, extra, None);
 
             let decl_id = analyzer.add_decl(decl);
             LuaSemanticDeclId::LuaDecl(decl_id)

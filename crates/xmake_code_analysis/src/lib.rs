@@ -108,6 +108,13 @@ impl XmakeAnalysis {
             .add_workspace_root(root, id);
     }
 
+    pub fn add_internal_import_workspace(&mut self, root: PathBuf) {
+        self.compilation
+            .get_db_mut()
+            .get_module_index_mut()
+            .add_workspace_root(root, WorkspaceId::INTERNAL_IMPORT);
+    }
+
     pub fn update_file_by_uri(&mut self, uri: &Uri, text: Option<String>) -> Option<FileId> {
         let is_removed = text.is_none();
         let file_id = self

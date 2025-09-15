@@ -1,4 +1,4 @@
-use emmylua_parser::{LuaAstNode, LuaChunk, LuaExpr};
+use emmylua_parser::{LuaAstNode, LuaBlock, LuaChunk, LuaExpr, LuaStat};
 
 use crate::{
     InferFailReason, LuaDeclId, LuaSemanticDeclId, LuaSignatureId,
@@ -9,7 +9,13 @@ use super::{LuaAnalyzer, LuaReturnPoint, func_body::analyze_func_body_returns};
 
 pub fn analyze_chunk_return(analyzer: &mut LuaAnalyzer, chunk: LuaChunk) -> Option<()> {
     let block = chunk.get_block()?;
-    let return_exprs = analyze_func_body_returns(block);
+    if !check_exist_return(block.clone()) {
+        analyze_xmake_export(analyzer);
+        return Some(());
+    }
+
+    let return_exprs = analyze_func_body_returns(block.clone());
+
     for point in return_exprs {
         match point {
             LuaReturnPoint::Expr(expr) => {
@@ -52,6 +58,15 @@ pub fn analyze_chunk_return(analyzer: &mut LuaAnalyzer, chunk: LuaChunk) -> Opti
     Some(())
 }
 
+fn check_exist_return(block: LuaBlock) -> bool {
+    block.get_stats().any(|stat| {
+        if let LuaStat::ReturnStat(_) = stat {
+            return true;
+        }
+        false
+    })
+}
+
 fn get_semantic_id(analyzer: &LuaAnalyzer, expr: LuaExpr) -> Option<LuaSemanticDeclId> {
     match expr {
         LuaExpr::NameExpr(name_expr) => {
@@ -74,4 +89,43 @@ fn get_semantic_id(analyzer: &LuaAnalyzer, expr: LuaExpr) -> Option<LuaSemanticD
         ))),
         _ => None,
     }
+}
+
+fn analyze_xmake_export(analyzer: &mut LuaAnalyzer) -> Option<()> {
+    let decl_tree = analyzer
+        .db
+        .get_decl_index()
+        .get_decl_tree(&analyzer.file_id)?;
+    let export_decls = decl_tree.get_export_env_decls();
+    let mut main_id = None;
+    for decl_id in export_decls {
+        let decl = decl_tree.get_decl(&decl_id)?;
+        if decl.get_name() == "main" {
+            main_id = Some(decl_id);
+            break;
+        }
+    }
+
+    if let Some(main_id) = main_id {
+        let typ = analyzer
+            .db
+            .get_type_index()
+            .get_type_cache(&main_id.into())?
+            .clone();
+        let module_info = analyzer
+            .db
+            .get_module_index_mut()
+            .get_module_mut(analyzer.file_id)?;
+
+        module_info.export_type = Some(typ.as_type().clone());
+        return Some(());
+    }
+
+    let module_info = analyzer
+        .db
+        .get_module_index_mut()
+        .get_module_mut(analyzer.file_id)?;
+
+    module_info.export_type = Some(LuaType::ModuleRef(analyzer.file_id));
+    Some(())
 }

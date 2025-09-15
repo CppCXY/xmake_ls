@@ -32,6 +32,9 @@ pub enum LuaDeclExtra {
     Global {
         kind: LuaKind,
     },
+    Env {
+        kind: LuaKind,
+    },
 }
 
 impl LuaDecl {
@@ -79,6 +82,7 @@ impl LuaDecl {
             }
             LuaDeclExtra::ImplicitSelf { kind } => LuaSyntaxId::new(kind, self.range),
             LuaDeclExtra::Global { kind, .. } => LuaSyntaxId::new(kind, self.range),
+            LuaDeclExtra::Env { kind, .. } => LuaSyntaxId::new(kind, self.range),
         }
     }
 
@@ -103,6 +107,10 @@ impl LuaDecl {
 
     pub fn is_implicit_self(&self) -> bool {
         matches!(&self.extra, LuaDeclExtra::ImplicitSelf { .. })
+    }
+
+    pub fn is_env(&self) -> bool {
+        matches!(&self.extra, LuaDeclExtra::Env { .. })
     }
 }
 

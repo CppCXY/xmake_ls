@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use itertools::Itertools;
 
 use crate::{
-    AsyncState, DbIndex, GenericTpl, LuaAliasCallType, LuaFunctionType, LuaGenericType,
+    AsyncState, DbIndex, FileId, GenericTpl, LuaAliasCallType, LuaFunctionType, LuaGenericType,
     LuaInstanceType, LuaIntersectionType, LuaMemberKey, LuaMemberOwner, LuaObjectType,
     LuaSignatureId, LuaStringTplType, LuaTupleType, LuaType, LuaTypeDeclId, LuaUnionType,
     TypeSubstitutor, VariadicType,
@@ -107,6 +107,7 @@ pub fn humanize_type(db: &DbIndex, ty: &LuaType, level: RenderLevel) -> String {
         }
         LuaType::ConstTplRef(const_tpl) => humanize_const_tpl_ref_type(const_tpl),
         LuaType::Language(s) => s.to_string(),
+        LuaType::ModuleRef(file_id) => humanize_module_ref_type(db, *file_id),
         _ => "unknown".to_string(),
     }
 }
@@ -649,6 +650,15 @@ fn humanize_str_tpl_ref_type(str_tpl: &LuaStringTplType) -> String {
     } else {
         format!("{}`{}`", prefix, str_tpl.get_name())
     }
+}
+
+fn humanize_module_ref_type(db: &DbIndex, file_id: FileId) -> String {
+    let file_path = db.get_vfs().get_file_path(&file_id);
+    if let Some(path) = file_path {
+        return format!("module '{}'", path.display());
+    }
+
+    "module".to_string()
 }
 
 fn humanize_variadic_type(db: &DbIndex, multi: &VariadicType, level: RenderLevel) -> String {

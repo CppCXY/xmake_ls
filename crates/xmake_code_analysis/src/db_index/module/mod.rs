@@ -11,7 +11,7 @@ use regex::Regex;
 pub use workspace::{Workspace, WorkspaceId};
 
 use super::traits::LuaIndex;
-use crate::{Emmyrc, FileId};
+use crate::{DbIndex, Emmyrc, FileId, file_path_to_uri};
 use std::{
     collections::HashMap,
     path::{Path, PathBuf},
@@ -238,6 +238,63 @@ impl LuaModuleIndex {
         }
 
         None
+    }
+
+    pub fn find_import(
+        &self,
+        db: &DbIndex,
+        module_path: &str,
+        source_file_id: FileId,
+    ) -> Option<&ModuleInfo> {
+        let module_parts: Vec<&str> = module_path.split('.').collect();
+        if module_parts.is_empty() {
+            return None;
+        }
+
+        let current_path = db.get_vfs().get_file_path(&source_file_id)?;
+        let current_dir = Path::new(&current_path).parent()?;
+        let module_file_path = module_parts.join("/");
+        let target_path = current_dir.join(&format!("{}.lua", module_file_path));
+        if target_path.exists() {
+            let uri = file_path_to_uri(&target_path)?;
+            let target_file_id = db.get_vfs().get_file_id(&uri)?;
+            return self.file_module_map.get(&target_file_id);
+        }
+
+        // try to find in the same workspace
+        let builtin_workspace_id = WorkspaceId::INTERNAL_IMPORT;
+        for module_info in self.file_module_map.values() {
+            if module_info.workspace_id == builtin_workspace_id
+                && module_info.full_module_name == module_path
+            {
+                return Some(module_info);
+            }
+        }
+
+        None
+    }
+
+    // todo
+    pub fn get_internal_import_file_ids(&self, _: &str) -> Vec<FileId> {
+        // if module_path.is_empty() {
+        //     return self.module_nodes.get(&self.module_root_id);
+        // }
+
+        // let module_path = module_path.replace(['\\', '/'], ".");
+        // let module_parts: Vec<&str> = module_path.split('.').collect();
+        // if module_parts.is_empty() {
+        //     return None;
+        // }
+
+        // let mut parent_node_id = self.module_root_id;
+        // for part in &module_parts {
+        //     let parent_node = self.module_nodes.get(&parent_node_id)?;
+        //     let child_id = parent_node.children.get(*part)?;
+        //     parent_node_id = *child_id;
+        // }
+
+        // self.module_nodes.get(&parent_node_id)
+        vec![]
     }
 
     fn exact_find_module(&self, module_parts: &Vec<&str>) -> Option<&ModuleInfo> {

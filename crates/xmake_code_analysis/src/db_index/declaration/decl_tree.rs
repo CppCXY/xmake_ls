@@ -11,6 +11,7 @@ pub struct LuaDeclarationTree {
     file_id: FileId,
     decls: HashMap<LuaDeclId, LuaDecl>,
     scopes: Vec<LuaScope>,
+    env_decls: Vec<LuaDeclId>,
 }
 
 impl LuaDeclarationTree {
@@ -19,6 +20,7 @@ impl LuaDeclarationTree {
             file_id,
             decls: HashMap::new(),
             scopes: Vec::new(),
+            env_decls: Vec::new(),
         }
     }
 
@@ -46,6 +48,20 @@ impl LuaDeclarationTree {
 
             false
         });
+
+        if result.is_none() {
+            for decl in self
+                .env_decls
+                .iter()
+                .filter_map(|decl_id| self.get_decl(decl_id))
+            {
+                if decl.get_name() == name {
+                    result = Some(decl);
+                    break;
+                }
+            }
+        }
+
         result
     }
 
@@ -66,7 +82,13 @@ impl LuaDeclarationTree {
 
             false
         });
+
+        result.extend(self.env_decls.iter());
         Some(result)
+    }
+
+    pub fn get_export_env_decls(&self) -> Vec<LuaDeclId> {
+        self.env_decls.clone()
     }
 
     fn find_scope(&self, position: TextSize) -> Option<&LuaScope> {
@@ -219,7 +241,11 @@ impl LuaDeclarationTree {
 
     pub fn add_decl(&mut self, decl: LuaDecl) -> LuaDeclId {
         let decl_id = decl.get_id();
+        let is_env = decl.is_env();
         self.decls.insert(decl_id, decl);
+        if is_env {
+            self.env_decls.push(decl_id);
+        }
         decl_id
     }
 

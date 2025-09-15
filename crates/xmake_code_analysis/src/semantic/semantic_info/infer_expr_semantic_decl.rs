@@ -4,7 +4,7 @@ use emmylua_parser::{
 };
 
 use crate::{
-    DbIndex, LuaDeclId, LuaDeclOrMemberId, LuaInferCache, LuaInstanceType, LuaMemberId,
+    DbIndex, FileId, LuaDeclId, LuaDeclOrMemberId, LuaInferCache, LuaInstanceType, LuaMemberId,
     LuaMemberKey, LuaMemberOwner, LuaSemanticDeclId, LuaType, LuaTypeCache, LuaTypeDeclId,
     LuaUnionType,
     semantic::{infer::find_self_decl_or_member_id, member::get_buildin_type_map_type_id},
@@ -205,6 +205,7 @@ fn infer_member_semantic_decl_by_member_key(
             let owner = LuaMemberOwner::Element(id.clone());
             infer_table_member_semantic_decl(db, owner, member_key)
         }
+        LuaType::ModuleRef(file_id) => infer_module_member_semantic_decl(db, file_id, member_key),
         LuaType::String | LuaType::Io | LuaType::StringConst(_) | LuaType::DocStringConst(_) => {
             let decl_id = get_buildin_type_map_type_id(&prefix_type)?;
             infer_custom_type_member_semantic_decl(
@@ -262,6 +263,24 @@ fn infer_table_member_semantic_decl(
 ) -> Option<LuaSemanticDeclId> {
     let member_item = db.get_member_index().get_member_item(&owner, member_key)?;
     member_item.resolve_semantic_decl(db)
+}
+
+fn infer_module_member_semantic_decl(
+    db: &DbIndex,
+    file_id: &FileId,
+    member_key: &LuaMemberKey,
+) -> Option<LuaSemanticDeclId> {
+    let decl_tree = db.get_decl_index().get_decl_tree(file_id)?;
+    let env_decl = decl_tree.get_export_env_decls();
+    let key_string = member_key.get_name()?;
+    for decl_id in env_decl {
+        if let Some(decl) = decl_tree.get_decl(&decl_id) {
+            if decl.get_name() == key_string {
+                return Some(LuaSemanticDeclId::LuaDecl(decl_id));
+            }
+        }
+    }
+    None
 }
 
 fn infer_custom_type_member_semantic_decl(
