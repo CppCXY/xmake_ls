@@ -1,6 +1,8 @@
 use std::{collections::HashMap, time::Duration};
 
-use emmylua_parser::{LuaAst, LuaAstNode, LuaBlock, LuaClosureExpr, LuaStat, LuaSyntaxToken};
+use emmylua_parser::{
+    LuaAst, LuaAstNode, LuaBlock, LuaChunk, LuaClosureExpr, LuaStat, LuaSyntaxToken,
+};
 use lsp_types::{ApplyWorkspaceEditParams, Command, Position, TextEdit, WorkspaceEdit};
 use rowan::{TextRange, TokenAtOffset};
 use serde_json::Value;
@@ -127,6 +129,8 @@ fn find_first_function_scope(token: LuaSyntaxToken) -> Option<LuaBlock> {
     let ast_node = LuaAst::cast(token.parent()?)?;
     for ancestor in ast_node.ancestors::<LuaBlock>() {
         if ancestor.get_parent::<LuaClosureExpr>().is_some() {
+            return Some(ancestor);
+        } else if ancestor.get_parent::<LuaChunk>().is_some() {
             return Some(ancestor);
         }
     }

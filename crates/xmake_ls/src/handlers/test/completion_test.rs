@@ -2,7 +2,7 @@
 mod tests {
     use googletest::prelude::*;
     use lsp_types::{CompletionItemKind, CompletionTriggerKind};
-    use xmake_code_analysis::{DocSyntax, Emmyrc, EmmyrcFilenameConvention};
+    use xmake_code_analysis::{DocSyntax, Emmyrc};
 
     use crate::handlers::test_lib::{ProviderVirtualWorkspace, VirtualCompletionItem, check};
 

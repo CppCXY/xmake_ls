@@ -5,7 +5,9 @@ use emmylua_parser::{
     LuaSyntaxNode,
 };
 use lsp_types::DocumentLink;
-use xmake_code_analysis::{DbIndex, Emmyrc, LuaDocument, file_path_to_uri};
+use xmake_code_analysis::{
+    DbIndex, Emmyrc, LuaDocument, XmakeFunction, file_path_to_uri, get_xmake_function,
+};
 
 pub fn build_links(
     db: &DbIndex,
@@ -31,50 +33,24 @@ fn try_build_file_link(
     token: LuaStringToken,
     document: &LuaDocument,
     result: &mut Vec<DocumentLink>,
-    emmyrc: &Emmyrc,
+    _: &Emmyrc,
 ) -> Option<()> {
     if is_require_path(token.clone()).unwrap_or(false) {
         try_build_module_link(db, token, document, result);
         return Some(());
     }
 
-    let file_path = token.get_value();
-    if file_path.find(|c| c == '\\' || c == '/').is_some() {
-        let suffix_path = PathBuf::from(file_path);
-        if suffix_path.exists() {
-            if let Some(uri) = file_path_to_uri(&suffix_path) {
-                let document_link = DocumentLink {
-                    target: Some(uri),
-                    range: document.to_lsp_range(token.get_range())?,
-                    tooltip: None,
-                    data: None,
-                };
-
-                result.push(document_link);
-            }
-            return Some(());
-        }
-
-        let resource_paths = emmyrc.resource.paths.clone();
-        for resource_path in resource_paths {
-            let full_path = PathBuf::from(resource_path).join(&suffix_path);
-            if full_path.exists() {
-                if let Some(uri) = file_path_to_uri(&full_path) {
-                    let document_link = DocumentLink {
-                        target: Some(uri),
-                        range: document.to_lsp_range(token.get_range())?,
-                        tooltip: None,
-                        data: None,
-                    };
-
-                    result.push(document_link);
-                }
+    if let Some(xmake_func) = get_xmake_call(token.clone()) {
+        match xmake_func {
+            XmakeFunction::Import => {
+                try_build_import_module_link(db, token, document, result);
                 return Some(());
             }
+            _ => {}
         }
     }
 
-    Some(())
+    try_build_relative_path(token, document, result)
 }
 
 fn try_build_module_link(
@@ -103,6 +79,32 @@ fn try_build_module_link(
     Some(())
 }
 
+fn try_build_import_module_link(
+    db: &DbIndex,
+    token: LuaStringToken,
+    document: &LuaDocument,
+    result: &mut Vec<DocumentLink>,
+) -> Option<()> {
+    let module_path = token.get_value();
+    let module_index = db.get_module_index();
+    let source_file_id = document.get_file_id();
+    let founded_module = module_index.find_import(db, &module_path, source_file_id)?;
+    let file_id = founded_module.file_id;
+    let vfs = db.get_vfs();
+    let uri = vfs.get_uri(&file_id)?;
+    let range = token.get_range();
+    let lsp_range = document.to_lsp_range(range)?;
+    let document_link = DocumentLink {
+        target: Some(uri.clone()),
+        range: lsp_range,
+        tooltip: None,
+        data: None,
+    };
+
+    result.push(document_link);
+    Some(())
+}
+
 pub fn is_require_path(token: LuaStringToken) -> Option<bool> {
     let call_expr = token
         .get_parent::<LuaLiteralExpr>()?
@@ -110,4 +112,56 @@ pub fn is_require_path(token: LuaStringToken) -> Option<bool> {
         .get_parent::<LuaCallExpr>()?;
 
     Some(call_expr.is_require())
+}
+
+pub fn get_xmake_call(token: LuaStringToken) -> Option<XmakeFunction> {
+    let call_expr = token
+        .get_parent::<LuaLiteralExpr>()?
+        .get_parent::<LuaCallArgList>()?
+        .get_parent::<LuaCallExpr>()?;
+
+    get_xmake_function(&call_expr)
+}
+
+fn try_build_relative_path(
+    token: LuaStringToken,
+    document: &LuaDocument,
+    result: &mut Vec<DocumentLink>,
+) -> Option<()> {
+    let file_path = token.get_value();
+    if file_path.find(|c| c == '\\' || c == '/').is_some() {
+        let xmake_file_path = document.get_file_path();
+        let xmake_file_dir = xmake_file_path.parent()?;
+        let suffix_path = PathBuf::from(file_path);
+        if suffix_path.exists() {
+            if let Some(uri) = file_path_to_uri(&suffix_path) {
+                let document_link = DocumentLink {
+                    target: Some(uri),
+                    range: document.to_lsp_range(token.get_range())?,
+                    tooltip: None,
+                    data: None,
+                };
+
+                result.push(document_link);
+            }
+            return Some(());
+        }
+
+        let full_path = xmake_file_dir.join(&suffix_path);
+        if full_path.exists() {
+            if let Some(uri) = file_path_to_uri(&full_path) {
+                let document_link = DocumentLink {
+                    target: Some(uri),
+                    range: document.to_lsp_range(token.get_range())?,
+                    tooltip: None,
+                    data: None,
+                };
+
+                result.push(document_link);
+            }
+            return Some(());
+        }
+    }
+
+    Some(())
 }
