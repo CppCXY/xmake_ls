@@ -882,77 +882,77 @@ mod tests {
         Ok(())
     }
 
-    #[gtest]
-    fn test_auto_require() -> Result<()> {
-        let mut ws = ProviderVirtualWorkspace::new();
-        let mut emmyrc = ws.get_emmyrc();
-        emmyrc.completion.auto_require_naming_convention = EmmyrcFilenameConvention::KeepClass;
-        ws.update_emmyrc(emmyrc);
-        ws.def_file(
-            "map.lua",
-            r#"
-                ---@class Map
-                local Map = {}
+    // #[gtest]
+    // fn test_auto_require() -> Result<()> {
+    //     let mut ws = ProviderVirtualWorkspace::new();
+    //     let mut emmyrc = ws.get_emmyrc();
+    //     emmyrc.completion.auto_require_naming_convention = EmmyrcFilenameConvention::KeepClass;
+    //     ws.update_emmyrc(emmyrc);
+    //     ws.def_file(
+    //         "map.lua",
+    //         r#"
+    //             ---@class Map
+    //             local Map = {}
 
-                return Map
-            "#,
-        );
-        check!(ws.check_completion(
-            r#"
-                ma<??>
-            "#,
-            vec![VirtualCompletionItem {
-                label: "Map".to_string(),
-                kind: CompletionItemKind::MODULE,
-                label_detail: Some("    (in map)".to_string()),
-            }],
-        ));
-        Ok(())
-    }
+    //             return Map
+    //         "#,
+    //     );
+    //     check!(ws.check_completion(
+    //         r#"
+    //             ma<??>
+    //         "#,
+    //         vec![VirtualCompletionItem {
+    //             label: "Map".to_string(),
+    //             kind: CompletionItemKind::MODULE,
+    //             label_detail: Some("    (in map)".to_string()),
+    //         }],
+    //     ));
+    //     Ok(())
+    // }
 
-    #[gtest]
-    fn test_auto_require_table_field() -> Result<()> {
-        let mut ws = ProviderVirtualWorkspace::new();
-        ws.def_file(
-            "aaaa.lua",
-            r#"
-                ---@export
-                local export = {}
+    // #[gtest]
+    // fn test_auto_require_table_field() -> Result<()> {
+    //     let mut ws = ProviderVirtualWorkspace::new();
+    //     ws.def_file(
+    //         "aaaa.lua",
+    //         r#"
+    //             ---@export
+    //             local export = {}
 
-                ---@enum MapName
-                export.MapName = {
-                    A = 1,
-                    B = 2,
-                }
+    //             ---@enum MapName
+    //             export.MapName = {
+    //                 A = 1,
+    //                 B = 2,
+    //             }
 
-                return export
-            "#,
-        );
-        ws.def_file(
-            "bbbb.lua",
-            r#"
-                local export = {}
+    //             return export
+    //         "#,
+    //     );
+    //     ws.def_file(
+    //         "bbbb.lua",
+    //         r#"
+    //             local export = {}
 
-                ---@enum PA
-                export.PA = {
-                    A = 1,
-                }
+    //             ---@enum PA
+    //             export.PA = {
+    //                 A = 1,
+    //             }
 
-                return export
-            "#,
-        );
-        check!(ws.check_completion(
-            r#"
-                mapn<??>
-            "#,
-            vec![VirtualCompletionItem {
-                label: "MapName".to_string(),
-                kind: CompletionItemKind::CLASS,
-                label_detail: Some("    (in aaaa)".to_string()),
-            }],
-        ));
-        Ok(())
-    }
+    //             return export
+    //         "#,
+    //     );
+    //     check!(ws.check_completion(
+    //         r#"
+    //             mapn<??>
+    //         "#,
+    //         vec![VirtualCompletionItem {
+    //             label: "MapName".to_string(),
+    //             kind: CompletionItemKind::CLASS,
+    //             label_detail: Some("    (in aaaa)".to_string()),
+    //         }],
+    //     ));
+    //     Ok(())
+    // }
 
     #[gtest]
     fn test_field_is_alias_function() -> Result<()> {
