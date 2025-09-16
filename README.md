@@ -10,7 +10,6 @@ A language server designed specifically for the XMake build system, developed ba
 - **Error Detection** - Real-time detection of syntax errors and XMake configuration issues
 - **Code Navigation** - Supports go to definition, find references, and symbol navigation
 - **Hover Information** - Displays function documentation, parameter descriptions, and usage examples
-- **Code Formatting** - Automatically formats XMake script code
 
 ### XMake-Specific Features
 - **XMake API Support** - Complete XMake 2.7.7+ API definitions and documentation
