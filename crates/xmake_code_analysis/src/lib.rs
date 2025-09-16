@@ -112,7 +112,7 @@ impl XmakeAnalysis {
         self.compilation
             .get_db_mut()
             .get_module_index_mut()
-            .add_workspace_root(root, WorkspaceId::INTERNAL_IMPORT);
+            .add_workspace_root(root, WorkspaceId::BUILTIN_IMPORT);
     }
 
     pub fn update_file_by_uri(&mut self, uri: &Uri, text: Option<String>) -> Option<FileId> {

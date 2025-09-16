@@ -22,6 +22,7 @@ use std::{
 pub struct LuaModuleIndex {
     module_patterns: Vec<Regex>,
     module_root_id: ModuleNodeId,
+    import_root_id: ModuleNodeId,
     module_nodes: HashMap<ModuleNodeId, ModuleNode>,
     file_module_map: HashMap<FileId, ModuleInfo>,
     module_name_to_file_ids: HashMap<String, Vec<FileId>>,
@@ -36,17 +37,20 @@ impl LuaModuleIndex {
         let mut index = Self {
             module_patterns: Vec::new(),
             module_root_id: ModuleNodeId { id: 0 },
+            import_root_id: ModuleNodeId { id: 1 },
             module_nodes: HashMap::new(),
             file_module_map: HashMap::new(),
             module_name_to_file_ids: HashMap::new(),
             workspaces: Vec::new(),
-            id_counter: 1,
+            id_counter: 2,
             fuzzy_search: false,
             module_replace_vec: Vec::new(),
         };
 
         let root_node = ModuleNode::default();
         index.module_nodes.insert(index.module_root_id, root_node);
+        let import_node = ModuleNode::default();
+        index.module_nodes.insert(index.import_root_id, import_node);
 
         index
     }
@@ -124,7 +128,12 @@ impl LuaModuleIndex {
             return None;
         }
 
-        let mut parent_node_id = self.module_root_id;
+        let mut parent_node_id = if workspace_id.is_import() {
+            self.import_root_id
+        } else {
+            self.module_root_id
+        };
+
         for part in &module_parts {
             // I had to struggle with Rust's ownership rules, making the code look like this.
             let child_id = {
@@ -223,7 +232,7 @@ impl LuaModuleIndex {
             return None;
         }
 
-        let result = self.exact_find_module(&module_parts);
+        let result = self.exact_find_module(&module_parts, self.module_root_id);
         if result.is_some() {
             return result;
         }
@@ -261,44 +270,20 @@ impl LuaModuleIndex {
             return self.file_module_map.get(&target_file_id);
         }
 
-        // try to find in the same workspace
-        let builtin_workspace_id = WorkspaceId::INTERNAL_IMPORT;
-        for module_info in self.file_module_map.values() {
-            if module_info.workspace_id == builtin_workspace_id
-                && module_info.full_module_name == module_path
-            {
-                return Some(module_info);
-            }
+        let result = self.exact_find_module(&module_parts, self.import_root_id);
+        if result.is_some() {
+            return result;
         }
 
         None
     }
 
-    // todo
-    pub fn get_internal_import_file_ids(&self, _: &str) -> Vec<FileId> {
-        // if module_path.is_empty() {
-        //     return self.module_nodes.get(&self.module_root_id);
-        // }
-
-        // let module_path = module_path.replace(['\\', '/'], ".");
-        // let module_parts: Vec<&str> = module_path.split('.').collect();
-        // if module_parts.is_empty() {
-        //     return None;
-        // }
-
-        // let mut parent_node_id = self.module_root_id;
-        // for part in &module_parts {
-        //     let parent_node = self.module_nodes.get(&parent_node_id)?;
-        //     let child_id = parent_node.children.get(*part)?;
-        //     parent_node_id = *child_id;
-        // }
-
-        // self.module_nodes.get(&parent_node_id)
-        vec![]
-    }
-
-    fn exact_find_module(&self, module_parts: &Vec<&str>) -> Option<&ModuleInfo> {
-        let mut parent_node_id = self.module_root_id;
+    fn exact_find_module(
+        &self,
+        module_parts: &Vec<&str>,
+        root_id: ModuleNodeId,
+    ) -> Option<&ModuleInfo> {
+        let mut parent_node_id = root_id;
         for part in module_parts {
             let parent_node = self.module_nodes.get(&parent_node_id)?;
             let child_id = match parent_node.children.get(*part) {
@@ -345,6 +330,26 @@ impl LuaModuleIndex {
         }
 
         let mut parent_node_id = self.module_root_id;
+        for part in &module_parts {
+            let parent_node = self.module_nodes.get(&parent_node_id)?;
+            let child_id = parent_node.children.get(*part)?;
+            parent_node_id = *child_id;
+        }
+
+        self.module_nodes.get(&parent_node_id)
+    }
+
+    pub fn find_import_node(&self, module_path: &str) -> Option<&ModuleNode> {
+        if module_path.is_empty() {
+            return self.module_nodes.get(&self.import_root_id);
+        }
+
+        let module_parts: Vec<&str> = module_path.split('.').collect();
+        if module_parts.is_empty() {
+            return None;
+        }
+
+        let mut parent_node_id = self.import_root_id;
         for part in &module_parts {
             let parent_node = self.module_nodes.get(&parent_node_id)?;
             let child_id = parent_node.children.get(*part)?;

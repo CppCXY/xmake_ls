@@ -21,7 +21,7 @@ pub struct WorkspaceId {
 impl WorkspaceId {
     pub const STD: WorkspaceId = WorkspaceId { id: 0 };
     pub const MAIN: WorkspaceId = WorkspaceId { id: 1 };
-    pub const INTERNAL_IMPORT: WorkspaceId = WorkspaceId { id: 65535 };
+    pub const BUILTIN_IMPORT: WorkspaceId = WorkspaceId { id: 65535 };
 
     pub fn is_library(&self) -> bool {
         self.id > 1

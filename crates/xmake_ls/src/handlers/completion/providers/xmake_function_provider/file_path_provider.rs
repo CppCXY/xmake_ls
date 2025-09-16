@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use emmylua_parser::LuaStringToken;
-use lsp_types::{CompletionItem, TextEdit};
+use lsp_types::{CompletionItem, CompletionTextEdit, TextEdit};
 use xmake_code_analysis::file_path_to_uri;
 
 use crate::handlers::completion::{
@@ -9,7 +9,7 @@ use crate::handlers::completion::{
 };
 
 pub fn add_completion(builder: &mut CompletionBuilder, string_token: LuaStringToken) -> Option<()> {
-    let text_edit_range = get_text_edit_range_in_string(builder, string_token.clone())?;
+    let text_edit_range = get_text_edit_range_in_string(builder, string_token.clone());
     let text = string_token.get_value();
     let document = builder.semantic_model.get_document();
     let file_path = document.get_file_path();
@@ -49,7 +49,7 @@ pub fn add_file_path_completion(
     path: &PathBuf,
     name: &str,
     prefix: &str,
-    text_edit_range: lsp_types::Range,
+    text_edit_range: Option<lsp_types::Range>,
 ) -> Option<()> {
     let kind: lsp_types::CompletionItemKind = if path.is_dir() {
         lsp_types::CompletionItemKind::FOLDER
@@ -63,15 +63,17 @@ pub fn add_file_path_completion(
     };
 
     let filter_text = format!("{}{}", prefix, name);
-    let text_edit = TextEdit {
-        range: text_edit_range.clone(),
-        new_text: filter_text.clone(),
-    };
+    let text_edit = text_edit_range.map(|text_edit_range| {
+        CompletionTextEdit::Edit(TextEdit {
+            range: text_edit_range.clone(),
+            new_text: filter_text.clone(),
+        })
+    });
     let completion_item = CompletionItem {
         label: name.to_string(),
         kind: Some(kind),
         filter_text: Some(filter_text.clone()),
-        text_edit: Some(lsp_types::CompletionTextEdit::Edit(text_edit)),
+        text_edit,
         detail,
         ..Default::default()
     };

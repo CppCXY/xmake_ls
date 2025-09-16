@@ -13,7 +13,7 @@ use crate::handlers::completion::{
 };
 
 pub fn add_completion(builder: &mut CompletionBuilder, string_token: LuaStringToken) -> Option<()> {
-    let text_edit_range = get_text_edit_range_in_string(builder, string_token.clone())?;
+    let text_edit_range = get_text_edit_range_in_string(builder, string_token.clone());
     let prefix_content = string_token.get_value();
     let document = builder.semantic_model.get_document();
     let file_path = document.get_file_path();
@@ -32,7 +32,7 @@ pub fn add_completion(builder: &mut CompletionBuilder, string_token: LuaStringTo
 fn add_modules(
     builder: &mut CompletionBuilder,
     module_path: &str,
-    text_edit_range: lsp_types::Range,
+    text_edit_range: Option<lsp_types::Range>,
     xmake_file_dir: &PathBuf,
 ) -> Option<()> {
     let prefix = if let Some(last_sep) = module_path.rfind(|c| c == '.') {
@@ -69,50 +69,47 @@ fn add_modules(
     }
     let db = builder.semantic_model.get_db();
     let mut module_completions = Vec::new();
-    let internal_imports = db.get_module_index().get_internal_import_file_ids(prefix);
-
-    for file_id in internal_imports {
-        let module_info = db.get_module_index().get_module(file_id)?;
-        let module_path = &module_info.full_module_name;
-        let strip_name = if let Some(name) = module_path.strip_prefix(prefix) {
-            name
-        } else {
-            continue;
-        };
-
-        if strip_name.is_empty() {
-            continue;
-        }
-
-        let name = if let Some(pos) = strip_name.find('.') {
-            &strip_name[..pos]
-        } else {
-            strip_name
-        };
-
+    let prefix_module_path = parts.join(".");
+    let module_info = db.get_module_index().find_import_node(&prefix_module_path)?;
+    for (name, module_id) in &module_info.children {
+        let child_module_node = db.get_module_index().get_module_node(module_id)?;
         let filter_text = format!("{}{}", prefix, name);
-        let text_edit = CompletionTextEdit::Edit(TextEdit {
-            range: text_edit_range.clone(),
-            new_text: filter_text.clone(),
+        let text_edit = text_edit_range.map(|text_edit_range| {
+            CompletionTextEdit::Edit(TextEdit {
+                range: text_edit_range.clone(),
+                new_text: filter_text.clone(),
+            })
         });
+        if let Some(child_file_id) = child_module_node.file_ids.first() {
+            let child_module_info = db.get_module_index().get_module(*child_file_id)?;
+            let data = if let Some(property_id) = &child_module_info.semantic_id {
+                CompletionData::from_property_owner_id(builder, property_id.clone(), None)
+            } else {
+                None
+            };
 
-        let data = if let Some(property_id) = &module_info.semantic_id {
-            CompletionData::from_property_owner_id(builder, property_id.clone(), None)
+            let uri = db.get_vfs().get_uri(child_file_id)?;
+            let completion_item = CompletionItem {
+                label: name.clone(),
+                kind: Some(lsp_types::CompletionItemKind::FILE),
+                filter_text: Some(filter_text.clone()),
+                text_edit,
+                detail: Some(uri.to_string()),
+                data,
+                ..Default::default()
+            };
+            module_completions.push(completion_item);
         } else {
-            None
-        };
+            let completion_item = CompletionItem {
+                label: name.clone(),
+                kind: Some(lsp_types::CompletionItemKind::FOLDER),
+                filter_text: Some(filter_text.clone()),
+                text_edit,
+                ..Default::default()
+            };
 
-        let uri = db.get_vfs().get_uri(&file_id)?;
-        let completion_item = CompletionItem {
-            label: name.to_string(),
-            kind: Some(lsp_types::CompletionItemKind::FILE),
-            filter_text: Some(filter_text.clone()),
-            text_edit: Some(text_edit),
-            detail: Some(uri.to_string()),
-            data,
-            ..Default::default()
-        };
-        module_completions.push(completion_item);
+            module_completions.push(completion_item);
+        }
     }
 
     for completion_item in module_completions {
