@@ -61,7 +61,7 @@ pub async fn init_xmake(context: &ServerContextSnapshot) {
         // other xmake lib paths can be added here if needed
     ];
     for lib_workspace in &xmake_worksapce {
-        analysis.add_internal_import_workspace(lib_workspace.clone());
+        analysis.add_builtin_import_workspace(lib_workspace.clone());
     }
 
     let xmake_lib_files = collect_files(&xmake_worksapce, &emmyrc);

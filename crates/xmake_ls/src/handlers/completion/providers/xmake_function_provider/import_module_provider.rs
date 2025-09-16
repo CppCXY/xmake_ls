@@ -70,7 +70,9 @@ fn add_modules(
     let db = builder.semantic_model.get_db();
     let mut module_completions = Vec::new();
     let prefix_module_path = parts.join(".");
-    let module_info = db.get_module_index().find_import_node(&prefix_module_path)?;
+    let module_info = db
+        .get_module_index()
+        .find_import_node(&prefix_module_path)?;
     for (name, module_id) in &module_info.children {
         let child_module_node = db.get_module_index().get_module_node(module_id)?;
         let filter_text = format!("{}{}", prefix, name);

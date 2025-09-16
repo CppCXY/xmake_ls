@@ -60,7 +60,7 @@ fn module_analyze(
                 .get_module_index_mut()
                 .add_module_by_path(file_id, path_str);
             let workspace_id = workspace_id.unwrap_or(WorkspaceId::MAIN);
-            let mut context = AnalyzeContext::new(config);
+            let mut context = AnalyzeContext::new(config, workspace_id);
             context.add_tree_chunk(in_filed_tree);
             return vec![(workspace_id, context)];
         }
@@ -94,14 +94,14 @@ fn module_analyze(
 
     let mut contexts = Vec::new();
     if let Some(std_lib) = file_tree_map.remove(&WorkspaceId::STD) {
-        let mut context = AnalyzeContext::new(config.clone());
+        let mut context = AnalyzeContext::new(config.clone(), WorkspaceId::STD);
         context.tree_list = std_lib;
         contexts.push((WorkspaceId::STD, context));
     }
 
     let mut main_vec = Vec::new();
     for (workspace_id, tree_list) in file_tree_map {
-        let mut context = AnalyzeContext::new(config.clone());
+        let mut context = AnalyzeContext::new(config.clone(), workspace_id);
         context.tree_list = tree_list;
         if workspace_id.is_library() {
             contexts.push((workspace_id, context));
@@ -123,15 +123,17 @@ pub struct AnalyzeContext {
     config: Arc<Emmyrc>,
     unresolves: Vec<(UnResolve, InferFailReason)>,
     infer_manager: InferCacheManager,
+    workspace_id: WorkspaceId,
 }
 
 impl AnalyzeContext {
-    pub fn new(emmyrc: Arc<Emmyrc>) -> Self {
+    pub fn new(emmyrc: Arc<Emmyrc>, workspace_id: WorkspaceId) -> Self {
         Self {
             tree_list: Vec::new(),
             config: emmyrc,
             unresolves: Vec::new(),
             infer_manager: InferCacheManager::new(),
+            workspace_id,
         }
     }
 

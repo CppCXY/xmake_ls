@@ -208,6 +208,7 @@ impl<'a> DeclAnalyzer<'a> {
     }
 
     pub fn add_decl(&mut self, decl: LuaDecl) -> LuaDeclId {
+        let is_test = self.is_test();
         let is_global = decl.is_global();
         let file_id = decl.get_file_id();
         let name = decl.get_name().to_string();
@@ -217,7 +218,7 @@ impl<'a> DeclAnalyzer<'a> {
         self.add_decl_to_current_scope(id);
 
         // if test
-        if cfg!(test) {
+        if is_test {
             if is_global {
                 self.db.get_global_index_mut().add_global_decl(&name, id);
 
@@ -241,6 +242,10 @@ impl<'a> DeclAnalyzer<'a> {
 
     pub fn find_decl(&self, name: &str, position: TextSize) -> Option<&LuaDecl> {
         self.decl.find_local_decl(name, position)
+    }
+
+    pub fn is_test(&self) -> bool {
+        self.context.workspace_id.is_test()
     }
 }
 

@@ -21,10 +21,12 @@ pub struct WorkspaceId {
 impl WorkspaceId {
     pub const STD: WorkspaceId = WorkspaceId { id: 0 };
     pub const MAIN: WorkspaceId = WorkspaceId { id: 1 };
+    pub const LIB_MAX: u32 = 59999;
+    pub const TEST: WorkspaceId = WorkspaceId { id: 60000 };
     pub const BUILTIN_IMPORT: WorkspaceId = WorkspaceId { id: 65535 };
 
     pub fn is_library(&self) -> bool {
-        self.id > 1
+        self.id > 1 && self.id < Self::TEST.id
     }
 
     pub fn is_main(&self) -> bool {
@@ -36,7 +38,11 @@ impl WorkspaceId {
     }
 
     pub fn is_import(&self) -> bool {
-        self.id >= 1
+        self.id == Self::BUILTIN_IMPORT.id
+    }
+
+    pub fn is_test(&self) -> bool {
+        self.id == Self::TEST.id
     }
 }
 

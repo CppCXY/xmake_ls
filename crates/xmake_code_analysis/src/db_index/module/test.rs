@@ -82,21 +82,21 @@ mod tests {
             Path::new("C:/Users/username/Documents").into(),
             WorkspaceId::MAIN,
         );
-        let file_id = FileId { id: 1 };
+        let file_id = FileId { id: 2 };
         m.add_module_by_path(file_id, "C:/Users/username/Documents/test.lua");
         let module_info = m.find_module("test").unwrap();
         assert_eq!(module_info.name, "test");
         assert_eq!(module_info.full_module_name, "test");
         assert_eq!(module_info.visible, true);
 
-        let file_id = FileId { id: 2 };
+        let file_id = FileId { id: 3 };
         m.add_module_by_path(file_id, "C:/Users/username/Documents/test2/init.lua");
         let module_info = m.find_module("test2").unwrap();
         assert_eq!(module_info.name, "test2");
         assert_eq!(module_info.full_module_name, "test2");
         assert_eq!(module_info.visible, true);
 
-        let file_id = FileId { id: 3 };
+        let file_id = FileId { id: 4 };
         m.add_module_by_path(file_id, "C:/Users/username/Documents/test3/hhhhiii.lua");
         let module_info = m.find_module("test3.hhhhiii").unwrap();
         assert_eq!(module_info.name, "hhhhiii");

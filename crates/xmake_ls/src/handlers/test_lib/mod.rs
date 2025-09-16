@@ -116,7 +116,7 @@ impl ProviderVirtualWorkspace {
         let generator = VirtualUrlGenerator::new();
         let mut analysis = XmakeAnalysis::new();
         let base = &generator.base;
-        analysis.add_main_workspace(base.clone());
+        analysis.add_test_workspace(base.clone());
         ProviderVirtualWorkspace {
             virtual_url_generator: generator,
             analysis,
@@ -129,7 +129,7 @@ impl ProviderVirtualWorkspace {
         let mut analysis = XmakeAnalysis::new();
         analysis.init_std_lib(None);
         let base = &generator.base;
-        analysis.add_main_workspace(base.clone());
+        analysis.add_test_workspace(base.clone());
         ProviderVirtualWorkspace {
             virtual_url_generator: generator,
             analysis,

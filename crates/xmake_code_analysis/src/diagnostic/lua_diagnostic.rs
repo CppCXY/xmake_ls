@@ -41,7 +41,7 @@ impl LuaDiagnostic {
 
         let db = compilation.get_db();
         if let Some(module_info) = db.get_module_index().get_workspace_id(file_id) {
-            if !module_info.is_main() {
+            if module_info.is_library() || module_info.is_import() || module_info.is_std() {
                 return None;
             }
         }

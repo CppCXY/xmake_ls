@@ -242,7 +242,7 @@ pub fn analyze_func_stat(analyzer: &mut DeclAnalyzer, stat: LuaFuncStat) -> Opti
             let name = name_token.get_name_text();
             let range = name_token.get_range();
 
-            let extra = if analyzer.is_meta {
+            let extra = if analyzer.is_meta || analyzer.is_test() {
                 LuaDeclExtra::Global {
                     kind: LuaSyntaxKind::NameExpr.into(),
                 }
