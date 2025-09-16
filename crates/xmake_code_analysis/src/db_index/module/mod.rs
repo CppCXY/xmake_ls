@@ -367,6 +367,16 @@ impl LuaModuleIndex {
         self.file_module_map.values().collect()
     }
 
+    pub fn get_builtin_import_module_infos(&self) -> Vec<&ModuleInfo> {
+        let mut infos = Vec::new();
+        for info in self.file_module_map.values() {
+            if info.workspace_id.is_import() {
+                infos.push(info);
+            }
+        }
+        infos
+    }
+
     pub fn extract_module_path(&self, path: &str) -> Option<(String, WorkspaceId)> {
         let path = Path::new(path);
         let mut matched_module_path: Option<(String, WorkspaceId)> = None;

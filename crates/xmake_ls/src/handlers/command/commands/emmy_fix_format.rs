@@ -7,7 +7,7 @@ use super::CommandSpec;
 pub struct FixFormatCommand;
 
 impl CommandSpec for FixFormatCommand {
-    const COMMAND: &str = "emmy.fix.format";
+    const COMMAND: &str = "xmake.fix.format";
 
     #[allow(unused)]
     async fn handle(context: ServerContextSnapshot, args: Vec<Value>) -> Option<()> {

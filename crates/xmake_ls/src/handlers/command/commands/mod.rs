@@ -1,21 +1,22 @@
 use std::sync::LazyLock;
 
 use emmy_add_doc_tag::AddDocTagCommand;
-use emmy_auto_require::AutoRequireCommand;
 use emmy_disable_code::DisableCodeCommand;
 use emmy_fix_format::FixFormatCommand;
 use serde_json::Value;
+use xmake_auto_require::AutoRequireCommand;
 
 use crate::context::ServerContextSnapshot;
 
 mod emmy_add_doc_tag;
-mod emmy_auto_require;
 mod emmy_disable_code;
 mod emmy_fix_format;
+mod xmake_auto_require;
 
 pub use emmy_add_doc_tag::make_auto_doc_tag_command;
-pub use emmy_auto_require::make_auto_require;
+#[allow(unused)]
 pub use emmy_disable_code::{DisableAction, make_disable_code_command};
+pub use xmake_auto_require::make_auto_import;
 
 pub trait CommandSpec {
     const COMMAND: &str;

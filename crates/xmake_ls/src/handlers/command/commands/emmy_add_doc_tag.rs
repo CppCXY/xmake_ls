@@ -12,7 +12,7 @@ use super::CommandSpec;
 pub struct AddDocTagCommand;
 
 impl CommandSpec for AddDocTagCommand {
-    const COMMAND: &str = "emmy.add.doctag";
+    const COMMAND: &str = "xmake.add.doctag";
 
     async fn handle(context: ServerContextSnapshot, args: Vec<Value>) -> Option<()> {
         let tag_name: String = serde_json::from_value(args.get(0)?.clone()).ok()?;

@@ -71,9 +71,9 @@ fn analyze_import(analyzer: &mut DeclAnalyzer, call_expr: &LuaCallExpr) -> Optio
     let decl = LuaDecl::new(
         &local_name,
         analyzer.get_file_id(),
-        call_expr.get_range(),
+        first_arg.get_range(),
         LuaDeclExtra::Local {
-            kind: call_expr.syntax().kind(),
+            kind: first_arg.syntax().kind(),
             attrib: None,
         },
         None,

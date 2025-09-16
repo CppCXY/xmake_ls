@@ -56,15 +56,15 @@ pub async fn init_xmake(context: &ServerContextSnapshot) {
 
     let mut analysis = context.analysis().write().await;
     let emmyrc = analysis.get_emmyrc();
-    let xmake_worksapce = vec![
+    let xmake_workspace = vec![
         xmake_dir_path.join("core/sandbox/modules/import"),
         // other xmake lib paths can be added here if needed
     ];
-    for lib_workspace in &xmake_worksapce {
+    for lib_workspace in &xmake_workspace {
         analysis.add_builtin_import_workspace(lib_workspace.clone());
     }
 
-    let xmake_lib_files = collect_files(&xmake_worksapce, &emmyrc);
+    let xmake_lib_files = collect_files(&xmake_workspace, &emmyrc);
 
     let files: Vec<(PathBuf, Option<String>)> = xmake_lib_files
         .into_iter()

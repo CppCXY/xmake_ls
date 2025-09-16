@@ -9,10 +9,7 @@ use xmake_code_analysis::{DiagnosticCode, FileId, SemanticModel};
 use super::actions::{
     build_add_doc_tag, build_disable_file_changes, build_disable_next_line_changes,
 };
-use crate::handlers::{
-    code_actions::actions::build_need_check_nil,
-    command::{DisableAction, make_disable_code_command},
-};
+use crate::handlers::code_actions::actions::build_need_check_nil;
 
 pub fn build_actions(
     semantic_model: &SemanticModel,
@@ -80,7 +77,7 @@ fn add_disable_code_action(
     semantic_model: &SemanticModel,
     actions: &mut Vec<CodeActionOrCommand>,
     diagnostic_code: DiagnosticCode,
-    file_id: FileId,
+    _: FileId,
     range: Range,
 ) -> Option<()> {
     // LuaSyntaxError no need to disable
@@ -116,27 +113,28 @@ fn add_disable_code_action(
         ..Default::default()
     }));
 
-    actions.push(CodeActionOrCommand::CodeAction(CodeAction {
-        title: t!(
-            "Disable all diagnostics in current project (%{name})",
-            name = diagnostic_code.get_name()
-        )
-        .to_string(),
-        kind: Some(CodeActionKind::QUICKFIX),
-        command: Some(make_disable_code_command(
-            &t!(
-                "Disable all diagnostics in current project (%{name})",
-                name = diagnostic_code.get_name()
-            )
-            .to_string(),
-            DisableAction::DisableProject,
-            diagnostic_code,
-            file_id,
-            range,
-        )),
+    // no .emmyrc
+    // actions.push(CodeActionOrCommand::CodeAction(CodeAction {
+    //     title: t!(
+    //         "Disable all diagnostics in current project (%{name})",
+    //         name = diagnostic_code.get_name()
+    //     )
+    //     .to_string(),
+    //     kind: Some(CodeActionKind::QUICKFIX),
+    //     command: Some(make_disable_code_command(
+    //         &t!(
+    //             "Disable all diagnostics in current project (%{name})",
+    //             name = diagnostic_code.get_name()
+    //         )
+    //         .to_string(),
+    //         DisableAction::DisableProject,
+    //         diagnostic_code,
+    //         file_id,
+    //         range,
+    //     )),
 
-        ..Default::default()
-    }));
+    //     ..Default::default()
+    // }));
 
     Some(())
 }

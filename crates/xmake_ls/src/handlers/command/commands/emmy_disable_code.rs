@@ -21,7 +21,7 @@ pub enum DisableAction {
 pub struct DisableCodeCommand;
 
 impl CommandSpec for DisableCodeCommand {
-    const COMMAND: &str = "emmy.disable.code";
+    const COMMAND: &str = "xmake.disable.code";
 
     async fn handle(context: ServerContextSnapshot, args: Vec<Value>) -> Option<()> {
         let action: DisableAction = serde_json::from_value(args.get(0)?.clone()).ok()?;
@@ -38,6 +38,7 @@ impl CommandSpec for DisableCodeCommand {
     }
 }
 
+#[allow(unused)]
 pub fn make_disable_code_command(
     title: &str,
     action: DisableAction,

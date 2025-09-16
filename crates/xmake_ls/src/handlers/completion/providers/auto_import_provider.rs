@@ -4,7 +4,7 @@ use xmake_code_analysis::{EmmyrcFilenameConvention, LuaType, ModuleInfo, check_e
 
 use crate::{
     handlers::{
-        command::make_auto_require,
+        command::make_auto_import,
         completion::{
             add_completions::get_completion_kind, completion_builder::CompletionBuilder,
             completion_data::CompletionData,
@@ -31,7 +31,7 @@ pub fn add_completion(builder: &mut CompletionBuilder) -> Option<()> {
     let version_number = emmyrc.runtime.version.to_lua_version_number();
     let file_id = builder.semantic_model.get_file_id();
     let module_index = builder.semantic_model.get_db().get_module_index();
-    let module_infos = module_index.get_module_infos();
+    let module_infos = module_index.get_builtin_import_module_infos();
     let range = builder.trigger_token.text_range();
     let document = builder.semantic_model.get_document();
     let lsp_position = document.to_lsp_range(range)?.start;
@@ -102,7 +102,7 @@ fn add_module_completion_item(
             detail: Some(format!("    (in {})", module_info.full_module_name)),
             ..Default::default()
         }),
-        command: Some(make_auto_require(
+        command: Some(make_auto_import(
             "",
             builder.semantic_model.get_file_id(),
             module_info.file_id,
@@ -181,7 +181,7 @@ fn try_add_member_completion_items(
                                 detail: Some(format!("    (in {})", module_info.full_module_name)),
                                 ..Default::default()
                             }),
-                            command: Some(make_auto_require(
+                            command: Some(make_auto_import(
                                 "",
                                 builder.semantic_model.get_file_id(),
                                 module_info.file_id,
