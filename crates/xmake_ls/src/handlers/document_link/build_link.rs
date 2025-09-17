@@ -46,6 +46,10 @@ fn try_build_file_link(
                 try_build_import_module_link(db, token, document, result);
                 return Some(());
             }
+            XmakeFunction::Includes => {
+                try_build_include_module_link(db, token, document, result);
+                return Some(());
+            }
             _ => {}
         }
     }
@@ -89,6 +93,32 @@ fn try_build_import_module_link(
     let module_index = db.get_module_index();
     let source_file_id = document.get_file_id();
     let founded_module = module_index.find_import(db, &module_path, source_file_id)?;
+    let file_id = founded_module.file_id;
+    let vfs = db.get_vfs();
+    let uri = vfs.get_uri(&file_id)?;
+    let range = token.get_range();
+    let lsp_range = document.to_lsp_range(range)?;
+    let document_link = DocumentLink {
+        target: Some(uri.clone()),
+        range: lsp_range,
+        tooltip: None,
+        data: None,
+    };
+
+    result.push(document_link);
+    Some(())
+}
+
+fn try_build_include_module_link(
+    db: &DbIndex,
+    token: LuaStringToken,
+    document: &LuaDocument,
+    result: &mut Vec<DocumentLink>,
+) -> Option<()> {
+    let module_path = token.get_value();
+    let module_index = db.get_module_index();
+    let source_file_id = document.get_file_id();
+    let founded_module = module_index.find_include(db, &module_path, source_file_id)?;
     let file_id = founded_module.file_id;
     let vfs = db.get_vfs();
     let uri = vfs.get_uri(&file_id)?;

@@ -1,4 +1,4 @@
-use emmylua_parser::{BinaryOperator, LuaAstNode, LuaExpr, LuaIndexExpr, LuaNameExpr};
+use std::collections::HashSet;
 
 use super::{InferFailReason, InferResult};
 use crate::{
@@ -8,6 +8,7 @@ use crate::{
     infer_node_semantic_decl,
     semantic::infer::narrow::{VarRefId, infer_expr_narrow_type},
 };
+use emmylua_parser::{BinaryOperator, LuaAstNode, LuaExpr, LuaIndexExpr, LuaNameExpr};
 
 pub fn infer_name_expr(
     db: &DbIndex,
@@ -37,6 +38,12 @@ pub fn infer_name_expr(
             VarRefId::VarRef(decl_id),
         )
     } else {
+        // xmake include env
+        let include_env_type = infer_include_env_type(db, cache, &name)?;
+        if let EnvType::Found(include_env_type) = include_env_type {
+            return Ok(include_env_type);
+        }
+
         // xmake workaround
         if let Some(LuaExpr::BinaryExpr(binary_expr)) = name_expr.get_parent::<LuaExpr>() {
             if let Some(op) = binary_expr.get_op_token() {
@@ -347,6 +354,65 @@ fn find_param_type_from_union(
         }
         _ => None,
     }
+}
+
+pub enum EnvType {
+    Found(LuaType),
+    NotFound,
+}
+
+pub fn infer_include_env_type(
+    db: &DbIndex,
+    cache: &mut LuaInferCache,
+    name: &str,
+) -> Result<EnvType, InferFailReason> {
+    let mut visited_file_ids = HashSet::new();
+    visited_file_ids.insert(cache.get_file_id());
+
+    let mut file_id_stack = vec![];
+    let include_dependencies = match db.get_xmake_index().get_includes(cache.get_file_id()) {
+        Some(deps) => deps,
+        None => return Ok(EnvType::NotFound),
+    };
+    file_id_stack.extend(include_dependencies.iter().cloned());
+    visited_file_ids.extend(include_dependencies.iter().cloned());
+    loop {
+        let file_id = match file_id_stack.pop() {
+            Some(id) => id,
+            None => break,
+        };
+
+        let decl_tree = match db.get_decl_index().get_decl_tree(&file_id) {
+            Some(tree) => tree,
+            None => continue,
+        };
+
+        let env_decl = decl_tree.get_export_env_decls();
+        for decl_id in env_decl {
+            if let Some(decl) = decl_tree.get_decl(&decl_id) {
+                if decl.get_name() == name {
+                    let typ = match db.get_type_index().get_type_cache(&decl.get_id().into()) {
+                        Some(type_cache) => type_cache.as_type().clone(),
+                        None => return Err(InferFailReason::UnResolveDeclType(decl.get_id())),
+                    };
+                    return Ok(EnvType::Found(typ));
+                }
+            }
+        }
+
+        let include_dependencies = match db.get_xmake_index().get_includes(file_id) {
+            Some(deps) => deps,
+            None => continue,
+        };
+        for include_file_id in include_dependencies {
+            if !visited_file_ids.contains(include_file_id) {
+                visited_file_ids.insert(*include_file_id);
+                file_id_stack.push(*include_file_id);
+            }
+        }
+    }
+
+    Ok(EnvType::NotFound)
 }
 
 pub fn infer_global_type(db: &DbIndex, name: &str) -> InferResult {

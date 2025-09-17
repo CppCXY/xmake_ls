@@ -247,6 +247,13 @@ impl<'a> DeclAnalyzer<'a> {
     pub fn is_test(&self) -> bool {
         self.context.workspace_id.is_test()
     }
+
+    pub fn add_include_path(&mut self, include_file_id: FileId) {
+        let file_id = self.get_file_id();
+        self.db
+            .get_xmake_index_mut()
+            .add_includes(file_id, include_file_id);
+    }
 }
 
 fn is_method_func_stat(stat: &LuaFuncStat) -> Option<bool> {

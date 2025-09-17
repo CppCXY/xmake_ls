@@ -4,7 +4,6 @@ use lsp_types::{
     NumberOrString, ProgressParams, ProgressParamsValue, WorkDoneProgress, WorkDoneProgressBegin,
     WorkDoneProgressCreateParams, WorkDoneProgressEnd, WorkDoneProgressReport,
 };
-use serde::{Deserialize, Serialize};
 
 use crate::util::time_cancel_token;
 
@@ -105,17 +104,4 @@ impl StatusBar {
             },
         )
     }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct EmmyServerStatus {
-    health: String,
-    loading: bool,
-    message: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct EmmyProgress {
-    text: String,
-    percent: f64,
 }

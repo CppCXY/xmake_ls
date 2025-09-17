@@ -1,12 +1,14 @@
+use std::collections::HashSet;
+
 use emmylua_parser::{
     LuaAstNode, LuaAstToken, LuaClosureExpr, LuaExpr, LuaIndexExpr, LuaNameExpr, LuaStat,
     LuaSyntaxKind,
 };
 
 use crate::{
-    DbIndex, FileId, LuaDeclId, LuaDeclOrMemberId, LuaInferCache, LuaInstanceType, LuaMemberId,
-    LuaMemberKey, LuaMemberOwner, LuaSemanticDeclId, LuaType, LuaTypeCache, LuaTypeDeclId,
-    LuaUnionType,
+    DbIndex, FileId, InferFailReason, LuaDeclId, LuaDeclOrMemberId, LuaInferCache, LuaInstanceType,
+    LuaMemberId, LuaMemberKey, LuaMemberOwner, LuaSemanticDeclId, LuaType, LuaTypeCache,
+    LuaTypeDeclId, LuaUnionType,
     semantic::{infer::find_self_decl_or_member_id, member::get_buildin_type_map_type_id},
 };
 
@@ -127,7 +129,72 @@ fn get_name_decl_id(
         }
     }
 
+    // env decl
+    if let Ok(env_decl) = infer_include_env_decl_id(db, cache, name) {
+        match env_decl {
+            EnvDecl::Found(decl_id) => {
+                return Some(decl_id);
+            }
+            EnvDecl::NotFound => {}
+        }
+    }
+
     db.get_global_index().resolve_global_decl_id(db, name)
+}
+
+enum EnvDecl {
+    Found(LuaDeclId),
+    NotFound,
+}
+
+fn infer_include_env_decl_id(
+    db: &DbIndex,
+    cache: &mut LuaInferCache,
+    name: &str,
+) -> Result<EnvDecl, InferFailReason> {
+    let mut visited_file_ids = HashSet::new();
+    visited_file_ids.insert(cache.get_file_id());
+
+    let mut file_id_stack = vec![];
+    let include_dependencies = match db.get_xmake_index().get_includes(cache.get_file_id()) {
+        Some(deps) => deps,
+        None => return Ok(EnvDecl::NotFound),
+    };
+    file_id_stack.extend(include_dependencies.iter().cloned());
+    visited_file_ids.extend(include_dependencies.iter().cloned());
+    loop {
+        let file_id = match file_id_stack.pop() {
+            Some(id) => id,
+            None => break,
+        };
+
+        let decl_tree = match db.get_decl_index().get_decl_tree(&file_id) {
+            Some(tree) => tree,
+            None => continue,
+        };
+
+        let env_decl = decl_tree.get_export_env_decls();
+        for decl_id in env_decl {
+            if let Some(decl) = decl_tree.get_decl(&decl_id) {
+                if decl.get_name() == name {
+                    return Ok(EnvDecl::Found(decl_id));
+                }
+            }
+        }
+
+        let include_dependencies = match db.get_xmake_index().get_includes(file_id) {
+            Some(deps) => deps,
+            None => continue,
+        };
+        for include_file_id in include_dependencies {
+            if !visited_file_ids.contains(include_file_id) {
+                visited_file_ids.insert(*include_file_id);
+                file_id_stack.push(*include_file_id);
+            }
+        }
+    }
+
+    Ok(EnvDecl::NotFound)
 }
 
 fn infer_self_semantic_decl(

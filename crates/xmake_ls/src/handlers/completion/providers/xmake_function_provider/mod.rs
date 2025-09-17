@@ -1,5 +1,6 @@
 mod file_path_provider;
 mod import_module_provider;
+mod include_module_provider;
 
 use emmylua_parser::{
     LuaAstNode, LuaAstToken, LuaCallArgList, LuaCallExpr, LuaLiteralExpr, LuaStringToken,
@@ -20,11 +21,14 @@ pub fn add_completion(builder: &mut CompletionBuilder) -> Option<()> {
         .get_parent::<LuaCallExpr>()?;
     let xmake_function = get_xmake_function(&call_expr)?;
     match xmake_function {
-        XmakeFunction::AddFiles | XmakeFunction::Includes => {
+        XmakeFunction::AddFiles => {
             file_path_provider::add_completion(builder, string_token);
         }
         XmakeFunction::Import => {
             import_module_provider::add_completion(builder, string_token);
+        }
+        XmakeFunction::Includes => {
+            include_module_provider::add_completion(builder, string_token);
         } // _ => return None,
     }
 

@@ -108,11 +108,11 @@ impl XmakeAnalysis {
             .add_workspace_root(root, id);
     }
 
-    pub fn add_builtin_import_workspace(&mut self, root: PathBuf) {
+    pub fn add_custom_workspace(&mut self, workspace_id: WorkspaceId, root: PathBuf) {
         self.compilation
             .get_db_mut()
             .get_module_index_mut()
-            .add_workspace_root(root, WorkspaceId::BUILTIN_IMPORT);
+            .add_workspace_root(root, workspace_id);
     }
 
     pub fn add_test_workspace(&mut self, root: PathBuf) {

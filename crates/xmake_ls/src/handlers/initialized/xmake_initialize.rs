@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
 use lsp_types::ShowMessageParams;
+use xmake_code_analysis::WorkspaceId;
 
 use crate::{
     context::{ProgressTask, ServerContextSnapshot},
@@ -58,11 +59,12 @@ pub async fn init_xmake(context: &ServerContextSnapshot) {
     let emmyrc = analysis.get_emmyrc();
     let xmake_workspace = vec![
         xmake_dir_path.join("core/sandbox/modules/import"),
+        xmake_dir_path.join("includes"),
         // other xmake lib paths can be added here if needed
     ];
-    for lib_workspace in &xmake_workspace {
-        analysis.add_builtin_import_workspace(lib_workspace.clone());
-    }
+
+    analysis.add_custom_workspace(WorkspaceId::BUILTIN_IMPORT, xmake_workspace[0].clone());
+    analysis.add_custom_workspace(WorkspaceId::BUILTIN_INCLUDE, xmake_workspace[1].clone());
 
     let xmake_lib_files = collect_files(&xmake_workspace, &emmyrc);
 

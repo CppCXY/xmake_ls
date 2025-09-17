@@ -32,6 +32,7 @@ pub fn add_completion(builder: &mut CompletionBuilder) -> Option<()> {
 
     let mut duplicated_name = HashSet::new();
     add_local_env(builder, &mut duplicated_name, &parent_node);
+    add_include_env(builder, &mut duplicated_name, &builder.get_trigger_text());
     add_global_env(builder, &mut duplicated_name, &builder.get_trigger_text());
     add_self(builder, &mut duplicated_name, &parent_node);
     builder.env_duplicate_name.extend(duplicated_name);
@@ -156,26 +157,6 @@ fn add_local_env(
             continue;
         }
 
-        // let flow_id = LuaClosureId::from_node(node.syntax());
-        // let var_ref_id = LuaVarRefId::DeclId(*decl_id);
-        // // 类型缩窄
-        // if let Some(chain) = builder
-        //     .semantic_model
-        //     .get_db()
-        //     .get_flow_index()
-        //     .get_flow_chain(file_id, var_ref_id)
-        // {
-        //     let semantic_model = &builder.semantic_model;
-        //     let db = semantic_model.get_db();
-        //     let root = semantic_model.get_root().syntax();
-        //     let config = semantic_model.get_config();
-        //     for type_assert in chain.get_type_asserts(node.get_position(), flow_id) {
-        //         typ = type_assert
-        //             .tighten_type(db, &mut config.borrow_mut(), root, typ)
-        //             .unwrap_or(LuaType::Unknown);
-        //     }
-        // }
-
         duplicated_name.insert(name.clone());
         add_decl_completion(builder, decl_id.clone(), &name, &typ);
     }
@@ -225,6 +206,80 @@ pub fn add_global_env(
 
         duplicated_name.insert(name.clone());
         add_decl_completion(builder, decl_id.clone(), &name, &typ);
+    }
+
+    Some(())
+}
+
+pub fn add_include_env(
+    builder: &mut CompletionBuilder,
+    duplicated_name: &mut HashSet<String>,
+    trigger_text: &str,
+) -> Option<()> {
+    let source_file_id = builder.semantic_model.get_file_id();
+    let mut visited_file_ids = HashSet::new();
+    visited_file_ids.insert(source_file_id);
+
+    let mut file_id_stack = vec![];
+    let db = builder.semantic_model.get_db();
+    let include_dependencies = db.get_xmake_index().get_includes(source_file_id)?;
+    file_id_stack.extend(include_dependencies.iter().cloned());
+    visited_file_ids.extend(include_dependencies.iter().cloned());
+    let mut results = Vec::new();
+    loop {
+        let file_id = match file_id_stack.pop() {
+            Some(id) => id,
+            None => break,
+        };
+
+        let decl_tree = match db.get_decl_index().get_decl_tree(&file_id) {
+            Some(tree) => tree,
+            None => continue,
+        };
+
+        let env_decl = decl_tree.get_export_env_decls();
+        for decl_id in env_decl {
+            if let Some(decl) = decl_tree.get_decl(&decl_id) {
+                let (name, typ) = {
+                    (
+                        decl.get_name().to_string(),
+                        db.get_type_index()
+                            .get_type_cache(&decl_id.clone().into())
+                            .map(|cache| cache.as_type().clone())
+                            .unwrap_or(LuaType::Unknown),
+                    )
+                };
+                if duplicated_name.contains(&name) {
+                    continue;
+                }
+                if !env_check_match_word(&trigger_text, name.as_str()) {
+                    duplicated_name.insert(name.clone());
+                    continue;
+                }
+
+                if decl.get_range() == builder.trigger_token.text_range() {
+                    continue;
+                }
+
+                duplicated_name.insert(name.clone());
+                results.push((decl_id.clone(), name, typ));
+            }
+        }
+
+        let include_dependencies = match db.get_xmake_index().get_includes(file_id) {
+            Some(deps) => deps,
+            None => continue,
+        };
+        for include_file_id in include_dependencies {
+            if !visited_file_ids.contains(include_file_id) {
+                visited_file_ids.insert(*include_file_id);
+                file_id_stack.push(*include_file_id);
+            }
+        }
+    }
+
+    for (decl_id, name, typ) in results {
+        add_decl_completion(builder, decl_id, &name, &typ);
     }
 
     Some(())

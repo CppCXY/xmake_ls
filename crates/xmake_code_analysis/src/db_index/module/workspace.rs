@@ -23,7 +23,8 @@ impl WorkspaceId {
     pub const MAIN: WorkspaceId = WorkspaceId { id: 1 };
     pub const LIB_MAX: u32 = 59999;
     pub const TEST: WorkspaceId = WorkspaceId { id: 60000 };
-    pub const BUILTIN_IMPORT: WorkspaceId = WorkspaceId { id: 65535 };
+    pub const BUILTIN_IMPORT: WorkspaceId = WorkspaceId { id: 65000 };
+    pub const BUILTIN_INCLUDE: WorkspaceId = WorkspaceId { id: 65001 };
 
     pub fn is_library(&self) -> bool {
         self.id > 1 && self.id < Self::TEST.id
@@ -39,6 +40,10 @@ impl WorkspaceId {
 
     pub fn is_import(&self) -> bool {
         self.id == Self::BUILTIN_IMPORT.id
+    }
+
+    pub fn is_include(&self) -> bool {
+        self.id == Self::BUILTIN_INCLUDE.id
     }
 
     pub fn is_test(&self) -> bool {
@@ -61,6 +66,9 @@ impl fmt::Display for WorkspaceId {
         match self.id {
             0 => write!(f, "std"),
             1 => write!(f, "main"),
+            60000 => write!(f, "test"),
+            65000 => write!(f, "import"),
+            65001 => write!(f, "include"),
             _ => write!(f, "lib{}", self.id - 1),
         }
     }

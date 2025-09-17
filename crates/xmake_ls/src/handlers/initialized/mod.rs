@@ -73,7 +73,10 @@ pub async fn initialized_handler(
     // emmyrc.runtime.require_like_function = vec![];
     emmyrc.runtime.version = EmmyrcLuaVersion::Lua54;
     emmyrc.runtime.require_pattern = vec!["?.xmake.lua".to_string(), "?.lua".to_string()];
-    emmyrc.diagnostics.disable = vec![DiagnosticCode::UnnecessaryIf];
+    emmyrc.diagnostics.disable = vec![
+        DiagnosticCode::UnnecessaryIf,
+        DiagnosticCode::UndefinedGlobal,
+    ];
 
     let arc_emmyrc = Arc::new(emmyrc);
 

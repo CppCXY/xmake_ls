@@ -11,6 +11,9 @@ pub fn analyze_xmake_function_call(
         XmakeFunction::Import => {
             analyze_import(analyzer, call_expr);
         }
+        XmakeFunction::Includes => {
+            analyze_includes(analyzer, call_expr);
+        }
         _ => {}
     }
 
@@ -80,6 +83,33 @@ fn analyze_import(analyzer: &mut DeclAnalyzer, call_expr: &LuaCallExpr) -> Optio
     );
 
     analyzer.add_decl(decl);
+
+    Some(())
+}
+
+fn analyze_includes(analyzer: &mut DeclAnalyzer, call_expr: &LuaCallExpr) -> Option<()> {
+    let arg_list = call_expr.get_args_list()?;
+    let args = arg_list.get_args().collect::<Vec<_>>();
+    if args.is_empty() {
+        return None;
+    }
+
+    let first_arg = &args[0];
+    let string_token = match first_arg {
+        LuaExpr::LiteralExpr(s) => match s.get_literal()? {
+            LuaLiteralToken::String(string_token) => string_token,
+            _ => return None,
+        },
+        _ => return None,
+    };
+
+    let include_path = string_token.get_value();
+    let founded_module_info = analyzer.db.get_module_index().find_include(
+        &analyzer.db,
+        &include_path,
+        analyzer.get_file_id(),
+    )?;
+    analyzer.add_include_path(founded_module_info.file_id);
 
     Some(())
 }

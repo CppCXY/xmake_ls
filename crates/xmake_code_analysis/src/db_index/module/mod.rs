@@ -23,6 +23,7 @@ pub struct LuaModuleIndex {
     module_patterns: Vec<Regex>,
     module_root_id: ModuleNodeId,
     import_root_id: ModuleNodeId,
+    include_root_id: ModuleNodeId,
     module_nodes: HashMap<ModuleNodeId, ModuleNode>,
     file_module_map: HashMap<FileId, ModuleInfo>,
     module_name_to_file_ids: HashMap<String, Vec<FileId>>,
@@ -38,11 +39,12 @@ impl LuaModuleIndex {
             module_patterns: Vec::new(),
             module_root_id: ModuleNodeId { id: 0 },
             import_root_id: ModuleNodeId { id: 1 },
+            include_root_id: ModuleNodeId { id: 2 },
             module_nodes: HashMap::new(),
             file_module_map: HashMap::new(),
             module_name_to_file_ids: HashMap::new(),
             workspaces: Vec::new(),
-            id_counter: 2,
+            id_counter: 3,
             fuzzy_search: false,
             module_replace_vec: Vec::new(),
         };
@@ -51,6 +53,10 @@ impl LuaModuleIndex {
         index.module_nodes.insert(index.module_root_id, root_node);
         let import_node = ModuleNode::default();
         index.module_nodes.insert(index.import_root_id, import_node);
+        let include_node = ModuleNode::default();
+        index
+            .module_nodes
+            .insert(index.include_root_id, include_node);
 
         index
     }
@@ -130,6 +136,8 @@ impl LuaModuleIndex {
 
         let mut parent_node_id = if workspace_id.is_import() {
             self.import_root_id
+        } else if workspace_id.is_include() {
+            self.include_root_id
         } else {
             self.module_root_id
         };
@@ -278,6 +286,51 @@ impl LuaModuleIndex {
         None
     }
 
+    pub fn find_include(
+        &self,
+        db: &DbIndex,
+        module_path: &str,
+        source_file_id: FileId,
+    ) -> Option<&ModuleInfo> {
+        let module_parts: Vec<&str> = module_path.split('/').collect();
+        if module_parts.is_empty() {
+            return None;
+        }
+
+        let first_part = match module_parts.first() {
+            Some(part) => *part,
+            None => return None,
+        };
+
+        match first_part {
+            "@builtin" => {
+                if module_parts.len() < 2 {
+                    return None;
+                }
+
+                let parts: Vec<&str> = module_parts[1..].to_vec();
+                self.exact_find_module(&parts, self.include_root_id)
+            }
+            _ => {
+                let current_path = db.get_vfs().get_file_path(&source_file_id)?;
+                let current_dir = Path::new(&current_path).parent()?;
+                let module_file_path = module_parts.join("/");
+                let target_path = if module_file_path.ends_with(".lua") {
+                    current_dir.join(&module_file_path)
+                } else {
+                    current_dir.join(&format!("{}/xmake.lua", module_file_path))
+                };
+                if target_path.exists() {
+                    let uri = file_path_to_uri(&target_path)?;
+                    let target_file_id = db.get_vfs().get_file_id(&uri)?;
+                    return self.file_module_map.get(&target_file_id);
+                }
+
+                None
+            }
+        }
+    }
+
     fn exact_find_module(
         &self,
         module_parts: &Vec<&str>,
@@ -350,6 +403,26 @@ impl LuaModuleIndex {
         }
 
         let mut parent_node_id = self.import_root_id;
+        for part in &module_parts {
+            let parent_node = self.module_nodes.get(&parent_node_id)?;
+            let child_id = parent_node.children.get(*part)?;
+            parent_node_id = *child_id;
+        }
+
+        self.module_nodes.get(&parent_node_id)
+    }
+
+    pub fn find_include_node(&self, module_path: &str) -> Option<&ModuleNode> {
+        if module_path.is_empty() {
+            return self.module_nodes.get(&self.include_root_id);
+        }
+
+        let module_parts: Vec<&str> = module_path.split('/').collect();
+        if module_parts.is_empty() {
+            return None;
+        }
+
+        let mut parent_node_id = self.include_root_id;
         for part in &module_parts {
             let parent_node = self.module_nodes.get(&parent_node_id)?;
             let child_id = parent_node.children.get(*part)?;
