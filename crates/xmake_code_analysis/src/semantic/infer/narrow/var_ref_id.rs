@@ -54,9 +54,9 @@ impl VarRefId {
 
         match prefix {
             VarRefId::VarRef(decl_id) => decl_or_member_id.as_decl_id() == Some(*decl_id),
-            VarRefId::SelfRef(decl_or_member_id) => decl_or_member_id == decl_or_member_id,
-            VarRefId::IndexRef(decl_or_member_id, prefix_path) => {
-                decl_or_member_id == decl_or_member_id
+            VarRefId::SelfRef(ref_decl_or_member_id) => *ref_decl_or_member_id == decl_or_member_id,
+            VarRefId::IndexRef(ref_decl_or_member_id, prefix_path) => {
+                *ref_decl_or_member_id == decl_or_member_id
                     && path.starts_with(prefix_path.deref().as_str())
             }
         }
