@@ -36,20 +36,25 @@ pub async fn init_xmake(context: &ServerContextSnapshot) {
     };
 
     log::info!("xmake path: {:?}", xmake_path);
-    let xmake_dir_path = match xmake_path.parent().map(|p| p.to_path_buf()) {
+    let xmake_program_dir = match context
+        .xmake()
+        .get_xmake_program_dir()
+        .await
+        .or_else(|| xmake_path.parent().map(|p| p.to_path_buf()))
+    {
         Some(path) => path,
         None => {
             log::warn!("xmake directory not found");
             let message = ShowMessageParams {
                 typ: lsp_types::MessageType::ERROR,
-                message: "xmake directory not found, Please set the XMAKE_ROOT or XMAKE_HOME environment variable. ".to_string(),
+                message: "xmake directory not found, Please set the XMAKE_ROOT or XMAKE_HOME environment variable.".to_string(),
             };
-
             context.client().show_message(message);
             return;
         }
     };
-    log::info!("start to load xmake lib files from {:?}", xmake_dir_path);
+
+    log::info!("start to load xmake lib files from {:?}", xmake_program_dir);
     let status_bar = context.status_bar();
     status_bar
         .create_progress_task(ProgressTask::XmakeLoad)
@@ -58,8 +63,8 @@ pub async fn init_xmake(context: &ServerContextSnapshot) {
     let mut analysis = context.analysis().write().await;
     let emmyrc = analysis.get_emmyrc();
     let xmake_workspace = vec![
-        xmake_dir_path.join("core/sandbox/modules/import"),
-        xmake_dir_path.join("includes"),
+        xmake_program_dir.join("core/sandbox/modules/import"),
+        xmake_program_dir.join("includes"),
         // other xmake lib paths can be added here if needed
     ];
 
