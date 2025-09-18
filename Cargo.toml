@@ -1,13 +1,13 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/*",
+    "crates/*", "tools/edit_version",
 ]
 
 [workspace.dependencies]
 # local
-xmake_code_analysis = { path = "crates/xmake_code_analysis", version = "0.1.0" }
-xmake_ls = { path = "crates/xmake_ls", version = "0.1.0" }
+xmake_code_analysis = { path = "crates/xmake_code_analysis", version = "0.2.0" }
+xmake_ls = { path = "crates/xmake_ls", version = "0.2.0" }
 xmake_wrapper = { path = "crates/xmake_wrapper", version = "0.1.0" }
 
 # external
