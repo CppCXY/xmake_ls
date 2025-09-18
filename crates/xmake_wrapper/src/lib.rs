@@ -11,11 +11,11 @@ pub use executor::*;
 use std::path::PathBuf;
 use tokio::process::Command;
 
-/// xmake命令包装器的主要结构
+/// xmake 命令包装器的主要结构
 #[derive(Debug, Clone)]
 #[allow(dead_code)] // 这是一个库模块，某些方法可能在外部使用
 pub struct XmakeWrapper {
-    /// xmake可执行文件路径
+    /// xmake 可执行文件路径
     pub xmake_env: String,
     /// 工作目录
     pub working_dir: Option<PathBuf>,
@@ -23,7 +23,7 @@ pub struct XmakeWrapper {
 
 #[allow(dead_code)] // 这是一个库模块，某些方法可能在外部使用
 impl XmakeWrapper {
-    /// 创建新的xmake包装器实例
+    /// 创建新的 xmake 包装器实例
     pub fn new() -> Self {
         Self {
             xmake_env: "xmake".to_string(),
@@ -31,7 +31,7 @@ impl XmakeWrapper {
         }
     }
 
-    /// 使用自定义xmake路径创建实例
+    /// 使用自定义 xmake 路径创建实例
     pub fn with_path<P: AsRef<str>>(xmake_path: P) -> Self {
         Self {
             xmake_env: xmake_path.as_ref().to_string(),
@@ -45,17 +45,17 @@ impl XmakeWrapper {
         self
     }
 
-    /// 创建一个新的xmake命令
+    /// 创建一个新的 xmake 命令
     pub fn command(&self) -> XmakeCommandBuilder {
         XmakeCommandBuilder::new(self.clone())
     }
 
-    /// 执行xmake命令
+    /// 执行 xmake 命令
     pub async fn execute(&self, cmd: &XmakeCommand) -> Result<XmakeOutput, XmakeError> {
         execute_command(self, cmd).await
     }
 
-    /// 检查xmake是否可用
+    /// 检查 xmake 是否可用
     pub async fn check_available(&self) -> bool {
         let result = Command::new(&self.xmake_env)
             .arg("--version")
@@ -69,13 +69,13 @@ impl XmakeWrapper {
     }
 
     pub async fn get_xmake_path(&self) -> Option<PathBuf> {
-        // 首先尝试直接解析当前配置的xmake_env路径
+        // 首先尝试直接解析当前配置的 xmake_env 路径
         let xmake_path = PathBuf::from(&self.xmake_env);
         if xmake_path.is_absolute() && xmake_path.exists() {
             return Some(xmake_path);
         }
 
-        // 尝试从环境变量获取xmake路径
+        // 尝试从环境变量获取 xmake 路径
         if let Ok(xmake_root) = std::env::var("XMAKE_ROOT") {
             let xmake_exe = PathBuf::from(xmake_root).join("bin").join("xmake");
             if xmake_exe.exists() {
@@ -90,7 +90,7 @@ impl XmakeWrapper {
             }
         }
 
-        // 使用which/where命令在PATH中查找xmake
+        // 使用 which/where 命令在 PATH 中查找 xmake
         let which_cmd = if cfg!(windows) { "where" } else { "which" };
 
         let result = Command::new(which_cmd).arg(&self.xmake_env).output().await;
@@ -105,6 +105,17 @@ impl XmakeWrapper {
                 }
             }
             _ => {}
+        }
+
+        None
+    }
+
+    pub async fn get_xmake_program_dir(&self) -> Option<PathBuf> {
+        if let Ok(xmake_program_dir) = std::env::var("XMAKE_PROGRAM_DIR") {
+            let xmake_program_dir = PathBuf::from(xmake_program_dir);
+            if xmake_program_dir.exists() {
+                return Some(xmake_program_dir);
+            }
         }
 
         None
