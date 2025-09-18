@@ -2358,6 +2358,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "xmake_formatter"
+version = "0.2.0"
+dependencies = [
+ "emmylua_parser",
+ "rowan",
+ "serde",
+]
+
+[[package]]
 name = "xmake_ls"
 version = "0.2.0"
 dependencies = [
@@ -2384,6 +2393,7 @@ dependencies = [
  "walkdir",
  "wax",
  "xmake_code_analysis",
+ "xmake_formatter",
  "xmake_wrapper",
 ]
 

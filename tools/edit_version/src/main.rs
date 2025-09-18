@@ -1,5 +1,5 @@
 use std::fs;
-use toml_edit::{value, DocumentMut};
+use toml_edit::{DocumentMut, value};
 
 const CARGOS: &[&str] = &[
     "crates/xmake_code_analysis/Cargo.toml",

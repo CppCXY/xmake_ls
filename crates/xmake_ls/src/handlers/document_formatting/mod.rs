@@ -1,6 +1,7 @@
 mod external_format;
 mod format_diff;
 
+use emmylua_parser::LuaAst;
 use lsp_types::{
     ClientCapabilities, DocumentFormattingParams, OneOf, ServerCapabilities, TextEdit,
 };
@@ -10,6 +11,7 @@ use crate::{
     context::ServerContextSnapshot, handlers::document_formatting::format_diff::format_diff,
 };
 pub use external_format::{FormattingRange, external_tool_format};
+use xmake_formatter::reformat_node;
 
 use super::RegisterCapabilities;
 
@@ -60,7 +62,9 @@ pub async fn on_formatting_handler(
         )
         .await?
     } else {
-        return None;
+        let chunk = syntax_tree.get_chunk_node();
+        let ast_node = LuaAst::LuaChunk(chunk);
+        reformat_node(&ast_node)
     };
 
     if client_id.is_intellij() || client_id.is_other() {
