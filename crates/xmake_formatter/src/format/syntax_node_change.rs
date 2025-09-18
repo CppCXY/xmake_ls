@@ -11,4 +11,5 @@ pub enum TokenNodeChange {
 #[derive(Debug, Clone, Copy)]
 pub enum TokenExpected {
     Space(usize),
+    MaxSpace(usize),
 }

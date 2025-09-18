@@ -80,7 +80,16 @@ impl StyleRuler for BasicSpaceRuler {
                         f.add_token_left_expected(syntax_id, TokenExpected::Space(1));
                         f.add_token_right_expected(syntax_id, TokenExpected::Space(1));
                     }
-                    LuaTokenKind::TkColon | LuaTokenKind::TkDot => {
+                    LuaTokenKind::TkColon => {
+                        if is_parent_syntax(&token, LuaSyntaxKind::IndexExpr) {
+                            f.add_token_left_expected(syntax_id, TokenExpected::Space(0));
+                            f.add_token_right_expected(syntax_id, TokenExpected::Space(0));
+                            continue;
+                        }
+                        f.add_token_left_expected(syntax_id, TokenExpected::MaxSpace(1));
+                        f.add_token_right_expected(syntax_id, TokenExpected::MaxSpace(1));
+                    }
+                    LuaTokenKind::TkDot => {
                         f.add_token_left_expected(syntax_id, TokenExpected::Space(0));
                         f.add_token_right_expected(syntax_id, TokenExpected::Space(0));
                     }

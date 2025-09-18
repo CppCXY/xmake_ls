@@ -61,6 +61,15 @@ impl XmakeFormatter {
                             continue;
                         }
                     }
+                    (Some(TokenExpected::MaxSpace(n)), LuaTokenKind::TkWhitespace) => {
+                        if !context.is_line_first_token {
+                            let white_space_len = token.text().chars().count();
+                            if white_space_len > n {
+                                context.reset_whitespace_to(n);
+                                continue;
+                            }
+                        }
+                    }
                     (_, LuaTokenKind::TkEndOfLine) => {
                         // No space expected
                         context.reset_whitespace();
@@ -83,6 +92,14 @@ impl XmakeFormatter {
                             if !context.is_line_first_token {
                                 context.reset_whitespace();
                                 context.text.push_str(&" ".repeat(*n));
+                            }
+                        }
+                        TokenExpected::MaxSpace(n) => {
+                            if !context.is_line_first_token {
+                                let current_spaces = context.get_last_whitespace_count();
+                                if current_spaces > *n {
+                                    context.reset_whitespace_to(*n);
+                                }
                             }
                         }
                     }

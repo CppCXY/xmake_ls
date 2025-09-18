@@ -22,4 +22,23 @@ impl FormatterContext {
             self.text.pop();
         }
     }
+
+    pub fn get_last_whitespace_count(&self) -> usize {
+        let mut count = 0;
+        for ch in self.text.chars().rev() {
+            if ch == ' ' {
+                count += 1;
+            } else {
+                break;
+            }
+        }
+        count
+    }
+
+    pub fn reset_whitespace_to(&mut self, n: usize) {
+        self.reset_whitespace();
+        if n > 0 {
+            self.text.push_str(&" ".repeat(n));
+        }
+    }
 }
