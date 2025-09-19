@@ -115,7 +115,7 @@
 ---@field sourcekind string? Type of this batch of source files
 ---@field rulename string? Build rule name
 ---@field sourcefiles string[]? Get the list of source files
----@field objecetfiles string[]? Get the list of object files
+---@field objectfiles string[]? Get the list of object files
 ---@field dependfiles string[]? Get the list of dependent files
 
 ---@class PackageConfig

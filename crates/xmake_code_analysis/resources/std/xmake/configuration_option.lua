@@ -1,10 +1,16 @@
 ---@meta
----[configuration_option](https://xmake.io/#/manual/configuration_option)
+---[configuration_option](https://xmake.io/api/description/configuration-option)
 
 ---
 ---Defining options
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=option)
+---[Open in browser](https://xmake.io/api/description/configuration-option#option)
+--- Example:
+--- ```lua
+--- option("enable_gui")
+---     set_default(false)
+---     set_showmenu(true)
+--- ```
 ---
 ---@param name string Option name
 ---@return nil
@@ -13,7 +19,7 @@ function option(name) end
 ---
 ---End definition option
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=option_end)
+---[Open in browser](https://xmake.io/api/description/configuration-option#option-end)
 ---
 ---@return nil
 function option_end() end
@@ -23,7 +29,7 @@ function option_end() end
 ---
 ---Adding options depends
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_deps)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_deps)
 ---
 ---@param name string Depending option name
 ---@param ... string Depending option names
@@ -35,7 +41,7 @@ function add_deps(name, ...) end
 ---
 ---Adding options defines
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_defines)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_defines)
 ---
 ---@param name string Macro define name
 ---@param ... string Macro define names
@@ -47,7 +53,7 @@ function add_defines(name, ...) end
 ---
 ---Execute this script before option detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionbefore_check)
+---[Open in browser](https://xmake.io/api/description/configuration-option#before_check)
 ---
 ---@param func fun(option: Option): nil Function to run before check
 ---@return nil
@@ -58,7 +64,7 @@ function before_check(func) end
 ---
 ---Custom Option Detection Script
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionon_check)
+---[Open in browser](https://xmake.io/api/description/configuration-option#on_check)
 ---
 ---@param func fun(option: Option): nil Function to run for custom check
 ---@return nil
@@ -69,7 +75,7 @@ function on_check(func) end
 ---
 ---Execute this script after option detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionafter_check)
+---[Open in browser](https://xmake.io/api/description/configuration-option#after_check)
 ---
 ---@param func fun(option: Option): nil Function to run after check
 ---@return nil
@@ -80,7 +86,7 @@ function after_check(func) end
 ---
 ---Setting the list of option values
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionset_values)
+---[Open in browser](https://xmake.io/api/description/configuration-option#set_values)
 ---
 ---@param value string Option value
 ---@param ... string Option values
@@ -92,7 +98,7 @@ function set_values(value, ...) end
 ---
 ---Setting options defaults
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionset_default)
+---[Open in browser](https://xmake.io/api/description/configuration-option#set_default)
 ---
 ---@param default boolean|string Default value
 ---@return nil
@@ -103,7 +109,7 @@ function set_default(default) end
 ---
 ---Set whether to enable menu display
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionset_showmenu)
+---[Open in browser](https://xmake.io/api/description/configuration-option#set_showmenu)
 ---
 ---@param enabled boolean Whether to enable menu
 ---@return nil
@@ -114,7 +120,7 @@ function set_showmenu(enabled) end
 ---
 ---Setting option categories, only for menu display
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionset_category)
+---[Open in browser](https://xmake.io/api/description/configuration-option#set_category)
 ---
 ---@param name string Menu category name
 ---@return nil
@@ -125,7 +131,7 @@ function set_category(name) end
 ---
 ---Setting menu display description
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionset_description)
+---[Open in browser](https://xmake.io/api/description/configuration-option#set_description)
 ---
 ---@param description string Menu description
 ---@param ... string Multiple line descriptions
@@ -137,7 +143,7 @@ function set_description(description, ...) end
 ---
 ---Add Link Library Detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_links)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_links)
 ---
 ---@param link string Link library name
 ---@param ... string Link library names
@@ -149,7 +155,7 @@ function add_links(link, ...) end
 ---
 ---Adding the search directory needed for link library detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_linkdirs)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_linkdirs)
 ---
 ---@param dir string Search link library directory
 ---@param ... string Search link library directories
@@ -157,11 +163,11 @@ function add_links(link, ...) end
 function add_linkdirs(dir, ...) end
 
 ---
----**Scoped: optiOn**
+---**Scoped: option**
 ---
 ---Adding a load search directory for a dynamic library at runtime
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optiOnadd_rpathdirs)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_rpathdirs)
 ---
 ---@param dir string Load search directory for dynamic library
 ---@param ... string Load search directories for dynamic library
@@ -173,7 +179,7 @@ function add_rpathdirs(dir, ...) end
 ---
 ---Add c header file detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_cincludes)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_cincludes)
 ---
 ---@param name string File name
 ---@param ... string File names
@@ -185,7 +191,7 @@ function add_cincludes(name, ...) end
 ---
 ---Add c++ header file detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_cxxincludes)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_cxxincludes)
 ---
 ---@param name string File name
 ---@param ... string File names
@@ -197,7 +203,7 @@ function add_cxxincludes(name, ...) end
 ---
 ---Add c type detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_ctypes)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_ctypes)
 ---
 ---@param type string C type
 ---@param ... string C types
@@ -209,7 +215,7 @@ function add_ctypes(type, ...) end
 ---
 ---Adding c++ type detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_cxxtypes)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_cxxtypes)
 ---
 ---@param type string C++ type
 ---@param ... string C++ types
@@ -223,7 +229,7 @@ function add_cxxtypes(type, ...) end
 ---
 ---Add c code fragment detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_csnippets)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_csnippets)
 ---
 ---@param name string Snippet name
 ---@param snippet string C snippet
@@ -238,7 +244,11 @@ function add_csnippets(name, snippet, option) end
 ---
 ---Adding c++ code snippet detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_cxxsnippets)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_cxxsnippets)
+--- Example:
+--- ```lua
+--- add_cxxsnippets("int add(int a,int b){return a+b;}")
+--- ```
 ---
 ---@param name string Snippet name
 ---@param snippet string C snippet
@@ -251,7 +261,7 @@ function add_cxxsnippets(name, snippet, option) end
 ---
 ---Add c library function detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_cfuncs)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_cfuncs)
 ---
 ---@param name string C function name
 ---@param ... string C function names
@@ -263,7 +273,7 @@ function add_cfuncs(name, ...) end
 ---
 ---Add c++ library function detection
 ---
----[Open in browser](https://xmake.io/#/manual/configuration_option?id=optionadd_cxxfuncs)
+---[Open in browser](https://xmake.io/api/description/configuration-option#add_cxxfuncs)
 ---
 ---@param name string C++ function name
 ---@param ... string C++ function names

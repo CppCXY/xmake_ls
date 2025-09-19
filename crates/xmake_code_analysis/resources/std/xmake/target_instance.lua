@@ -1,5 +1,5 @@
 ---@meta
----[target_instance](https://xmake.io/#/manual/target_instance)
+---[target_instance](https://xmake.io/api/scripts/target-instance)
 
 ---@class Target
 local Target = {}
@@ -7,7 +7,7 @@ local Target = {}
 ---
 ---Get the name of the target
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetname)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-name)
 ---
 ---@return string
 function Target:name() end
@@ -15,16 +15,16 @@ function Target:name() end
 ---
 ---Get the values of the target by name
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetget)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-get)
 ---
 ---@param key string Key
----@return string
+---@return any
 function Target:get(key) end
 
 ---
 ---Set the values of the target by name (If you just want to add values use [target:add](#targetadd))
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetset)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-set)
 ---
 ---@param key string Key
 ---@param value any Value
@@ -34,7 +34,7 @@ function Target:set(key, value) end
 ---
 ---Add to the values of the target by name
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetadd)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-add)
 ---
 ---@param key string Key
 ---@param value any Value
@@ -44,7 +44,7 @@ function Target:add(key, value) end
 ---
 ---Get the target program type
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetkind)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-kind)
 ---
 ---@return TargetKind
 function Target:kind() end
@@ -52,7 +52,7 @@ function Target:kind() end
 ---
 ---Whether the current platform is one of the given platforms
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetis_plat)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-is_plat)
 ---
 ---@param platform Platform Platform name
 ---@param ... Platform Platform names
@@ -62,7 +62,7 @@ function Target:is_plat(platform, ...) end
 ---
 ---Is the current architecture one of the given architectures
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetis_arch)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-is_arch)
 ---
 ---@param arch Architecture Architecture name
 ---@param ... Architecture Architecture names
@@ -72,7 +72,7 @@ function Target:is_arch(arch, ...) end
 ---
 ---Get the target file path
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targettargetfile)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-targetfile)
 ---
 ---@return string
 function Target:targetfile() end
@@ -80,7 +80,7 @@ function Target:targetfile() end
 ---
 ---Get the output directory of the target file
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targettargetdir)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-targetdir)
 ---
 ---@return string
 function Target:targetdir() end
@@ -88,7 +88,7 @@ function Target:targetdir() end
 ---
 ---Get the base name of the target file
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetbasename)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-basename)
 ---
 ---@return string
 function Target:basename() end
@@ -96,7 +96,7 @@ function Target:basename() end
 ---
 ---Get the target file name
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetfilename)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-filename)
 ---
 ---@return string
 function Target:filename() end
@@ -104,7 +104,7 @@ function Target:filename() end
 ---
 ---Get the installation directory of the target file
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetinstalldir)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-installdir)
 ---
 ---@return string
 function Target:installdir() end
@@ -112,7 +112,7 @@ function Target:installdir() end
 ---
 ---Get auto-generated catalog
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetautogendir)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-autogendir)
 ---
 ---@return string
 function Target:autogendir() end
@@ -120,7 +120,7 @@ function Target:autogendir() end
 ---
 ---Get the object file path
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetobjectfile)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-objectfile)
 ---
 ---@param source string Source file name
 ---@return string
@@ -129,7 +129,7 @@ function Target:objectfile(source) end
 ---
 ---Get all source files
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetsourcebatches)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-sourcebatches)
 ---
 ---@return { [string]: SourceBatch }
 function Target:sourcebatches() end
@@ -137,7 +137,7 @@ function Target:sourcebatches() end
 ---
 ---Get a list of all object files
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetobjectfiles)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-objectfiles)
 ---
 ---@return string[]
 function Target:objectfiles() end
@@ -145,7 +145,7 @@ function Target:objectfiles() end
 ---
 ---Get a list of all header files
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetheaderfiles)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-headerfiles)
 ---
 ---@return string[]
 function Target:headerfiles() end
@@ -153,7 +153,35 @@ function Target:headerfiles() end
 ---
 ---Get the xmake.lua directory where the target definition is located
 ---
----[Open in browser](https://xmake.io/#/manual/target_instance?id=targetscriptdir)
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-scriptdir)
 ---
 ---@return string
 function Target:scriptdir() end
+
+---
+---Get depending target by name
+---
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-dep)
+--- Example:
+--- ```lua
+--- local dep = target:dep("libfoo")
+--- if dep then print(dep:targetfile()) end
+--- ```
+---
+---@param name string Depending target name
+---@return Target|nil
+function Target:dep(name) end
+
+---
+---Get all depending targets
+---
+---[Open in browser](https://xmake.io/api/scripts/target-instance#target-deps)
+--- Example:
+--- ```lua
+--- for name, dep in pairs(target:deps()) do
+---     print(name, dep:kind())
+--- end
+--- ```
+---
+---@return { [string]: Target }
+function Target:deps() end
