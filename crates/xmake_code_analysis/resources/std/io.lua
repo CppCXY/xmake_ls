@@ -73,6 +73,7 @@ function io.lines(filename, ...) end
 --- some systems to open the file in binary mode.
 ---@param filename string
 ---@param mode? iolib.OpenMode
+---@overload fun(filename: string, mode?: iolib.OpenMode, opt?: table): file?, string?
 ---@return file?
 ---@return string? err
 function io.open(filename, mode) end
@@ -275,3 +276,214 @@ io.stdin = nil
 --- * `io.stdout`: Standard out.
 ---@type file
 io.stdout = nil
+
+-------------------------------------------------------------------------------
+-- Xmake extensions (io)
+-- These APIs extend the standard Lua io library and are provided by Xmake.
+-------------------------------------------------------------------------------
+
+--- Get a std stream as a file by pseudo path.
+--- Paths: `/dev/stdin`, `/dev/stdout`, `/dev/stderr`.
+---@param path string
+---@return file? f
+---@return string? err
+function io.stdfile(path) end
+
+--- Open a file lock object for the given path.
+--- The lock file will be created if not exists.
+---@param path string
+---@return filelock? lock
+---@return string? err
+function io.openlock(path) end
+
+--- Read all data from a file with optional options (e.g. encoding).
+---@param filepath string
+---@param opt? table
+---@return string|nil data
+---@return string? err
+function io.readfile(filepath, opt) end
+
+--- Write all data to a file with optional options (e.g. encoding).
+---@param filepath string
+---@param data string
+---@param opt? table
+---@return boolean ok
+---@return string? err
+function io.writefile(filepath, data, opt) end
+
+--- Save a Lua object to file (serialized text).
+--- Only writes when changed if `opt.only_changed` is true.
+---@param filepath string
+---@param object any
+---@param opt? table
+---@return boolean ok
+---@return string? err
+function io.save(filepath, object, opt) end
+
+--- Load a Lua object from file (deserialize text content).
+---@param filepath string
+---@param opt? table
+---@return any result
+---@return string? err
+function io.load(filepath, opt) end
+
+--- Iterate file lines, with options. When `opt.close_on_finished` is true,
+--- the file will be closed when iteration ends.
+---@overload fun(filename?: string): fun():any
+---@param filename string
+---@param opt? table
+---@return fun():string|nil
+function io.lines(filename, opt) end
+
+--- Replace text in file with Lua string.gsub semantics.
+--- Returns the new content and replacement count.
+---@param filepath string
+---@param pattern string|table
+---@param replace string|function
+---@param opt? table
+---@return string|nil data
+---@return integer count
+---@return string? err
+function io.gsub(filepath, pattern, replace, opt) end
+
+--- Replace text in file using pattern/replace with extra options.
+--- Similar to `io.gsub` but supports additional flags (e.g. plain, etc.).
+---@param filepath string
+---@param pattern string
+---@param replace string|function
+---@param opt? table
+---@return string|nil data
+---@return integer count
+---@return string? err
+function io.replace(filepath, pattern, replace, opt) end
+
+--- Insert text before a specific line number and return new content.
+--- Line index starts from 1.
+---@param filepath string
+---@param lineidx integer
+---@param text string
+---@param opt? table
+---@return string|nil data
+---@return string? err
+function io.insert(filepath, lineidx, text, opt) end
+
+--- Print file content to stdout. If linecount is set, stop after N lines.
+---@param filepath string
+---@param linecount? integer
+---@param opt? table
+function io.cat(filepath, linecount, opt) end
+
+--- Tail file content to stdout. If linecount < 0, print whole file.
+---@param filepath string
+---@param linecount? integer
+---@param opt? table
+function io.tail(filepath, linecount, opt) end
+
+--- Check whether the given file (default stdout) is a TTY.
+---@param file? file
+---@return boolean|nil ok
+function io.isatty(file) end
+
+--- Read from stdin with options.
+---@param fmt std.readmode|string
+---@param opt? table
+---@return any
+---@return any ...
+function io.read(fmt, opt) end
+
+--- True if stdin has readable data.
+---@return boolean
+function io.readable() end
+
+--- Print formatted text to stdout and append newline.
+---@param ... any
+function io.print(...) end
+
+--- Print formatted text to stdout without newline.
+---@param ... any
+function io.printf(...) end
+
+-------------------------------------------------------------------------------
+-- Xmake extensions (file methods)
+-------------------------------------------------------------------------------
+
+--- Get file size in bytes.
+---@return integer|nil size
+---@return string? err
+function file:size() end
+
+--- Return whether file is readable (nonblocking check on pipes/streams).
+---@return boolean ok
+---@return string? err
+function file:readable() end
+
+--- Check if file is attached to a TTY.
+---@return boolean|nil ok
+---@return string? err
+function file:isatty() end
+
+--- Get underlying raw file descriptor/handle.
+--- Windows returns HANDLE casted to integer.
+---@return integer|nil fd
+---@return string? err
+function file:rawfd() end
+
+--- Write a formatted line (adds trailing newline).
+---@param ... any
+function file:print(...) end
+
+--- Write a formatted string (no trailing newline).
+---@param ... any
+function file:printf(...) end
+
+--- Serialize and save a Lua object to this file.
+---@param object any
+---@param opt? table
+---@return boolean ok
+---@return string? err
+function file:save(object, opt) end
+
+--- Read and deserialize a Lua object from this file.
+---@return any result
+---@return string? err
+function file:load() end
+
+-------------------------------------------------------------------------------
+-- Xmake filelock
+-------------------------------------------------------------------------------
+
+--- File lock object used to synchronize access across processes.
+---@class filelock
+local filelock = {}
+
+--- Try to acquire a lock. When `opt.shared` is true, take a shared lock.
+--- Re-entrant: multiple lock() calls must be matched by unlock().
+---@param opt? table
+---@return boolean ok
+---@return string? err
+function filelock:lock(opt) end
+
+--- Try to acquire a lock without blocking.
+---@param opt? table
+---@return boolean ok
+---@return string? err
+function filelock:trylock(opt) end
+
+--- Release one level of lock. Fully unlocks when the counter reaches zero.
+---@return boolean ok
+---@return string? err
+function filelock:unlock() end
+
+--- Close the lock handle.
+---@return boolean ok
+---@return string? err
+function filelock:close() end
+
+--- True if currently locked by this process.
+---@return boolean
+function filelock:islocked() end
+
+--- Absolute path of the lock file.
+---@return string
+function filelock:path() end
+

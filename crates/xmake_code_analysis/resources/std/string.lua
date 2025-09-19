@@ -301,3 +301,61 @@ function string.unpack(fmt, s, pos) end
 ---@param s string
 ---@return string
 function string.upper(s) end
+
+-------------------------------------------------------------------------------
+-- Xmake extensions (string)
+-------------------------------------------------------------------------------
+
+--- Trim leading and trailing whitespaces.
+---@param s string
+---@return string
+function string.trim(s) end
+
+--- Split string by separator. When `sep` is nil, split by whitespaces.
+--- Option fields may include: plain (boolean), strict (boolean).
+---@param s string
+---@param sep? string
+---@param opt? table
+---@return string[]
+function string.split(s, sep, opt) end
+
+--- Check if string starts with the given prefix.
+---@param s string
+---@param prefix string
+---@param plain? boolean
+---@return boolean
+function string.startswith(s, prefix, plain) end
+
+--- Check if string ends with the given suffix.
+---@param s string
+---@param suffix string
+---@param plain? boolean
+---@return boolean
+function string.endswith(s, suffix, plain) end
+
+--- Find last index of any character in `chars` set.
+---@param s string
+---@param chars string
+---@return integer|nil index
+function string.lastof(s, chars) end
+
+--- Convert string encoding, e.g. from "utf16le" to "utf8".
+---@param s string
+---@param from string
+---@param to string
+---@return string
+function string.convert(s, from, to) end
+
+--- Serialize Lua object to string.
+---@param object any
+---@param opt? table
+---@return string|nil
+---@return string? err
+function string.serialize(object, opt) end
+
+--- Deserialize Lua object from string.
+---@param s string
+---@param opt? table
+---@return any
+---@return string? err
+function string.deserialize(s, opt) end
