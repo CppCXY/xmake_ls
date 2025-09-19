@@ -12,7 +12,7 @@ xmake_formatter = { path = "crates/xmake_formatter", version = "0.2.0" }
 xmake_wrapper = { path = "crates/xmake_wrapper", version = "0.1.0" }
 
 # external
-emmylua_parser = "0.15"
+emmylua_parser = "0.16"
 emmylua_diagnostic_macro = "0.5.0"
 lsp-server = "0.7.7"
 tokio = { version = "1.46", features = ["full"] }
