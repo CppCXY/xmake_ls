@@ -73,7 +73,7 @@ capabilities!(modules: {
     document_selection_range => DocumentSelectionRangeCapabilities,
     document_highlight => DocumentHighlightCapabilities,
     document_formatting => DocumentFormattingCapabilities,
-    document_range_formatting => DocumentRangeFormattingCapabilities,
+    // document_range_formatting => DocumentRangeFormattingCapabilities,
     // document_type_format => DocumentTypeFormattingCapabilities,
     completion => CompletionCapabilities,
     inlay_hint => InlayHintCapabilities,

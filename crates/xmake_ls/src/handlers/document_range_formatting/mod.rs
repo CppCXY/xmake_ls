@@ -85,6 +85,7 @@ pub async fn on_range_formatting_handler(
     Some(vec![text_edit])
 }
 
+#[allow(unused)]
 pub struct DocumentRangeFormattingCapabilities;
 
 impl RegisterCapabilities for DocumentRangeFormattingCapabilities {

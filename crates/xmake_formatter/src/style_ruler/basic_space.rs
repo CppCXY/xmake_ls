@@ -15,6 +15,22 @@ impl StyleRuler for BasicSpaceRuler {
                 let syntax_id = LuaSyntaxId::from_token(&token);
                 match token.kind().to_token() {
                     LuaTokenKind::TkLeftParen | LuaTokenKind::TkLeftBracket => {
+                        if let Some(prev_token) = get_prev_sibling_token_without_space(&token) {
+                            match prev_token.kind().to_token() {
+                                LuaTokenKind::TkName
+                                | LuaTokenKind::TkRightParen
+                                | LuaTokenKind::TkRightBracket => {
+                                    f.add_token_left_expected(syntax_id, TokenExpected::Space(0));
+                                }
+                                LuaTokenKind::TkString
+                                | LuaTokenKind::TkRightBrace
+                                | LuaTokenKind::TkLongString => {
+                                    f.add_token_left_expected(syntax_id, TokenExpected::Space(1));
+                                }
+                                _ => {}
+                            }
+                        }
+
                         f.add_token_right_expected(syntax_id, TokenExpected::Space(0));
                     }
                     LuaTokenKind::TkRightBracket | LuaTokenKind::TkRightParen => {
@@ -122,4 +138,16 @@ fn is_parent_syntax(token: &LuaSyntaxToken, kind: LuaSyntaxKind) -> bool {
         return parent.kind().to_syntax() == kind;
     }
     false
+}
+
+fn get_prev_sibling_token_without_space(token: &LuaSyntaxToken) -> Option<LuaSyntaxToken> {
+    let mut current = token.clone();
+    while let Some(prev) = current.prev_token() {
+        if prev.kind().to_token() != LuaTokenKind::TkWhitespace {
+            return Some(prev);
+        }
+        current = prev;
+    }
+
+    None
 }

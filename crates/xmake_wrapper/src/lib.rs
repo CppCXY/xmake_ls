@@ -75,16 +75,8 @@ impl XmakeWrapper {
             return Some(xmake_path);
         }
 
-        // 尝试从环境变量获取 xmake 路径
-        if let Ok(xmake_root) = std::env::var("XMAKE_ROOT") {
-            let xmake_exe = PathBuf::from(xmake_root).join("bin").join("xmake");
-            if xmake_exe.exists() {
-                return Some(xmake_exe);
-            }
-        }
-
         if let Ok(xmake_home) = std::env::var("XMAKE_HOME") {
-            let xmake_exe = PathBuf::from(xmake_home).join("bin").join("xmake");
+            let xmake_exe = PathBuf::from(xmake_home).join("xmake");
             if xmake_exe.exists() {
                 return Some(xmake_exe);
             }
