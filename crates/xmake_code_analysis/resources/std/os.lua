@@ -265,6 +265,13 @@ function os.islink(path) end
 
 ---
 --- **xmake extension**
+--- Check if path is an executable program (checks common suffixes on Windows).
+---@param path string
+---@return boolean
+function os.isexec(path) end
+
+---
+--- **xmake extension**
 --- Create directory
 ---@param dir string
 ---@return boolean
@@ -302,6 +309,14 @@ function os.rm(path) end
 
 ---
 --- **xmake extension**
+--- Create or update file timestamp (like touch). Creates parent dirs if needed.
+---@param path string
+---@param opt? table
+---@return boolean
+function os.touch(path, opt) end
+
+---
+--- **xmake extension**
 --- Get file size
 ---@param path string
 ---@return integer|nil
@@ -313,6 +328,12 @@ function os.filesize(path) end
 ---@param path string
 ---@return integer|nil
 function os.mtime(path) end
+
+---
+--- **xmake extension**
+--- Monotonic clock in milliseconds.
+---@return integer
+function os.mclock() end
 
 ---
 --- **xmake extension**
@@ -328,6 +349,14 @@ function os.tmpdir() end
 
 ---
 --- **xmake extension**
+--- Get a unique temporary file path.
+---@param key? string
+---@param opt? table
+---@return string
+function os.tmpfile(key, opt) end
+
+---
+--- **xmake extension**
 --- Get program directory
 ---@return string
 function os.programdir() end
@@ -340,13 +369,19 @@ function os.programfile() end
 
 ---
 --- **xmake extension**
+--- Get xmake working directory (internal runtime cwd).
+---@return string
+function os.workingdir() end
+
+---
+--- **xmake extension**
 --- Get script directory
 ---@return string
 function os.scriptdir() end
 
 ---
 --- **xmake extension**
---- Get xmake global directory
+--- Get xmake version string, e.g. "2.9.5"
 ---@return string
 function os.xmakever() end
 
@@ -385,22 +420,31 @@ function os.cd(dir) end
 --- **xmake extension**
 --- Execute command and return output
 ---@param cmd string
----@return string|nil, integer?
-function os.iorun(cmd) end
+---@param opt? table
+---@return boolean ok
+---@return string|nil stdout
+---@return string|nil stderr
+---@return string? errors
+function os.iorun(cmd, opt) end
 
 ---
 --- **xmake extension**
 --- Execute command and return output with environment
----@param cmd string
----@param env? table
----@return string|nil, integer?
-function os.iorunv(cmd, env) end
+---@param program string
+---@param argv table
+---@param opt? table
+---@return boolean ok
+---@return string|nil stdout
+---@return string|nil stderr
+---@return string? errors
+function os.iorunv(program, argv, opt) end
 
 ---
 --- **xmake extension**
 --- Run command and return exit code
 ---@param cmd string
----@return integer
+---@return boolean ok
+---@return string? errors
 function os.run(cmd) end
 
 ---
@@ -408,16 +452,17 @@ function os.run(cmd) end
 --- Run command with arguments and return exit code
 ---@param program string
 ---@param argv table
----@param outfile? string
----@param errfile? string
----@return integer
-function os.runv(program, argv, outfile, errfile) end
+---@param opt? table
+---@return boolean ok
+---@return string? errors
+function os.runv(program, argv, opt) end
 
 ---
 --- **xmake extension**
 --- Execute command and return output
 ---@param cmd string
----@return string|nil, integer?
+---@return integer|nil code
+---@return string? errors
 function os.exec(cmd) end
 
 ---
@@ -425,10 +470,46 @@ function os.exec(cmd) end
 --- Execute command with arguments and return output
 ---@param program string
 ---@param argv table
----@param outfile? string
----@param errfile? string
----@return string|nil, integer?
-function os.execv(program, argv, outfile, errfile) end
+---@param opt? table
+---@return integer|nil code
+---@return string? errors
+function os.execv(program, argv, opt) end
+
+---
+--- **xmake extension**
+--- Verbosely run command (print command before running)
+---@param cmd string
+---@return boolean ok
+---@return string? errors
+function os.vrun(cmd) end
+
+---
+--- **xmake extension**
+--- Verbosely run program with arguments
+---@param program string
+---@param argv table
+---@param opt? table
+---@return boolean ok
+---@return string? errors
+function os.vrunv(program, argv, opt) end
+
+---
+--- **xmake extension**
+--- Verbosely execute command and return exit code
+---@param cmd string
+---@return integer|nil code
+---@return string? errors
+function os.vexec(cmd) end
+
+---
+--- **xmake extension**
+--- Verbosely execute program with arguments and return exit code
+---@param program string
+---@param argv table
+---@param opt? table
+---@return integer|nil code
+---@return string? errors
+function os.vexecv(program, argv, opt) end
 
 ---
 --- **xmake extension**
@@ -464,6 +545,14 @@ function os.raise(message, level) end
 
 ---
 --- **xmake extension**
+--- Raise an exception with stack level offset. Prefer `os.raise` in user code.
+---@param level integer
+---@param message string
+---@param ... any
+function os.raiselevel(level, message, ...) end
+
+---
+--- **xmake extension**
 --- Try to execute function and catch exception
 ---@param func function
 ---@return any, string?
@@ -481,6 +570,7 @@ function os.sleep(ms) end
 ---@param name string
 ---@param default? string
 ---@return string|nil
+---@overload fun():table
 function os.getenvs(name, default) end
 
 ---
@@ -493,29 +583,24 @@ function os.setenv(name, value) end
 
 ---
 --- **xmake extension**
---- Add environment variable to PATH
----@param value string
----@return boolean
-function os.addenv(value) end
-
----
---- **xmake extension**
---- Add environment variables to PATH
+--- Add one value to an environment variable like PATH
 ---@param name string
 ---@param value string
 ---@return boolean
-function os.addenvs(name, value) end
+function os.addenv(name, value) end
 
 ---
 --- **xmake extension**
---- Get all environment variables
----@return table
-function os.getenvs() end
+--- Add multiple values to an environment variable like PATH
+---@param name string
+---@param values string|string[]
+---@return boolean
+function os.addenvs(name, values) end
 
 ---
 --- **xmake extension**
 --- Set multiple environment variables
----@param envs table
+---@param envs table<string,string>
 ---@return boolean
 function os.setenvs(envs) end
 
@@ -531,5 +616,36 @@ function os.uuid() end
 ---@param name string
 ---@return string
 function os.uuid4(name) end
+---
+--- **xmake extension**
+--- Read value of a symbolic link
+---@param path string
+---@return string|nil
+function os.readlink(path) end
+
+---
+--- **xmake extension**
+--- Check whether file system is case-sensitive at given path
+---@param path string
+---@return boolean
+function os.fscase(path) end
+
+---
+--- **xmake extension**
+--- Create a symbolic link or hard link based on options
+---@param src string
+---@param dst string
+---@param opt? table  options: {force:boolean, hard:boolean}
+---@return boolean
+function os.ln(src, dst, opt) end
+
+---
+--- **xmake extension**
+--- Get program/project directories and files.
+---@return string
+function os.projectdir() end
+---@return string
+function os.projectfile() end
+
 
 return os

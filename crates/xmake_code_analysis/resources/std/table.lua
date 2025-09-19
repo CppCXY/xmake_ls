@@ -173,4 +173,156 @@ function table.getn(list) end
 ---@nodiscard
 function table.create(nseq, nrec) end
 
+-------------------------------------------------------------------------------
+-- Xmake extensions (table)
+-------------------------------------------------------------------------------
+
+---
+--- Join multiple array-like tables and return a new list containing all elements.
+---@generic T
+---@param ... T[]
+---@return T[]
+---@nodiscard
+function table.join(...) end
+
+---
+--- Append elements from subsequent lists into `dest` in-place.
+---@generic T
+---@param dest T[]
+---@param ... T[]
+---@return T[] dest
+function table.join2(dest, ...) end
+
+---
+--- Wrap a non-table value as a single-element array. If `v` is nil, returns an empty array.
+--- If `v` is already a table, returns it as-is.
+---@generic T
+---@param v T|T[]|nil
+---@return T[]
+---@nodiscard
+function table.wrap(v) end
+
+---
+--- Create a shallow copy of table `t`.
+---@generic T: table
+---@param t T
+---@return T
+---@nodiscard
+function table.copy(t) end
+
+---
+--- Create a deep copy of table `t` (recursively copies nested tables).
+---@generic T: table
+---@param t T
+---@return T
+---@nodiscard
+function table.deepcopy(t) end
+
+---
+--- Inherit fields from one or more source tables into a new table.
+--- Later sources override earlier ones (shallow merge semantics).
+---@generic T
+---@param ... table
+---@return table
+function table.inherit(...) end
+
+---
+--- Return an array of keys of table `t`.
+---@generic K, V
+---@param t table<K, V>
+---@return K[]
+---@nodiscard
+function table.keys(t) end
+
+---
+--- Return an array of values of table `t`.
+---@generic K, V
+---@param t table<K, V>
+---@return V[]
+---@nodiscard
+function table.values(t) end
+
+---
+--- Return sorted keys of table `t`. When `comp` provided, it is used as comparator.
+---@generic K, V
+---@param t table<K, V>
+---@param comp? fun(a:K, b:K):boolean
+---@return K[]
+---@nodiscard
+function table.orderkeys(t, comp) end
+
+---
+--- Remove duplicated elements from array-like table `list`, keeping first occurrences.
+---@generic T
+---@param list T[]
+---@return T[]
+function table.unique(list) end
+
+---
+--- Whether array-like table `list` contains `value`.
+---@generic T
+---@param list T[]
+---@param value T
+---@return boolean
+---@nodiscard
+function table.contains(list, value) end
+
+---
+--- Find the index of the first element equal to `value` (or matching `pred`).
+--- If `pred` is a function, it will be called as `pred(v)`.
+---@generic T
+---@overload fun(list:T[], value:T, start?:integer):integer?
+---@param list T[]
+---@param pred fun(v:T):boolean
+---@param start? integer
+---@return integer?  -- index or nil if not found
+function table.find(list, pred, start) end
+
+---
+--- Like `table.find`, but `pred` is required to be a function predicate.
+---@generic T
+---@param list T[]
+---@param pred fun(v:T):boolean
+---@param start? integer
+---@return integer?
+function table.ifind(list, pred, start) end
+
+---
+--- Insert `value` into array-like `list` only if it does not already exist.
+---@generic T
+---@param list T[]
+---@param value T
+---@return boolean inserted  -- true if inserted, false if already existed
+function table.insertuniq(list, value) end
+
+---
+--- Remove all items in `list` that satisfy `pred`. Returns the number removed.
+---@generic T
+---@param list T[]
+---@param pred fun(v:T):boolean
+---@return integer removed
+function table.remove_if(list, pred) end
+
+---
+--- Swap elements at indices `i` and `j` in `list`.
+---@generic T
+---@param list T[]
+---@param i integer
+---@param j integer
+---@return T[] list
+function table.swap(list, i, j) end
+
+---
+--- Clear all key-value pairs in table `t`.
+---@param t table
+---@return table t
+function table.clear(t) end
+
+---
+--- Whether `t` is an array-like table (continuous integer keys from 1..n).
+---@param t table
+---@return boolean
+---@nodiscard
+function table.isarray(t) end
+
 return table
