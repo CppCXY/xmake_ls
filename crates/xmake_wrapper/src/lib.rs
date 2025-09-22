@@ -2,28 +2,33 @@ mod builder;
 mod command;
 mod error;
 mod executor;
+mod version;
 
 pub use builder::*;
 pub use command::*;
 pub use error::*;
 pub use executor::*;
+use log::debug;
+pub use version::XmakeVersion;
 
-use std::path::PathBuf;
+use std::{path::PathBuf, process::Stdio};
 use tokio::process::Command;
 
-/// xmake 命令包装器的主要结构
+use crate::version::strip_ansi_codes;
+
+/// Main struct of the xmake command wrapper
 #[derive(Debug, Clone)]
-#[allow(dead_code)] // 这是一个库模块，某些方法可能在外部使用
+#[allow(dead_code)] // This is a library module; some methods may be used externally
 pub struct XmakeWrapper {
-    /// xmake 可执行文件路径
+    /// Path to the xmake executable
     pub xmake_env: String,
-    /// 工作目录
+    /// Working directory
     pub working_dir: Option<PathBuf>,
 }
 
-#[allow(dead_code)] // 这是一个库模块，某些方法可能在外部使用
+#[allow(dead_code)] // This is a library module; some methods may be used externally
 impl XmakeWrapper {
-    /// 创建新的 xmake 包装器实例
+    /// Create a new xmake wrapper instance
     pub fn new() -> Self {
         Self {
             xmake_env: "xmake".to_string(),
@@ -31,7 +36,7 @@ impl XmakeWrapper {
         }
     }
 
-    /// 使用自定义 xmake 路径创建实例
+    /// Create an instance with a custom xmake path
     pub fn with_path<P: AsRef<str>>(xmake_path: P) -> Self {
         Self {
             xmake_env: xmake_path.as_ref().to_string(),
@@ -39,23 +44,23 @@ impl XmakeWrapper {
         }
     }
 
-    /// 设置工作目录
+    /// Set the working directory
     pub fn with_working_dir<P: Into<PathBuf>>(mut self, dir: P) -> Self {
         self.working_dir = Some(dir.into());
         self
     }
 
-    /// 创建一个新的 xmake 命令
+    /// Create a new xmake command builder
     pub fn command(&self) -> XmakeCommandBuilder {
         XmakeCommandBuilder::new(self.clone())
     }
 
-    /// 执行 xmake 命令
+    /// Execute a xmake command
     pub async fn execute(&self, cmd: &XmakeCommand) -> Result<XmakeOutput, XmakeError> {
         execute_command(self, cmd).await
     }
 
-    /// 检查 xmake 是否可用
+    /// Check whether xmake is available
     pub async fn check_available(&self) -> bool {
         let result = Command::new(&self.xmake_env)
             .arg("--version")
@@ -69,7 +74,7 @@ impl XmakeWrapper {
     }
 
     pub async fn get_xmake_path(&self) -> Option<PathBuf> {
-        // 首先尝试直接解析当前配置的 xmake_env 路径
+        // First try to resolve the currently configured xmake_env path directly
         let xmake_path = PathBuf::from(&self.xmake_env);
         if xmake_path.is_absolute() && xmake_path.exists() {
             return Some(xmake_path);
@@ -82,7 +87,7 @@ impl XmakeWrapper {
             }
         }
 
-        // 使用 which/where 命令在 PATH 中查找 xmake
+        // Use which/where command to find xmake in PATH
         let which_cmd = if cfg!(windows) { "where" } else { "which" };
 
         let result = Command::new(which_cmd).arg(&self.xmake_env).output().await;
@@ -111,6 +116,36 @@ impl XmakeWrapper {
         }
 
         None
+    }
+
+    pub async fn get_xmake_version(&self) -> Result<XmakeVersion, XmakeError> {
+        debug!("Getting xmake version from: {}", self.xmake_env);
+        let output = Command::new(&self.xmake_env)
+            .arg("--version")
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .output()
+            .await?;
+
+        if output.status.success() {
+            let version_raw = String::from_utf8_lossy(&output.stdout).to_string();
+            let version_clean = strip_ansi_codes(&version_raw);
+            match XmakeVersion::parse(&version_clean) {
+                Some(ver) => Ok(ver),
+                None => {
+                    log::error!(
+                        "Failed to parse xmake version from output: {}",
+                        version_clean
+                    );
+                    Err(XmakeError::VersionParseError {
+                        version_str: version_clean,
+                    })
+                }
+            }
+        } else {
+            log::error!("Failed to get xmake version from: {}", self.xmake_env);
+            Err(XmakeError::XmakeNotFound)
+        }
     }
 }
 

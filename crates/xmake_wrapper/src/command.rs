@@ -1,36 +1,36 @@
 use std::collections::HashMap;
 
-/// xmake命令类型枚举
+/// Enum of xmake command types
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum XmakeCommandType {
-    /// 构建项目
+    /// Build project
     Build,
-    /// 清理项目
+    /// Clean project
     Clean,
-    /// 配置项目
+    /// Configure project
     Config,
-    /// 安装项目
+    /// Install project
     Install,
-    /// 创建新项目
+    /// Create new project
     Create,
-    /// 运行项目
+    /// Run project
     Run,
-    /// 显示版本信息
+    /// Show version info
     Version,
-    /// 显示帮助信息
+    /// Show help info
     Help,
-    /// 显示项目信息
+    /// Show project info
     Show,
-    /// 包管理相关命令
+    /// Package management command
     Package,
-    /// 测试项目
+    /// Test project
     Test,
-    /// 自定义命令
+    /// Custom command
     Custom(String),
 }
 
 impl XmakeCommandType {
-    /// 获取命令字符串
+    /// Get the command string
     pub fn as_str(&self) -> &str {
         match self {
             XmakeCommandType::Build => "build",
@@ -49,21 +49,21 @@ impl XmakeCommandType {
     }
 }
 
-/// xmake命令结构
+/// xmake command structure
 #[derive(Debug, Clone)]
 pub struct XmakeCommand {
-    /// 命令类型
+    /// Command type
     pub command_type: XmakeCommandType,
-    /// 命令参数
+    /// Command arguments
     pub args: Vec<String>,
-    /// 环境变量
+    /// Environment variables
     pub env_vars: HashMap<String, String>,
-    /// 是否继承父进程环境变量
+    /// Whether to inherit parent process environment
     pub inherit_env: bool,
 }
 
 impl XmakeCommand {
-    /// 创建新的xmake命令
+    /// Create a new xmake command
     pub fn new(command_type: XmakeCommandType) -> Self {
         Self {
             command_type,
@@ -73,13 +73,13 @@ impl XmakeCommand {
         }
     }
 
-    /// 添加参数
+    /// Add an argument
     pub fn arg<S: Into<String>>(mut self, arg: S) -> Self {
         self.args.push(arg.into());
         self
     }
 
-    /// 添加多个参数
+    /// Add multiple arguments
     pub fn args<I, S>(mut self, args: I) -> Self
     where
         I: IntoIterator<Item = S>,
@@ -91,7 +91,7 @@ impl XmakeCommand {
         self
     }
 
-    /// 添加环境变量
+    /// Add an environment variable
     pub fn env<K, V>(mut self, key: K, value: V) -> Self
     where
         K: Into<String>,
@@ -101,13 +101,13 @@ impl XmakeCommand {
         self
     }
 
-    /// 设置是否继承父进程环境变量
+    /// Set whether to inherit parent environment variables
     pub fn inherit_env(mut self, inherit: bool) -> Self {
         self.inherit_env = inherit;
         self
     }
 
-    /// 构建完整的命令参数列表
+    /// Build the full command argument list
     pub fn build_args(&self) -> Vec<String> {
         let mut args = vec![self.command_type.as_str().to_string()];
         args.extend(self.args.clone());
@@ -115,21 +115,21 @@ impl XmakeCommand {
     }
 }
 
-/// 命令输出结果
+/// Command output result
 #[derive(Debug, Clone)]
 pub struct XmakeOutput {
-    /// 退出状态码
+    /// Exit status code
     pub status_code: i32,
-    /// 标准输出
+    /// Standard output
     pub stdout: String,
-    /// 标准错误输出
+    /// Standard error output
     pub stderr: String,
-    /// 命令是否成功执行
+    /// Whether the command executed successfully
     pub success: bool,
 }
 
 impl XmakeOutput {
-    /// 创建新的输出结果
+    /// Create a new output result
     pub fn new(status_code: i32, stdout: String, stderr: String) -> Self {
         Self {
             status_code,
@@ -139,12 +139,12 @@ impl XmakeOutput {
         }
     }
 
-    /// 检查命令是否成功
+    /// Check if the command succeeded
     pub fn is_success(&self) -> bool {
         self.success
     }
 
-    /// 获取输出文本，优先返回stdout，如果为空则返回stderr
+    /// Get the output text, prefer stdout; if empty, return stderr
     pub fn output_text(&self) -> &str {
         if !self.stdout.is_empty() {
             &self.stdout

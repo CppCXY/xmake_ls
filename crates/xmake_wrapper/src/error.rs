@@ -1,25 +1,37 @@
 use std::fmt;
 
-/// xmake命令执行错误类型
+/// Error types for executing xmake commands
 #[derive(Debug, Clone)]
 pub enum XmakeError {
-    /// 命令执行失败
+    /// Command execution failed
     ExecutionFailed {
         command: String,
         status_code: i32,
         stdout: String,
         stderr: String,
     },
-    /// IO错误
-    IoError { message: String },
-    /// xmake未找到或不可用
+    /// IO error
+    IoError {
+        message: String,
+    },
+    /// xmake not found or unavailable
     XmakeNotFound,
-    /// 无效的工作目录
-    InvalidWorkingDirectory { path: String },
-    /// 命令超时
-    Timeout { command: String, timeout_secs: u64 },
-    /// 其他错误
-    Other { message: String },
+    /// Invalid working directory
+    InvalidWorkingDirectory {
+        path: String,
+    },
+    /// Command timed out
+    Timeout {
+        command: String,
+        timeout_secs: u64,
+    },
+    VersionParseError {
+        version_str: String,
+    },
+    /// Other errors
+    Other {
+        message: String,
+    },
 }
 
 impl fmt::Display for XmakeError {
@@ -57,6 +69,13 @@ impl fmt::Display for XmakeError {
                     f,
                     "Command '{}' timed out after {} seconds",
                     command, timeout_secs
+                )
+            }
+            XmakeError::VersionParseError { version_str } => {
+                write!(
+                    f,
+                    "Failed to parse xmake version from string: {}",
+                    version_str
                 )
             }
             XmakeError::Other { message } => {

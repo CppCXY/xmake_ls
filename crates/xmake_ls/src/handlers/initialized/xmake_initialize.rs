@@ -22,7 +22,30 @@ pub async fn init_xmake(context: &ServerContextSnapshot) {
         return;
     }
 
-    // donot need load xmake lib files for now
+    let xmake_version = match context.xmake().get_xmake_version().await {
+        Ok(version) => {
+            log::info!("xmake version: {}", version);
+            version
+        }
+        Err(err) => {
+            log::warn!("failed to get xmake version: {}", err);
+            let message = ShowMessageParams {
+                typ: lsp_types::MessageType::ERROR,
+                message: format!(
+                    "Failed to get xmake version: {}. Please ensure xmake is properly installed.",
+                    err
+                ),
+            };
+            context.client().show_message(message);
+            return;
+        }
+    };
+
+    // set version to workspace
+    {
+        let mut workspace = context.workspace_manager().write().await;
+        workspace.xmake_version = xmake_version;
+    }
 
     let Some(xmake_path) = context.xmake().get_xmake_path().await else {
         log::warn!("xmake directory not found");

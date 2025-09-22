@@ -4,10 +4,10 @@ use std::process::Stdio;
 use tokio::process::Command;
 use tokio::time::{Duration, timeout};
 
-/// 默认命令超时时间（秒）
-const DEFAULT_TIMEOUT_SECS: u64 = 300; // 5分钟
+/// Default command timeout in seconds
+const DEFAULT_TIMEOUT_SECS: u64 = 300; // 5 minutes
 
-/// 执行xmake命令
+/// Execute an xmake command
 pub async fn execute_command(
     wrapper: &XmakeWrapper,
     cmd: &XmakeCommand,
@@ -15,7 +15,7 @@ pub async fn execute_command(
     execute_command_with_timeout(wrapper, cmd, DEFAULT_TIMEOUT_SECS).await
 }
 
-/// 带超时的命令执行
+/// Execute a command with timeout
 pub async fn execute_command_with_timeout(
     wrapper: &XmakeWrapper,
     cmd: &XmakeCommand,
@@ -26,7 +26,7 @@ pub async fn execute_command_with_timeout(
 
     debug!("Executing xmake command: {}", command_str);
 
-    // 构建tokio命令
+    // Build tokio command
     let mut command = Command::new(&wrapper.xmake_env);
     command
         .args(&args)
@@ -34,7 +34,7 @@ pub async fn execute_command_with_timeout(
         .stderr(Stdio::piped())
         .stdin(Stdio::null());
 
-    // 设置工作目录
+    // Set working directory
     if let Some(working_dir) = &wrapper.working_dir {
         if !working_dir.exists() {
             let error_msg = format!(
@@ -50,7 +50,7 @@ pub async fn execute_command_with_timeout(
         command.current_dir(working_dir);
     }
 
-    // 设置环境变量
+    // Set environment variables
     if cmd.inherit_env {
         for (key, value) in &cmd.env_vars {
             debug!("Setting environment variable: {}={}", key, value);
@@ -65,7 +65,7 @@ pub async fn execute_command_with_timeout(
         }
     }
 
-    // 执行命令
+    // Execute command
     let command_str_clone = command_str.clone();
     let execution_future = async {
         info!("Starting xmake command execution: {}", command_str_clone);
@@ -101,7 +101,7 @@ pub async fn execute_command_with_timeout(
         Ok(result)
     };
 
-    // 应用超时
+    // Apply timeout
     match timeout(Duration::from_secs(timeout_secs), execution_future).await {
         Ok(result) => result,
         Err(_) => {
@@ -114,56 +114,5 @@ pub async fn execute_command_with_timeout(
                 timeout_secs,
             })
         }
-    }
-}
-
-/// 检查xmake是否可用
-pub async fn check_xmake_available(xmake_path: &str) -> bool {
-    debug!("Checking if xmake is available at: {}", xmake_path);
-    let result = Command::new(xmake_path)
-        .arg("--version")
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .output()
-        .await;
-
-    match result {
-        Ok(output) => {
-            let available = output.status.success();
-            if available {
-                info!("xmake is available at: {}", xmake_path);
-            } else {
-                warn!("xmake not available at: {}", xmake_path);
-            }
-            available
-        }
-        Err(e) => {
-            warn!(
-                "Failed to check xmake availability at {}: {}",
-                xmake_path, e
-            );
-            false
-        }
-    }
-}
-
-/// 获取xmake版本信息
-pub async fn get_xmake_version(xmake_path: &str) -> Result<String, XmakeError> {
-    debug!("Getting xmake version from: {}", xmake_path);
-    let output = Command::new(xmake_path)
-        .arg("--version")
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .output()
-        .await?;
-
-    if output.status.success() {
-        let version = String::from_utf8_lossy(&output.stdout).to_string();
-        let version_trimmed = version.trim().to_string();
-        info!("xmake version: {}", version_trimmed);
-        Ok(version_trimmed)
-    } else {
-        error!("Failed to get xmake version from: {}", xmake_path);
-        Err(XmakeError::XmakeNotFound)
     }
 }

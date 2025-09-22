@@ -13,6 +13,7 @@ use tokio_util::sync::CancellationToken;
 use wax::Pattern;
 use xmake_code_analysis::uri_to_file_path;
 use xmake_code_analysis::{Emmyrc, XmakeAnalysis, load_configs};
+use xmake_wrapper::XmakeVersion;
 
 pub struct WorkspaceManager {
     analysis: Arc<RwLock<XmakeAnalysis>>,
@@ -28,6 +29,7 @@ pub struct WorkspaceManager {
     pub match_file_pattern: WorkspaceFileMatcher,
     // 原子变量
     pub workspace_initialized: Arc<AtomicBool>,
+    pub xmake_version: XmakeVersion,
 }
 
 impl WorkspaceManager {
@@ -49,6 +51,7 @@ impl WorkspaceManager {
             current_open_files: HashSet::new(),
             match_file_pattern: WorkspaceFileMatcher::default(),
             workspace_initialized: Arc::new(AtomicBool::new(false)),
+            xmake_version: XmakeVersion::default(),
         }
     }
 
