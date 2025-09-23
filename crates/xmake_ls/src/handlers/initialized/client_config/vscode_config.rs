@@ -4,6 +4,7 @@ use crate::handlers::initialized::client_config::default_config::get_client_conf
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+#[allow(unused)]
 #[derive(Debug, Deserialize, Serialize)]
 struct VscodeFilesConfig {
     exclude: Option<HashMap<String, bool>>,

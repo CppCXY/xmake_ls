@@ -51,7 +51,13 @@ pub fn try_resolve_call_closure_params(
     }
 
     let param_type = if closure_params.is_last_param {
-        call_doc_func.get_params().last()
+        let params = call_doc_func.get_params();
+        if params.len() > 1 && params.first().unwrap().0 == "..." {
+            // 最后一个参数是可变参数
+            params.last()
+        } else {
+            call_doc_func.get_params().get(param_idx)
+        }
     } else {
         call_doc_func.get_params().get(param_idx)
     };
