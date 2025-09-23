@@ -309,9 +309,10 @@ function on_package(func) end
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#on_install)
 ---@scope target
+---@overload fun(...: string, func: TargetHook): nil
 ---@param func TargetHook Function to run for custom install
 ---@return nil
-function on_install(func) end
+function on_install(func, ...) end
 
 ---
 ---Run custom uninstall target file script

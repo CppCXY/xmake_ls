@@ -109,6 +109,11 @@ fn check_call_expr(
         }
     }
 
+    // 没必要检查
+    if fake_params.len() > 1 && fake_params.first()?.0 == "..." {
+        return None;
+    }
+
     // Check for missing parameters
     if call_args_count < fake_params.len() {
         // 调用参数包含 `...`

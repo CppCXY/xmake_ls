@@ -330,10 +330,10 @@ function on_fetch(os, func) end
 --- end)
 --- ```
 ---@scope package
+---@overload fun(...: string, func: PackageHook): nil
 ---@param func PackageHook Function to run when installing
 ---@return nil
-function on_install(func) end
-
+function on_install(func, ...) end
 ---Custom download package
 ---
 ---[Open in browser](https://xmake.io/api/description/package-dependencies#on_download)

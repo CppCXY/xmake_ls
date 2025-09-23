@@ -55,15 +55,16 @@ fn analyze_lambda_params(
         LuaAst::LuaCallArgList(call_arg_list) => {
             let call_expr = call_arg_list.get_parent::<LuaCallExpr>()?;
             let pos = closure.get_position();
-            let founded_idx = call_arg_list
-                .get_args()
-                .position(|arg| arg.get_position() == pos)?;
+            let args = call_arg_list.get_args().collect::<Vec<_>>();
+            let founded_idx = args.iter().position(|arg| arg.get_position() == pos)?;
+            let is_last_param = founded_idx == args.len() - 1;
 
             let unresolved = UnResolveCallClosureParams {
                 file_id: analyzer.file_id,
                 signature_id: signature_id.clone(),
                 call_expr,
                 param_idx: founded_idx,
+                is_last_param,
             };
 
             analyzer

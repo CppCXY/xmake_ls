@@ -50,9 +50,12 @@ pub fn try_resolve_call_closure_params(
         _ => {}
     }
 
-    let (async_state, params_to_insert) = if let Some(param_type) =
+    let param_type = if closure_params.is_last_param {
+        call_doc_func.get_params().last()
+    } else {
         call_doc_func.get_params().get(param_idx)
-    {
+    };
+    let (async_state, params_to_insert) = if let Some(param_type) = param_type {
         let Some(param_type) = get_real_type(db, &param_type.1.as_ref().unwrap_or(&LuaType::Any))
         else {
             return Ok(());

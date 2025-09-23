@@ -340,6 +340,7 @@ pub struct UnResolveCallClosureParams {
     pub signature_id: LuaSignatureId,
     pub call_expr: LuaCallExpr,
     pub param_idx: usize,
+    pub is_last_param: bool,
 }
 
 impl From<UnResolveCallClosureParams> for UnResolve {

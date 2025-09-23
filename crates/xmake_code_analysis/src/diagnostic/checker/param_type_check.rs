@@ -59,6 +59,13 @@ fn check_call_expr(
         }
     }
 
+    if params.len() > 1 && params.first()?.0 == "..." {
+        // 可变参数在前面, 则反向检查
+        params.reverse();
+        arg_types.reverse();
+        arg_ranges.reverse();
+    }
+
     for (idx, param) in params.iter().enumerate() {
         if param.0 == "..." {
             if arg_types.len() < idx {
