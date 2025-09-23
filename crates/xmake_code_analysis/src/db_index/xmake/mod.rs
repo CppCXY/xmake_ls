@@ -1,16 +1,16 @@
-mod target_or_package;
+mod target;
 mod xmake_function;
 
 use std::collections::HashMap;
 
 use crate::{FileId, LuaIndex};
-pub use target_or_package::*;
+pub use target::*;
 pub use xmake_function::*;
 
 #[derive(Debug)]
 pub struct LuaXmakeIndex {
     includes_file_ids: HashMap<FileId, Vec<FileId>>,
-    targets_or_packages: HashMap<FileId, Vec<XmakeTargetOrPackage>>,
+    targets_or_packages: HashMap<FileId, Vec<XmakeTarget>>,
 }
 
 impl LuaXmakeIndex {
@@ -32,18 +32,14 @@ impl LuaXmakeIndex {
         self.includes_file_ids.get(&file_id)
     }
 
-    pub fn add_target_or_package(
-        &mut self,
-        file_id: FileId,
-        target_or_package: XmakeTargetOrPackage,
-    ) {
+    pub fn add_target_or_package(&mut self, file_id: FileId, target: XmakeTarget) {
         self.targets_or_packages
             .entry(file_id)
             .or_insert_with(Vec::new)
-            .push(target_or_package);
+            .push(target);
     }
 
-    pub fn get_targets_or_packages(&self, file_id: FileId) -> Option<&Vec<XmakeTargetOrPackage>> {
+    pub fn get_targets(&self, file_id: FileId) -> Option<&Vec<XmakeTarget>> {
         self.targets_or_packages.get(&file_id)
     }
 }

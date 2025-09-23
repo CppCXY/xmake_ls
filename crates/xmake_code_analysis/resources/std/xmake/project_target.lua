@@ -556,12 +556,14 @@ function add_links(link, ...) end
 ---Add system link libraries
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_syslinks)
+---```lua
 --- target("app")
 ---     if is_plat("windows") then
 ---         add_syslinks("user32", "ws2_32")
 ---     elseif is_plat("linux") then
 ---         add_syslinks("pthread", "dl")
 ---     end
+---```
 ---@scope target
 ---@param link string Link system library
 ---@param ... string Link system libraries
@@ -593,8 +595,10 @@ function add_files(file, option) end
 ---Remove source files
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#remove_files)
+---```lua
 --- target("app")
 ---     remove_files("src/legacy/**.c")
+---```
 ---@scope target
 ---@param file string File name
 ---@param ... string File names
@@ -633,10 +637,12 @@ function add_linkdirs(dir, ...) end
 ---Add load search directories for dynamic libraries
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_rpathdirs)
+--- ```lua
 --- target("app")
 ---     if is_plat("linux") then
 ---         add_rpathdirs("$ORIGIN/../lib")
 ---     end
+--- ```
 ---@scope target
 ---@param dir string Load search directory
 ---@param ... string Load search directories
@@ -751,8 +757,10 @@ function add_cxflags(flag, attr) end
 ---Add c++ compilation flags
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_cxxflags)
+--- ```lua
 --- target("app")
 ---     add_cxxflags("-stdlib=libc++")
+--- ```
 ---@scope target
 ---@param flag string C++ flag
 ---@param ... string C++ flags
@@ -893,12 +901,14 @@ function add_cugencodes(setting, ...) end
 ---Add static library link flags
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_ldflags)
+--- ```lua
 --- target("app")
 ---     if is_plat("linux") then
 ---         add_ldflags("-Wl,-rpath,$ORIGIN/../lib")
 ---     elseif is_plat("windows") then
 ---         add_ldflags("/DEBUG")
 ---     end
+--- ```
 ---@scope target
 ---@param flag string Static library link flag
 ---@param ... string Static library link flags
@@ -929,8 +939,10 @@ function add_shflags(flag, ...) end
 ---Add option dependencies
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_options)
+--- ```lua
 --- target("app")
 ---     add_options("simd", "with_ssl")
+--- ```
 ---@scope target
 ---@param name string Option name
 ---@param ... string Option names
@@ -941,8 +953,10 @@ function add_options(name, ...) end
 ---Add package dependencies
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_packages)
+--- ```lua
 --- target("app")
 ---     add_packages("openssl", "zlib")
+--- ```
 ---@scope target
 ---@param name string Package name
 ---@param ... string Package names
@@ -987,10 +1001,12 @@ function add_vectorexts(ext, ...) end
 ---Add frameworks
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_frameworks)
+--- ```lua
 --- target("app")
 ---     if is_plat("macosx") then
 ---         add_frameworks("Cocoa", "OpenGL")
 ---     end
+--- ```
 ---@scope target
 ---@param framework string Framework name
 ---@param ... string Framework names
@@ -1017,8 +1033,10 @@ function add_frameworkdirs(dir, ...) end
 ---Set toolset
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_toolset)
+--- ```lua
 --- target("app")
 ---     set_toolset("cc", "clang")
+--- ```
 ---@scope target
 ---@param type ToolType Tool type
 ---@param name string Tool name or location
@@ -1031,8 +1049,10 @@ function set_toolset(type, name) end
 ---Run `xmake show -l toolchains` for full list
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_toolchains)
+--- ```lua
 --- target("app")
 ---     set_toolchains("clang")
+--- ```
 ---@scope target
 ---@param name Toolchain Toolchain name
 ---@param ... Toolchain Toolchain names
@@ -1054,8 +1074,10 @@ function set_toolchains(name, option) end
 ---Set the compilation platform for the specified target
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_plat)
+--- ```lua
 --- target("app")
 ---     set_plat("windows")
+--- ```
 ---@scope target
 ---@param platform Platform Compilation platform
 ---@return nil
@@ -1065,8 +1087,10 @@ function set_plat(platform) end
 ---Set the compilation architecture of the specified target
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_arch)
+--- ```lua
 --- target("app")
 ---     set_arch("x64")
+--- ```
 ---@scope target
 ---@param arch Architecture Compilation architecture
 ---@return nil
@@ -1098,8 +1122,10 @@ function add_values(key, value, ...) end
 ---Set the running directory
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_rundir)
+--- ```lua
 --- target("app")
 ---     set_rundir("build/run")
+--- ```
 ---@scope target
 ---@param dir string Running directory
 ---@return nil
@@ -1109,8 +1135,10 @@ function set_rundir(dir) end
 ---Set the list of run parameters
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_runargs)
+--- ```lua
 --- target("app")
 ---     set_runargs("--verbose", "--threads=4")
+--- ```
 ---@scope target
 ---@param arg string Running argument
 ---@param ... string Running arguments
@@ -1121,8 +1149,10 @@ function set_runargs(arg, ...) end
 ---Add runtime environment variables
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_runenvs)
+--- ```lua
 --- target("app")
 ---     add_runenvs("APP_ENV", "dev")
+--- ```
 ---@scope target
 ---@param key string Environment key
 ---@param value string Environment value
@@ -1134,8 +1164,10 @@ function add_runenvs(key, value, ...) end
 ---Set the runtime environment variable
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_runenv)
+--- ```lua
 --- target("app")
 ---     set_runenv("PATH", "$(projectdir)/tools:$(env PATH)")
+--- ```
 ---@scope target
 ---@param key string Environment key
 ---@param value string Environment value
@@ -1147,8 +1179,10 @@ function set_runenv(key, value, ...) end
 ---Set the installation directory
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#set_installdir)
+--- ```lua
 --- target("app")
 ---     set_installdir("dist")
+--- ```
 ---@scope target
 ---@param dir string Installation directory
 ---@return nil
@@ -1158,8 +1192,10 @@ function set_installdir(dir) end
 ---Add installation files
 ---
 ---[Open in browser](https://xmake.io/api/description/project-target#add_installfiles)
+--- ```lua
 --- target("app")
 ---     add_installfiles("res/**")
+--- ```
 ---@scope target
 ---@param file string File name
 ---@param ... string File names

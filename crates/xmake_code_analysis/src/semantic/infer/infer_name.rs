@@ -93,7 +93,10 @@ pub fn get_name_expr_var_ref_id(
                 return Some(VarRefId::VarRef(decl_id));
             }
 
-            let global_decl_id = db.get_global_index().resolve_global_decl_id(db, name)?;
+            let position = name_expr.get_position();
+            let global_decl_id = db
+                .get_global_index()
+                .resolve_global_decl_id(db, name, file_id, position)?;
             Some(VarRefId::VarRef(global_decl_id))
         }
     }
@@ -506,8 +509,11 @@ pub fn find_self_decl_or_member_id(
             if let Some(decl) = decl {
                 return Some(LuaDeclOrMemberId::Decl(decl.get_id()));
             }
-
-            let id = db.get_global_index().resolve_global_decl_id(db, &name)?;
+            let file_id = cache.get_file_id();
+            let position = prefix_name.get_position();
+            let id = db
+                .get_global_index()
+                .resolve_global_decl_id(db, &name, file_id, position)?;
             return Some(LuaDeclOrMemberId::Decl(id));
         }
         LuaExpr::IndexExpr(prefix_index) => {

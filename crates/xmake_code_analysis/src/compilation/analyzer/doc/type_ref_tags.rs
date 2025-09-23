@@ -428,6 +428,8 @@ pub fn analyze_other(analyzer: &mut DocAnalyzer, other: LuaDocTagOther) -> Optio
         let scope = match description.as_str() {
             "target" => XmakeScope::Target,
             "package" => XmakeScope::Package,
+            "option" => XmakeScope::Option,
+            "rule" => XmakeScope::Rule,
             _ => return None,
         };
         analyzer

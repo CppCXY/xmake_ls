@@ -22,7 +22,7 @@ pub use declaration::*;
 pub use dependency::LuaDependencyIndex;
 pub use diagnostic::{AnalyzeError, DiagnosticAction, DiagnosticActionKind, DiagnosticIndex};
 pub use flow::*;
-pub use global::{GlobalId, LuaGlobalIndex};
+pub use global::*;
 pub use member::*;
 pub use metatable::LuaMetatableIndex;
 pub use module::*;

@@ -4,7 +4,7 @@ use emmylua_parser::{
 use rowan::{TextRange, TextSize};
 
 use crate::{
-    LuaDecl, LuaDeclExtra, XmakeFunction, XmakeTargetOrPackage,
+    LuaDecl, LuaDeclExtra, XmakeFunction, XmakeTarget, XmakeTargetKind,
     compilation::analyzer::decl::DeclAnalyzer, get_xmake_function,
 };
 
@@ -21,10 +21,19 @@ pub fn analyze_xmake_function_call(
             analyze_includes(analyzer, call_expr);
         }
         XmakeFunction::Target => {
-            analyze_target_or_package(analyzer, call_expr, true);
+            analyze_target(analyzer, call_expr, XmakeTargetKind::Target);
         }
         XmakeFunction::Package => {
-            analyze_target_or_package(analyzer, call_expr, false);
+            analyze_target(analyzer, call_expr, XmakeTargetKind::Package);
+        }
+        XmakeFunction::Option => {
+            analyze_target(analyzer, call_expr, XmakeTargetKind::Option);
+        }
+        XmakeFunction::Rule => {
+            analyze_target(analyzer, call_expr, XmakeTargetKind::Rule);
+        }
+        XmakeFunction::Task => {
+            analyze_target(analyzer, call_expr, XmakeTargetKind::Task);
         }
         _ => {}
     }
@@ -126,10 +135,10 @@ fn analyze_includes(analyzer: &mut DeclAnalyzer, call_expr: &LuaCallExpr) -> Opt
     Some(())
 }
 
-fn analyze_target_or_package(
+fn analyze_target(
     analyzer: &mut DeclAnalyzer,
     call_expr: &LuaCallExpr,
-    is_target: bool,
+    kind: XmakeTargetKind,
 ) -> Option<()> {
     let arg_list = call_expr.get_args_list()?;
     let args = arg_list.get_args().collect::<Vec<_>>();
@@ -152,7 +161,7 @@ fn analyze_target_or_package(
         args[1].get_range()
     } else {
         let stat = call_expr.ancestors::<LuaStat>().next()?;
-        let end_position = get_end_position(&stat, is_target)?;
+        let end_position = get_end_position(&stat, kind)?;
         if end_position <= stat.get_range().end() {
             return None;
         }
@@ -161,9 +170,9 @@ fn analyze_target_or_package(
 
     analyzer.db.get_xmake_index_mut().add_target_or_package(
         file_id,
-        XmakeTargetOrPackage {
+        XmakeTarget {
             name: target_name,
-            is_target,
+            kind,
             range,
         },
     );
@@ -171,16 +180,29 @@ fn analyze_target_or_package(
     Some(())
 }
 
-fn get_end_position(stat: &LuaStat, is_target: bool) -> Option<TextSize> {
+fn get_end_position(stat: &LuaStat, target_kind: XmakeTargetKind) -> Option<TextSize> {
     let mut current_syntax_node = stat.syntax().clone();
     while let Some(next_sibling) = current_syntax_node.next_sibling() {
         if let Some(call_expr_stat) = LuaCallExprStat::cast(next_sibling.clone()) {
             let call_expr = call_expr_stat.get_call_expr()?;
             if let Some(xmake_function) = get_xmake_function(&call_expr) {
-                match (xmake_function, is_target) {
-                    (XmakeFunction::EndTarget, true) | (XmakeFunction::EndPackage, false)
-                    | // new target/package starts, stop searching
-                    (XmakeFunction::Target | XmakeFunction::Package, _) => {
+                match (xmake_function, target_kind) {
+                    (XmakeFunction::EndTarget, XmakeTargetKind::Target)
+                    | (XmakeFunction::EndPackage, XmakeTargetKind::Package)
+                    | (XmakeFunction::EndOption, XmakeTargetKind::Option)
+                    | (XmakeFunction::EndRule, XmakeTargetKind::Rule)
+                    | (XmakeFunction::EndTask, XmakeTargetKind::Task) => {
+                        return Some(call_expr.get_range().end());
+                    }
+                    // new target/package starts, stop searching
+                    (
+                        XmakeFunction::Target
+                        | XmakeFunction::Package
+                        | XmakeFunction::Option
+                        | XmakeFunction::Rule
+                        | XmakeFunction::Task,
+                        _,
+                    ) => {
                         return Some(call_expr.get_position());
                     }
                     _ => {}

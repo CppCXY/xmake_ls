@@ -119,6 +119,9 @@ impl LuaTagContent {
 pub enum XmakeScope {
     Target,
     Package,
+    Option,
+    Rule,
+    Task,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

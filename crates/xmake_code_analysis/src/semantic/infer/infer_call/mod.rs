@@ -5,7 +5,7 @@ mod infer_setmetatable;
 use std::sync::Arc;
 
 use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaExpr, LuaSyntaxKind};
-use rowan::{TextRange, TextSize};
+use rowan::TextRange;
 
 use super::{
     super::{
@@ -16,9 +16,9 @@ use super::{
     InferFailReason, InferResult,
 };
 use crate::{
-    CacheEntry, DbIndex, FileId, InFiled, LuaFunctionType, LuaGenericType, LuaInstanceType,
+    CacheEntry, DbIndex, InFiled, LuaFunctionType, LuaGenericType, LuaInstanceType,
     LuaOperatorMetaMethod, LuaOperatorOwner, LuaSemanticDeclId, LuaSignatureId, LuaType,
-    LuaTypeDeclId, LuaUnionType, XmakeScope,
+    LuaTypeDeclId, LuaUnionType, filter_global_by_scope,
 };
 use crate::{
     XmakeFunction, get_xmake_function,
@@ -460,7 +460,7 @@ fn infer_union(
         match ty {
             LuaType::Signature(signature_id) => {
                 let semantic_id = LuaSemanticDeclId::Signature(signature_id);
-                if filter_by_scope(db, semantic_id, file_id, position).is_some() {
+                if filter_global_by_scope(db, semantic_id, file_id, position).is_some() {
                     continue;
                 }
 
@@ -524,27 +524,6 @@ fn infer_union(
         return Err(InferFailReason::None);
     }
     resolve_signature(db, cache, all_overloads, call_expr, false, args_count)
-}
-
-fn filter_by_scope(
-    db: &DbIndex,
-    semantic_id: LuaSemanticDeclId,
-    file_id: FileId,
-    position: TextSize,
-) -> Option<()> {
-    let property = db.get_property_index().get_property(&semantic_id)?;
-    let xmake_scope = property.scope.clone()?;
-    let xmake_target_or_packages = db.get_xmake_index().get_targets_or_packages(file_id)?;
-    for target_or_package in xmake_target_or_packages {
-        if target_or_package.range.contains(position) {
-            match (xmake_scope, target_or_package.is_target) {
-                (XmakeScope::Package, true) | (XmakeScope::Target, false) => return Some(()),
-                _ => {}
-            }
-        }
-    }
-
-    None
 }
 
 pub(crate) fn unwrapp_return_type(

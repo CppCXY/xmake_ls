@@ -8,8 +8,14 @@ pub enum XmakeFunction {
     AddDeps,
     Target,
     Package,
+    Option,
+    Rule,
+    Task,
     EndTarget,
     EndPackage,
+    EndOption,
+    EndRule,
+    EndTask,
 }
 
 pub fn get_xmake_function(call_expr: &LuaCallExpr) -> Option<XmakeFunction> {
@@ -25,9 +31,15 @@ pub fn get_xmake_function(call_expr: &LuaCallExpr) -> Option<XmakeFunction> {
         "import" => Some(XmakeFunction::Import),
         "add_deps" => Some(XmakeFunction::AddDeps),
         "target" => Some(XmakeFunction::Target),
-        "package" => Some(XmakeFunction::Package),
         "end_target" => Some(XmakeFunction::EndTarget),
+        "package" => Some(XmakeFunction::Package),
         "end_package" => Some(XmakeFunction::EndPackage),
+        "option" => Some(XmakeFunction::Option),
+        "end_option" => Some(XmakeFunction::EndOption),
+        "rule" => Some(XmakeFunction::Rule),
+        "end_rule" => Some(XmakeFunction::EndRule),
+        "task" => Some(XmakeFunction::Task),
+        "end_task" => Some(XmakeFunction::EndTask),
         _ => return None,
     }
 }

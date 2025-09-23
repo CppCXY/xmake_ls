@@ -3,8 +3,9 @@ mod global_id;
 use std::collections::HashMap;
 
 pub use global_id::GlobalId;
+use rowan::TextSize;
 
-use crate::FileId;
+use crate::{FileId, LuaSemanticDeclId, LuaType, XmakeScope};
 
 use super::{DbIndex, LuaDeclId, LuaIndex};
 
@@ -47,7 +48,13 @@ impl LuaGlobalIndex {
         self.global_decl.contains_key(&id)
     }
 
-    pub fn resolve_global_decl_id(&self, db: &DbIndex, name: &str) -> Option<LuaDeclId> {
+    pub fn resolve_global_decl_id(
+        &self,
+        db: &DbIndex,
+        name: &str,
+        file_id: FileId,
+        position: TextSize,
+    ) -> Option<LuaDeclId> {
         let decl_ids = self.get_global_decl_ids(name)?;
         if decl_ids.len() == 1 {
             return Some(decl_ids[0]);
@@ -59,7 +66,15 @@ impl LuaGlobalIndex {
             match decl_type_cache {
                 Some(type_cache) => {
                     let typ = type_cache.as_type();
-                    if typ.is_def() || typ.is_ref() || typ.is_function() {
+                    if typ.is_def() || typ.is_ref() {
+                        return Some(*decl_id);
+                    }
+
+                    if let LuaType::Signature(signature_id) = typ {
+                        let semantic_id = LuaSemanticDeclId::Signature(*signature_id);
+                        if filter_global_by_scope(db, semantic_id, file_id, position).is_some() {
+                            continue;
+                        }
                         return Some(*decl_id);
                     }
 
@@ -77,6 +92,31 @@ impl LuaGlobalIndex {
 
         last_valid_decl_id.cloned()
     }
+}
+
+pub fn filter_global_by_scope(
+    db: &DbIndex,
+    semantic_id: LuaSemanticDeclId,
+    file_id: FileId,
+    position: TextSize,
+) -> Option<()> {
+    let property = db.get_property_index().get_property(&semantic_id)?;
+    let xmake_scope = property.scope.clone()?;
+    let xmake_targets = db.get_xmake_index().get_targets(file_id)?;
+    for xmake_target in xmake_targets {
+        if xmake_target.range.contains(position) {
+            match (xmake_scope, xmake_target.kind) {
+                (XmakeScope::Package, x) if !x.is_package() => return Some(()),
+                (XmakeScope::Option, x) if !x.is_option() => return Some(()),
+                (XmakeScope::Rule, x) if !x.is_rule() => return Some(()),
+                (XmakeScope::Target, x) if !x.is_target() => return Some(()),
+                (XmakeScope::Task, x) if !x.is_task() => return Some(()),
+                _ => {}
+            }
+        }
+    }
+
+    None
 }
 
 impl LuaIndex for LuaGlobalIndex {

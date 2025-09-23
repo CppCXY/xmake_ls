@@ -1,6 +1,6 @@
 [package]
 name = "xmake_code_analysis"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 authors = ["CppCXY"]
 description = "A library for analyzing xmake code."

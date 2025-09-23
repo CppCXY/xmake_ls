@@ -4,7 +4,10 @@ use emmylua_parser::{
     LuaAst, LuaAstNode, LuaCallArgList, LuaClosureExpr, LuaParamList, LuaTokenKind,
 };
 use lsp_types::{CompletionItem, CompletionItemKind, CompletionTriggerKind};
-use xmake_code_analysis::{LuaSignatureId, LuaType};
+use rowan::TextSize;
+use xmake_code_analysis::{
+    DbIndex, FileId, LuaSemanticDeclId, LuaSignatureId, LuaType, XmakeScope,
+};
 
 use crate::handlers::completion::{
     add_completions::{add_decl_completion, check_match_word},
@@ -169,6 +172,8 @@ pub fn add_global_env(
     duplicated_name: &mut HashSet<String>,
     trigger_text: &str,
 ) -> Option<()> {
+    let file_id = builder.semantic_model.get_file_id();
+    let position = builder.trigger_token.text_range().start();
     let global_env = builder
         .semantic_model
         .get_db()
@@ -192,6 +197,11 @@ pub fn add_global_env(
                     .unwrap_or(LuaType::Unknown),
             )
         };
+        if filter_func_by_scope(builder.semantic_model.get_db(), file_id, position, &typ).is_some()
+        {
+            continue;
+        }
+
         if duplicated_name.contains(&name) {
             continue;
         }
@@ -209,6 +219,36 @@ pub fn add_global_env(
     }
 
     Some(())
+}
+
+fn filter_func_by_scope(
+    db: &DbIndex,
+    file_id: FileId,
+    position: TextSize,
+    typ: &LuaType,
+) -> Option<()> {
+    let LuaType::Signature(signature_id) = typ else {
+        return None;
+    };
+
+    let semantic_id = LuaSemanticDeclId::Signature(signature_id.clone());
+    let property = db.get_property_index().get_property(&semantic_id)?;
+    let xmake_scope = property.scope.clone()?;
+    let xmake_targets = db.get_xmake_index().get_targets(file_id)?;
+    for xmake_target in xmake_targets {
+        if xmake_target.range.contains(position) {
+            match (xmake_scope, xmake_target.kind) {
+                (XmakeScope::Package, x) if !x.is_package() => return Some(()),
+                (XmakeScope::Option, x) if !x.is_option() => return Some(()),
+                (XmakeScope::Rule, x) if !x.is_rule() => return Some(()),
+                (XmakeScope::Target, x) if !x.is_target() => return Some(()),
+                (XmakeScope::Task, x) if !x.is_task() => return Some(()),
+                _ => {}
+            }
+        }
+    }
+
+    None
 }
 
 pub fn add_include_env(

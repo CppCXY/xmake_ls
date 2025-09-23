@@ -4,6 +4,7 @@ use emmylua_parser::{
     LuaAstNode, LuaAstToken, LuaClosureExpr, LuaExpr, LuaIndexExpr, LuaNameExpr, LuaStat,
     LuaSyntaxKind,
 };
+use rowan::TextSize;
 
 use crate::{
     DbIndex, FileId, InferFailReason, LuaDeclId, LuaDeclOrMemberId, LuaInferCache, LuaInstanceType,
@@ -139,7 +140,9 @@ fn get_name_decl_id(
         }
     }
 
-    db.get_global_index().resolve_global_decl_id(db, name)
+    let position = name_expr.get_position();
+    db.get_global_index()
+        .resolve_global_decl_id(db, name, file_id, position)
 }
 
 enum EnvDecl {
@@ -318,7 +321,7 @@ fn infer_member_semantic_decl_by_member_key(
             member_key,
             semantic_guard.next_level()?,
         ),
-        LuaType::Global => infer_global_member_semantic_decl_by_member_key(db, member_key),
+        LuaType::Global => infer_global_member_semantic_decl_by_member_key(db, cache, member_key),
         _ => None,
     }
 }
@@ -450,10 +453,13 @@ fn infer_instance_member_semantic_decl_by_member_key(
 
 fn infer_global_member_semantic_decl_by_member_key(
     db: &DbIndex,
+    cache: &mut LuaInferCache,
     member_key: &LuaMemberKey,
 ) -> Option<LuaSemanticDeclId> {
     let name = member_key.get_name()?;
+    let file_id = cache.get_file_id();
+    let position = TextSize::from(0);
     db.get_global_index()
-        .resolve_global_decl_id(db, name)
+        .resolve_global_decl_id(db, name, file_id, position)
         .map(|decl_id| LuaSemanticDeclId::LuaDecl(decl_id))
 }

@@ -2330,7 +2330,7 @@ checksum = "ea2f10b9bb0928dfb1b42b65e1f9e36f7f54dbdf08457afefb38afcdec4fa2bb"
 
 [[package]]
 name = "xmake_code_analysis"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "dirs",
  "emmylua_diagnostic_macro",
@@ -2368,7 +2368,7 @@ dependencies = [
 
 [[package]]
 name = "xmake_ls"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "chrono",
  "clap",
