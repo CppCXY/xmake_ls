@@ -5,7 +5,7 @@ mod infer_setmetatable;
 use std::sync::Arc;
 
 use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaExpr, LuaSyntaxKind};
-use rowan::TextRange;
+use rowan::{TextRange, TextSize};
 
 use super::{
     super::{
@@ -16,8 +16,9 @@ use super::{
     InferFailReason, InferResult,
 };
 use crate::{
-    CacheEntry, DbIndex, InFiled, LuaFunctionType, LuaGenericType, LuaInstanceType,
-    LuaOperatorMetaMethod, LuaOperatorOwner, LuaSignatureId, LuaType, LuaTypeDeclId, LuaUnionType,
+    CacheEntry, DbIndex, FileId, InFiled, LuaFunctionType, LuaGenericType, LuaInstanceType,
+    LuaOperatorMetaMethod, LuaOperatorOwner, LuaSemanticDeclId, LuaSignatureId, LuaType,
+    LuaTypeDeclId, LuaUnionType, XmakeScope,
 };
 use crate::{
     XmakeFunction, get_xmake_function,
@@ -453,10 +454,16 @@ fn infer_union(
     // 此时一般是 signature + doc_function 的联合体
     let mut all_overloads = Vec::new();
     let mut base_signatures = Vec::new();
-
+    let position = call_expr.get_position();
+    let file_id = cache.get_file_id();
     for ty in union.into_vec() {
         match ty {
             LuaType::Signature(signature_id) => {
+                let semantic_id = LuaSemanticDeclId::Signature(signature_id);
+                if filter_by_scope(db, semantic_id, file_id, position).is_some() {
+                    continue;
+                }
+
                 if let Some(signature) = db.get_signature_index().get(&signature_id) {
                     // 处理 overloads
                     let overloads = if signature.is_generic() {
@@ -517,6 +524,27 @@ fn infer_union(
         return Err(InferFailReason::None);
     }
     resolve_signature(db, cache, all_overloads, call_expr, false, args_count)
+}
+
+fn filter_by_scope(
+    db: &DbIndex,
+    semantic_id: LuaSemanticDeclId,
+    file_id: FileId,
+    position: TextSize,
+) -> Option<()> {
+    let property = db.get_property_index().get_property(&semantic_id)?;
+    let xmake_scope = property.scope.clone()?;
+    let xmake_target_or_packages = db.get_xmake_index().get_targets_or_packages(file_id)?;
+    for target_or_package in xmake_target_or_packages {
+        if target_or_package.range.contains(position) {
+            match (xmake_scope, target_or_package.is_target) {
+                (XmakeScope::Package, true) | (XmakeScope::Target, false) => return Some(()),
+                _ => {}
+            }
+        }
+    }
+
+    None
 }
 
 pub(crate) fn unwrapp_return_type(

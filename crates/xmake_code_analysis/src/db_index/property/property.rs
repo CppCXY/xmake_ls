@@ -9,6 +9,7 @@ pub struct LuaCommonProperty {
     pub version_conds: Option<Box<Vec<LuaVersionCondition>>>,
     pub tag_content: Option<Box<LuaTagContent>>,
     pub export: Option<LuaExport>,
+    pub scope: Option<XmakeScope>,
 }
 
 impl LuaCommonProperty {
@@ -21,6 +22,7 @@ impl LuaCommonProperty {
             version_conds: None,
             tag_content: None,
             export: None,
+            scope: None,
         }
     }
 
@@ -76,6 +78,10 @@ impl LuaCommonProperty {
     pub fn add_extra_export(&mut self, export: LuaExport) {
         self.export = Some(export);
     }
+
+    pub fn add_scope(&mut self, scope: XmakeScope) {
+        self.scope = Some(scope);
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -107,6 +113,12 @@ impl LuaTagContent {
     pub fn get_all_tags(&self) -> &[(String, String)] {
         &self.tags
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum XmakeScope {
+    Target,
+    Package,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

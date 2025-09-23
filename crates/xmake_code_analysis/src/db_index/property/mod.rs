@@ -3,8 +3,7 @@ mod property;
 use std::collections::{HashMap, HashSet};
 
 use emmylua_parser::{LuaAstNode, LuaDocTagField, LuaDocType, LuaVersionCondition, VisibilityKind};
-pub use property::LuaCommonProperty;
-pub use property::{LuaDeprecated, LuaExport, LuaExportScope, LuaPropertyId};
+pub use property::*;
 
 use crate::{DbIndex, FileId, LuaMember, LuaSignatureId};
 
@@ -199,6 +198,23 @@ impl LuaPropertyIndex {
     ) -> Option<()> {
         let (property, _) = self.get_or_create_property(owner_id.clone())?;
         property.add_extra_export(export);
+
+        self.in_filed_owner
+            .entry(file_id)
+            .or_insert_with(HashSet::new)
+            .insert(owner_id);
+
+        Some(())
+    }
+
+    pub fn add_scope(
+        &mut self,
+        file_id: FileId,
+        owner_id: LuaSemanticDeclId,
+        scope: property::XmakeScope,
+    ) -> Option<()> {
+        let (property, _) = self.get_or_create_property(owner_id.clone())?;
+        property.add_scope(scope);
 
         self.in_filed_owner
             .entry(file_id)

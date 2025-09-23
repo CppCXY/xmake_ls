@@ -5,6 +5,11 @@ pub enum XmakeFunction {
     AddFiles,
     Includes,
     Import,
+    AddDeps,
+    Target,
+    Package,
+    EndTarget,
+    EndPackage,
 }
 
 pub fn get_xmake_function(call_expr: &LuaCallExpr) -> Option<XmakeFunction> {
@@ -18,6 +23,11 @@ pub fn get_xmake_function(call_expr: &LuaCallExpr) -> Option<XmakeFunction> {
         "add_files" => Some(XmakeFunction::AddFiles),
         "includes" => Some(XmakeFunction::Includes),
         "import" => Some(XmakeFunction::Import),
+        "add_deps" => Some(XmakeFunction::AddDeps),
+        "target" => Some(XmakeFunction::Target),
+        "package" => Some(XmakeFunction::Package),
+        "end_target" => Some(XmakeFunction::EndTarget),
+        "end_package" => Some(XmakeFunction::EndPackage),
         _ => return None,
     }
 }

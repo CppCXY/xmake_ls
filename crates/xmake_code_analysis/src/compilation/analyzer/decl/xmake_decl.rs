@@ -1,6 +1,12 @@
-use emmylua_parser::{LuaAstNode, LuaCallExpr, LuaExpr, LuaIndexKey, LuaLiteralToken};
+use emmylua_parser::{
+    LuaAstNode, LuaCallExpr, LuaCallExprStat, LuaExpr, LuaIndexKey, LuaLiteralToken, LuaStat,
+};
+use rowan::{TextRange, TextSize};
 
-use crate::{LuaDecl, LuaDeclExtra, XmakeFunction, compilation::analyzer::decl::DeclAnalyzer};
+use crate::{
+    LuaDecl, LuaDeclExtra, XmakeFunction, XmakeTargetOrPackage,
+    compilation::analyzer::decl::DeclAnalyzer, get_xmake_function,
+};
 
 pub fn analyze_xmake_function_call(
     analyzer: &mut DeclAnalyzer,
@@ -13,6 +19,12 @@ pub fn analyze_xmake_function_call(
         }
         XmakeFunction::Includes => {
             analyze_includes(analyzer, call_expr);
+        }
+        XmakeFunction::Target => {
+            analyze_target_or_package(analyzer, call_expr, true);
+        }
+        XmakeFunction::Package => {
+            analyze_target_or_package(analyzer, call_expr, false);
         }
         _ => {}
     }
@@ -112,4 +124,72 @@ fn analyze_includes(analyzer: &mut DeclAnalyzer, call_expr: &LuaCallExpr) -> Opt
     analyzer.add_include_path(founded_module_info.file_id);
 
     Some(())
+}
+
+fn analyze_target_or_package(
+    analyzer: &mut DeclAnalyzer,
+    call_expr: &LuaCallExpr,
+    is_target: bool,
+) -> Option<()> {
+    let arg_list = call_expr.get_args_list()?;
+    let args = arg_list.get_args().collect::<Vec<_>>();
+    if args.is_empty() {
+        return None;
+    }
+
+    let first_arg = &args[0];
+    let string_token = match first_arg {
+        LuaExpr::LiteralExpr(s) => match s.get_literal()? {
+            LuaLiteralToken::String(string_token) => string_token,
+            _ => return None,
+        },
+        _ => return None,
+    };
+
+    let target_name = string_token.get_value();
+    let file_id = analyzer.get_file_id();
+    let range = if args.len() > 1 {
+        args[1].get_range()
+    } else {
+        let stat = call_expr.ancestors::<LuaStat>().next()?;
+        let end_position = get_end_position(&stat, is_target)?;
+        if end_position <= stat.get_range().end() {
+            return None;
+        }
+        TextRange::new(stat.get_range().end(), end_position)
+    };
+
+    analyzer.db.get_xmake_index_mut().add_target_or_package(
+        file_id,
+        XmakeTargetOrPackage {
+            name: target_name,
+            is_target,
+            range,
+        },
+    );
+
+    Some(())
+}
+
+fn get_end_position(stat: &LuaStat, is_target: bool) -> Option<TextSize> {
+    let mut current_syntax_node = stat.syntax().clone();
+    while let Some(next_sibling) = current_syntax_node.next_sibling() {
+        if let Some(call_expr_stat) = LuaCallExprStat::cast(next_sibling.clone()) {
+            let call_expr = call_expr_stat.get_call_expr()?;
+            if let Some(xmake_function) = get_xmake_function(&call_expr) {
+                match (xmake_function, is_target) {
+                    (XmakeFunction::EndTarget, true) | (XmakeFunction::EndPackage, false)
+                    | // new target/package starts, stop searching
+                    (XmakeFunction::Target | XmakeFunction::Package, _) => {
+                        return Some(call_expr.get_position());
+                    }
+                    _ => {}
+                }
+            }
+        }
+        current_syntax_node = next_sibling;
+    }
+
+    let root = stat.get_root();
+    Some(root.text_range().end())
 }

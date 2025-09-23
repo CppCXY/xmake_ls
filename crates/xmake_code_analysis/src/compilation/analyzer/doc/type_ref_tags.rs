@@ -11,9 +11,6 @@ use super::{
     preprocess_description,
     tags::{find_owner_closure, get_owner_id_or_report},
 };
-use crate::compilation::analyzer::doc::tags::{
-    find_owner_closure_or_report, get_owner_id, report_orphan_tag,
-};
 use crate::{
     InFiled, InferFailReason, LuaOperatorMetaMethod, LuaTypeCache, LuaTypeOwner, OperatorFunction,
     SignatureReturnStatus, TypeOps,
@@ -21,6 +18,12 @@ use crate::{
     db_index::{
         LuaDeclId, LuaDocParamInfo, LuaDocReturnInfo, LuaMemberId, LuaOperator, LuaSemanticDeclId,
         LuaSignatureId, LuaType,
+    },
+};
+use crate::{
+    XmakeScope,
+    compilation::analyzer::doc::tags::{
+        find_owner_closure_or_report, get_owner_id, report_orphan_tag,
     },
 };
 
@@ -420,6 +423,19 @@ pub fn analyze_other(analyzer: &mut DocAnalyzer, other: LuaDocTagOther) -> Optio
     } else {
         "".to_string()
     };
+
+    if tag_name == "scope" {
+        let scope = match description.as_str() {
+            "target" => XmakeScope::Target,
+            "package" => XmakeScope::Package,
+            _ => return None,
+        };
+        analyzer
+            .db
+            .get_property_index_mut()
+            .add_scope(analyzer.file_id, owner, scope);
+        return Some(());
+    }
 
     analyzer
         .db

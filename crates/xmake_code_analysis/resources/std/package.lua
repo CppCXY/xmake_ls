@@ -13,8 +13,9 @@
 -- License for the specific language governing permissions and limitations under
 -- the License.
 
+-- donot export this table
 ---@class packagelib
-package = {}
+local package = {}
 
 ---
 --- A string describing some compile-time configurations for packages. This

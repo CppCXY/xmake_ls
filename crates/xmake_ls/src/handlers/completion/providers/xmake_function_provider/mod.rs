@@ -29,7 +29,8 @@ pub fn add_completion(builder: &mut CompletionBuilder) -> Option<()> {
         }
         XmakeFunction::Includes => {
             include_module_provider::add_completion(builder, string_token);
-        } // _ => return None,
+        }
+        _ => return None,
     }
 
     builder.stop_here();
