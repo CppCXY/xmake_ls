@@ -60,6 +60,16 @@ function add_moduledirs(dir, ...) end
 function add_plugindirs(dir, ...) end
 
 ---
+---Add toolchain directories
+---
+---[Open in browser](https://xmake.io/api/description/global-interfaces#add_toolchaindirs)
+---
+---@param dir string Toolchain directory
+---@param ... string Toolchain directories
+---@return nil
+function add_toolchaindirs(dir, ...) end
+
+---
 ---Get the configuration value
 ---
 ---[Open in browser](https://xmake.io/api/description/global-interfaces#get_config)
@@ -203,6 +213,12 @@ function catch(block) end
 ---@param block table
 function finally(block) end
 
+--- Throw an exception
+---
+---[Open in browser](https://xmake.io/api/scripts/builtin-modules/raise.html#raise)
+---
+---@param message string
+function raise(message) end
 
 function printf(...) end
 

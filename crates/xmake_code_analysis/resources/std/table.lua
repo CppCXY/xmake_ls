@@ -313,6 +313,14 @@ function table.remove_if(list, pred) end
 function table.swap(list, i, j) end
 
 ---
+--- Append elements to the end of an array
+---@generic T
+---@param dest T[]
+---@param ... T[]
+---@return T[] dest
+function table.append(dest, ...) end
+
+---
 --- Clear all key-value pairs in table `t`.
 ---@param t table
 ---@return table t

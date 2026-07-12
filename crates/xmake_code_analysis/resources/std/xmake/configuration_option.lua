@@ -13,8 +13,9 @@
 --- ```
 ---@scope option
 ---@param name string Option name
+---@param func? fun(): nil Option scoped function
 ---@return nil
-function option(name) end
+function option(name, func) end
 
 ---
 ---End definition option

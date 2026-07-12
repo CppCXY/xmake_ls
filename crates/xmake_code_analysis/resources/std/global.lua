@@ -89,6 +89,7 @@ function dofile(filename) end
 --- addition of error position information to the message.
 ---@param message any
 ---@param level? integer
+---@deprecated error is undefined by xmake! use raise(...) instead
 function error(message, level) end
 
 ---
