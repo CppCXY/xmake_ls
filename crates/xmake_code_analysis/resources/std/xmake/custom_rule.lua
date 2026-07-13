@@ -7,8 +7,9 @@
 ---[Open in browser](https://xmake.io/api/description/custom-rule#rule)
 ---@scope rule
 ---@param name string Rule name
+---@param func? fun(): nil Rule scoped function
 ---@return nil
-function rule(name) end
+function rule(name, func) end
 
 ---
 ---Adding rule dependencies
@@ -157,6 +158,15 @@ function on_build_files(func) end
 ---@param func TargetBuildcmdFilesHook Function to run for custom build
 ---@return nil
 function on_buildcmd_files(func) end
+
+---
+---Custom pre-config script
+---
+---[Open in browser](https://xmake.io/api/description/custom-rule.html#before_config)
+---@scope rule
+---@param func TargetHook Function to run before custom config
+---@return nil
+function before_config(func) end
 
 ---
 ---Custom pre-link script
