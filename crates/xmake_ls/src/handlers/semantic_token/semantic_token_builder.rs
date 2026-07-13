@@ -109,8 +109,8 @@ impl<'a> SemanticBuilder<'a> {
         let end_line = lsp_range.end.line;
 
         if !self.multi_line_support && start_line != end_line {
-            let mut muliti_line_data = vec![];
-            muliti_line_data.push(BasicSemanticTokenData {
+            let mut multi_line_data = vec![];
+            multi_line_data.push(BasicSemanticTokenData {
                 line: start_line,
                 col: start_col,
                 length: 9999,
@@ -119,7 +119,7 @@ impl<'a> SemanticBuilder<'a> {
             });
 
             for i in start_line + 1..end_line {
-                muliti_line_data.push(BasicSemanticTokenData {
+                multi_line_data.push(BasicSemanticTokenData {
                     line: i,
                     col: 0,
                     length: 9999,
@@ -128,7 +128,7 @@ impl<'a> SemanticBuilder<'a> {
                 });
             }
 
-            muliti_line_data.push(BasicSemanticTokenData {
+            multi_line_data.push(BasicSemanticTokenData {
                 line: end_line,
                 col: 0,
                 length: lsp_range.end.character,
@@ -137,7 +137,7 @@ impl<'a> SemanticBuilder<'a> {
             });
 
             self.data
-                .insert(position, SemanticTokenData::MultiLine(muliti_line_data));
+                .insert(position, SemanticTokenData::MultiLine(multi_line_data));
         } else {
             let length = text.chars().count() as u32;
             self.data.insert(
